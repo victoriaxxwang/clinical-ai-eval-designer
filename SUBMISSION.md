@@ -43,6 +43,13 @@ expert-review conversation. And it's a template for trustworthy AI in a
 high-stakes domain: the safety is enforced at the model-behavior level, not just
 the UI.
 
+### Key design decisions (the reasoning behind the build)
+- **The moat is the constraint layer, not the retrieval.** Retrieval is table stakes — anyone can call PubMed. What's defensible is the encoded expert structure (the 8 fields, sensor-validation-as-a-precondition, physics/physiology subgroup threats) plus behavioral constraints (no invented numbers, cite-or-flag, confidence tiers) enforced at the model level. That's a trustworthy-AI story only Claude can tell credibly.
+- **Grounded before the model reads anything → verifiable by construction.** The app pulls real records from public registries *first*, then hands them to Fable. Every citation is a re-resolvable identifier (PMID, NCT number, FDA K-number/product code), not model memory — so a reviewer can check each one against the issuing database.
+- **"Reproducible + verifiable," not "bit-identical."** We deliberately do *not* over-claim determinism. Live registries update, so we guarantee pinned queries, an explicit sort key + hard cap, and a timestamped snapshot of the raw records in the output bundle — and treat a re-resolvable ID as the verifiability guarantee, not a frozen ranking. The honesty is the point.
+- **Core First, Agents Later.** A bounded, deterministic engine ships and is tested first (verified disease-agnostic across 12 unrelated indications). Agentic critics — a clinical-integrity checker and a self-correction loop — are Phase 2, layered on top and inheriting the same constraints, never replacing the deterministic core.
+- **Claude Science is the discovery engine, not a runtime dependency.** It proved the concept; it has no programmatic endpoint, so the product replicates its *pattern* — grounded retrieval → constrained reasoning — with direct public-registry APIs. In one respect that's *more* verifiable than routing through any model: there is no model in the retrieval path.
+
 ## 2. Link to your work
 - **GitHub:** https://github.com/victoriaxxwang/clinical-ai-eval-designer
   *(ensure the repo is public before submission)*
@@ -65,8 +72,11 @@ Three distinct roles:
   structured starting point could be generated automatically.
 
 - **Claude Code — the builder.** Wrote the Streamlit app, the constraint-layer
-  system prompt, and the live-registry retrieval pipeline; handled git/repo
-  setup. This is where the manual insight became working software.
+  system prompt, and the live-registry retrieval pipeline; extracted the
+  deterministic retrieval into a testable module and verified it stays
+  disease-agnostic across 12 unrelated indications (20 automated tests, including
+  a regression guard on the registry field paths). Handled git/repo setup. This
+  is where the manual insight became working, tested software.
 
 - **Anthropic API (Claude Fable 5) — the runtime engine.** Every generation runs
   Fable 5 as the constrained synthesis layer over records retrieved live from the
@@ -93,3 +103,9 @@ constrained reasoning) with direct registry APIs.
   instead of approximating it. Also: surfacing verifiable identifiers (PMIDs,
   NCT numbers, clearance numbers) as first-class, checkable outputs would make
   grounded citation the default rather than something builders have to engineer.
+- **A design insight the workbench sharpened:** the honest framing of determinism
+  — *reproducible + verifiable, not bit-identical* — and treating a re-resolvable
+  identifier as the unit of trust (a citation is trustworthy iff its ID
+  re-resolves against the issuing database). That reframe is more defensible than
+  claiming frozen, repeatable searches, and it came directly from working the
+  retrieval problem in the Science environment.
