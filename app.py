@@ -1,38 +1,25 @@
 """
-Clinical AI Eval Designer
-=========================
+Clinical AI Eval Designer — Streamlit UI
+========================================
 
-Takes what a clinical AI model does plus its clinical context, and produces a
-structured, citable validation specification: study design, performance
-benchmarks, ground-truth strategy, regulatory pathway, and more — every field
-flagged by confidence level and by the kind of expert review it needs.
+The presentation layer. All deterministic retrieval lives in `engine.py` (the
+Core Deterministic Engine); this file handles inputs, the constraint-layer
+prompt, the Fable 5 call, and rendering.
 
-Data pipeline (per run):
-    User input
-      → live retrieval from public registries (ClinicalTrials.gov, openFDA, PubMed)
-      → grounded reference context injected into the prompt
-      → Claude Fable 5 synthesizes the constrained 8-field spec
-      → (optional) web search fills gaps the registries don't cover
-
-The value is NOT the model. It's the constraint layer + real grounding: outputs
-never go beyond what the retrieved evidence supports, thresholds are never
-invented, and every field is honest about how much expert review it needs.
+Pipeline: user input → engine.build_grounded_context() (live registry pulls) →
+Claude Fable 5 synthesizes the constrained 8-field spec → output bundle
+(spec + the source records it was grounded on).
 """
 
 import datetime
-from html.parser import HTMLParser
 
 import anthropic
-import requests
 import streamlit as st
 
+import engine
+
 # ---------------------------------------------------------------------------
-# The constraint layer.
-#
-# This system prompt is the product. It encodes clinical/regulatory judgment and
-# hard-codes the behavioral guardrails that make an AI-generated validation spec
-# *safe* to put in front of a clinical team: no invented numbers, real citations
-# from retrieved records, explicit confidence, explicit "this needs a human."
+# The constraint layer (the product). See engine.py for the retrieval layer.
 # ---------------------------------------------------------------------------
 SYSTEM_PROMPT = """You are a clinical validation strategist. Clinical AI teams come to you with a model that works technically but that they cannot yet deploy, because they do not know what evidence it must generate before a health system, regulator, or payer will accept it. Your job is to turn their model + clinical context into a structured, citable validation specification.
 
@@ -125,220 +112,6 @@ Italicize this exact note, adapted to the sources you actually used:
 Write densely and specifically for THIS input. No filler. If the input is under-specified, state the assumption you are making rather than inventing facts."""
 
 
-# ---------------------------------------------------------------------------
-# Live retrieval from public registries (no API keys required)
-# ---------------------------------------------------------------------------
-HTTP_TIMEOUT = 12  # seconds per registry call
-
-
-def _clean(text, limit):
-    return " ".join((text or "").split())[:limit]
-
-
-def build_queries(model_desc, use_case):
-    use_case = use_case.strip()
-    model_desc = model_desc.strip()
-    return {
-        "ct": _clean(use_case or model_desc, 200),
-        "fda": _clean(use_case or model_desc, 100),
-        "pubmed": _clean(f"{use_case} {model_desc}", 250),
-    }
-
-
-def search_clinicaltrials(term, max_studies=6):
-    """ClinicalTrials.gov API v2 — real study designs, endpoints, enrollment."""
-    try:
-        r = requests.get(
-            "https://clinicaltrials.gov/api/v2/studies",
-            params={"query.term": term, "pageSize": max_studies},
-            timeout=HTTP_TIMEOUT,
-        )
-        r.raise_for_status()
-        studies = r.json().get("studies", [])
-        if not studies:
-            return "", "⚠️ ClinicalTrials.gov: no matching studies"
-        lines = []
-        for s in studies:
-            ps = s.get("protocolSection", {})
-            idm = ps.get("identificationModule", {})
-            dm = ps.get("designModule", {})
-            design = dm.get("designInfo", {})
-            primary = "; ".join(
-                o.get("measure", "")
-                for o in ps.get("outcomesModule", {}).get("primaryOutcomes", []) or []
-            )
-            lines.append(
-                f"- {idm.get('nctId','')} | {idm.get('briefTitle','')} "
-                f"| status={ps.get('statusModule',{}).get('overallStatus','')} "
-                f"| type={dm.get('studyType','')} phases={', '.join(dm.get('phases',[]) or [])} "
-                f"| n={dm.get('enrollmentInfo',{}).get('count','')} "
-                f"| allocation={design.get('allocation','')} "
-                f"masking={design.get('maskingInfo',{}).get('masking','')} "
-                f"| primary_outcomes={_clean(primary, 300)}"
-            )
-        return "\n".join(lines), f"✅ ClinicalTrials.gov: {len(studies)} studies"
-    except requests.Timeout:
-        return "", "❌ ClinicalTrials.gov: timed out"
-    except requests.RequestException:
-        return "", "❌ ClinicalTrials.gov: request failed"
-
-
-def search_openfda(term, max_results=5):
-    """openFDA — device classification + 510(k) regulatory precedents."""
-    out, ok = [], False
-    try:
-        r = requests.get(
-            "https://api.fda.gov/device/classification.json",
-            params={"search": f'device_name:"{term}"', "limit": max_results},
-            timeout=HTTP_TIMEOUT,
-        )
-        if r.ok:
-            ok = True
-            for res in r.json().get("results", []):
-                out.append(
-                    f"- CLASSIFICATION | {res.get('device_name','')} "
-                    f"| product_code={res.get('product_code','')} "
-                    f"| class={res.get('device_class','')} "
-                    f"| regulation={res.get('regulation_number','')} "
-                    f"| panel={res.get('medical_specialty_description','')}"
-                )
-    except requests.RequestException:
-        pass
-    try:
-        r = requests.get(
-            "https://api.fda.gov/device/510k.json",
-            params={"search": f'device_name:"{term}"', "limit": max_results},
-            timeout=HTTP_TIMEOUT,
-        )
-        if r.ok:
-            ok = True
-            for res in r.json().get("results", []):
-                out.append(
-                    f"- 510(k) | {res.get('device_name','')} "
-                    f"| k_number={res.get('k_number','')} "
-                    f"| decision={res.get('decision_description','')} "
-                    f"| date={res.get('decision_date','')} "
-                    f"| applicant={res.get('applicant','')}"
-                )
-    except requests.RequestException:
-        pass
-    if out:
-        return "\n".join(out), f"✅ openFDA: {len(out)} device records"
-    if ok:
-        return "", "⚠️ openFDA: no matching device records"
-    return "", "❌ openFDA: request failed"
-
-
-def search_pubmed(term, max_results=8):
-    """PubMed E-utilities — real PMIDs, titles, journals, years."""
-    try:
-        r = requests.get(
-            "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
-            params={"db": "pubmed", "term": term, "retmode": "json",
-                    "retmax": max_results, "sort": "relevance"},
-            timeout=HTTP_TIMEOUT,
-        )
-        r.raise_for_status()
-        ids = r.json().get("esearchresult", {}).get("idlist", [])
-        if not ids:
-            return "", "⚠️ PubMed: no matching articles"
-        r2 = requests.get(
-            "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
-            params={"db": "pubmed", "id": ",".join(ids), "retmode": "json"},
-            timeout=HTTP_TIMEOUT,
-        )
-        r2.raise_for_status()
-        result = r2.json().get("result", {})
-        lines = []
-        for pid in result.get("uids", []):
-            item = result.get(pid, {})
-            journal = item.get("fulljournalname") or item.get("source", "")
-            year = (item.get("pubdate", "") or "")[:4]
-            lines.append(f"- PMID {pid} | {_clean(item.get('title',''), 250)} | {journal} {year}")
-        return "\n".join(lines), f"✅ PubMed: {len(lines)} articles"
-    except requests.Timeout:
-        return "", "❌ PubMed: timed out"
-    except requests.RequestException:
-        return "", "❌ PubMed: request failed"
-
-
-class _TextExtractor(HTMLParser):
-    """Minimal HTML → text extractor (stdlib only; skips script/style)."""
-
-    def __init__(self):
-        super().__init__()
-        self._skip = 0
-        self.parts = []
-
-    def handle_starttag(self, tag, attrs):
-        if tag in ("script", "style", "noscript"):
-            self._skip += 1
-
-    def handle_endtag(self, tag):
-        if tag in ("script", "style", "noscript") and self._skip:
-            self._skip -= 1
-
-    def handle_data(self, data):
-        if not self._skip:
-            t = data.strip()
-            if t:
-                self.parts.append(t)
-
-
-def fetch_url_text(url, max_chars=4000):
-    """Fetch an optional user-supplied reference page and extract clean-ish text."""
-    url = (url or "").strip()
-    if not url:
-        return "", None
-    if not url.startswith(("http://", "https://")):
-        url = "https://" + url
-    try:
-        r = requests.get(
-            url, timeout=HTTP_TIMEOUT,
-            headers={"User-Agent": "Mozilla/5.0 (ClinicalAIEvalDesigner)"},
-        )
-        r.raise_for_status()
-        parser = _TextExtractor()
-        parser.feed(r.text)
-        text = _clean(" ".join(parser.parts), max_chars)
-        if not text:
-            return "", "⚠️ Reference URL: no readable text extracted"
-        return text, f"✅ Reference URL: {len(text)} chars extracted"
-    except requests.Timeout:
-        return "", "❌ Reference URL: timed out"
-    except requests.RequestException:
-        return "", "❌ Reference URL: fetch failed"
-
-
-def build_grounded_context(model_desc, use_case, optional_url=""):
-    """Query all registries (+ optional reference URL) and assemble the context."""
-    q = build_queries(model_desc, use_case)
-    ct_text, ct_status = search_clinicaltrials(q["ct"])
-    fda_text, fda_status = search_openfda(q["fda"])
-    pm_text, pm_status = search_pubmed(q["pubmed"])
-    url_text, url_status = fetch_url_text(optional_url)
-
-    sections = []
-    if ct_text:
-        sections.append("### ClinicalTrials.gov (study designs, endpoints, enrollment)\n" + ct_text)
-    if fda_text:
-        sections.append("### openFDA (device classification / 510(k) precedents)\n" + fda_text)
-    if pm_text:
-        sections.append("### PubMed (literature)\n" + pm_text)
-    if url_text:
-        sections.append("### Reference document (user-provided URL)\n" + url_text)
-
-    statuses = [ct_status, fda_status, pm_status]
-    if url_status:
-        statuses.append(url_status)
-
-    context = "\n\n".join(sections)[:9000]
-    return context, statuses
-
-
-# ---------------------------------------------------------------------------
-# Prompt assembly
-# ---------------------------------------------------------------------------
 def build_user_message(model_desc, use_case, population, setting, claim):
     claim = claim.strip() or (
         "Not specified — infer the most defensible intended claim from the use case, "
@@ -375,9 +148,6 @@ def wrap_with_context(user_message, grounded_context):
     )
 
 
-# ---------------------------------------------------------------------------
-# Anthropic client + generation
-# ---------------------------------------------------------------------------
 def get_client():
     key = st.secrets.get("ANTHROPIC_API_KEY", None)
     if not key:
@@ -386,14 +156,7 @@ def get_client():
 
 
 def generate_spec(client, user_message, effort, use_web_search):
-    """Stream the spec from Claude Fable 5, grounded in the injected context.
-
-    - Streaming avoids HTTP timeouts on long, high-effort turns and shows progress.
-    - Server-side refusal fallback to Opus 4.8 rescues benign biomedical requests
-      that a safety classifier occasionally false-positives on.
-    - Web search (optional) fills gaps the registries don't cover.
-    Returns (markdown_text, final_message).
-    """
+    """Stream the spec from Claude Fable 5, grounded in the injected context."""
     tools = []
     if use_web_search:
         tools = [{"type": "web_search_20260209", "name": "web_search", "max_uses": 6}]
@@ -454,12 +217,6 @@ with st.sidebar:
         value="high",
         help="Higher effort = more thorough synthesis, but slower and more expensive.",
     )
-    use_registries = st.toggle(
-        "Ground with live registries",
-        value=True,
-        help="Query ClinicalTrials.gov, openFDA, and PubMed before prompting the model, "
-             "so citations come from real records.",
-    )
     use_web_search = st.toggle(
         "Supplement with web search",
         value=True,
@@ -517,29 +274,26 @@ if submitted:
     elif not (model_desc.strip() and use_case.strip() and population.strip() and setting.strip()):
         st.warning("Please fill in the AI model, clinical use case, patient population, and healthcare setting.")
     else:
-        # 1. Fetch raw data from the registries.
-        grounded_context, statuses = "", []
-        if use_registries:
-            with st.spinner("Searching ClinicalTrials.gov, openFDA, and PubMed…"):
-                grounded_context, statuses = build_grounded_context(model_desc, use_case, optional_url)
-            with st.expander("🔎 Live data retrieved (grounding context)", expanded=True):
-                for s in statuses:
-                    st.write(s)
-                if grounded_context:
-                    st.code(grounded_context)
-                else:
-                    st.info("No registry records retrieved — the model will flag the evidence base as thin.")
+        # 1. Retrieve real records from the registries (the Core Deterministic Engine).
+        with st.spinner("Searching ClinicalTrials.gov, openFDA, and PubMed…"):
+            grounded_context, statuses = engine.build_grounded_context(
+                model_desc, use_case, population, optional_url
+            )
+        with st.expander("🔎 Live data retrieved (grounding context)", expanded=True):
+            for s in statuses:
+                st.write(s)
+            if grounded_context:
+                st.code(grounded_context)
+            else:
+                st.info("No registry records retrieved — the model will flag the evidence base as thin.")
 
         # 2. Synthesize with Fable, grounded in the retrieved records.
         user_message = wrap_with_context(
             build_user_message(model_desc, use_case, population, setting, claim),
             grounded_context,
         )
-        status_msg = (
-            "Synthesizing the specification from retrieved evidence… "
-            "this can take a few minutes at higher effort."
-        )
-        with st.spinner(status_msg):
+        with st.spinner("Synthesizing the specification from retrieved evidence… "
+                        "this can take a few minutes at higher effort."):
             try:
                 markdown_text, final = generate_spec(client, user_message, effort, use_web_search)
             except anthropic.APIStatusError as e:
@@ -558,9 +312,19 @@ if submitted:
             st.warning("No content was returned. Try again, or lower the effort setting.")
         else:
             st.success("Specification generated. Review every field with a domain expert before use.")
+            # 3. Emit the Phase-1 bundle: the spec + the source records it was grounded on.
+            bundle = markdown_text
+            if grounded_context:
+                bundle += (
+                    "\n\n---\n\n## Appendix — Source Records (grounded reference context)\n\n"
+                    "*Raw records retrieved from public registries and handed to the model as the "
+                    "sole source of truth for this spec. Retained so the spec and its evidence "
+                    "travel together (and so a reviewer can verify each citation).*\n\n"
+                    + grounded_context
+                )
             st.download_button(
-                "⬇ Download as Markdown",
-                data=markdown_text,
+                "⬇ Download spec + sources (bundle)",
+                data=bundle,
                 file_name=f"validation_spec_{datetime.date.today()}.md",
                 mime="text/markdown",
             )

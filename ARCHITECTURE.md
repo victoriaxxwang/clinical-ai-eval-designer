@@ -68,9 +68,13 @@ grounded by the retrieved records, honest about confidence. The design goal is
 near-zero non-deterministic variance in *what evidence* enters the spec; the
 model's job is to map and constrain that evidence, not to source it.
 
-**Current implementation:** `app.py` — `search_clinicaltrials`, `search_openfda`,
-`search_pubmed`, `fetch_url_text`, `build_grounded_context`, `generate_spec`.
-Code detail in the Appendix.
+**Current implementation:** the deterministic retrieval layer lives in
+`engine.py` (importable, no UI, unit-tested in `test_engine.py`) —
+`build_queries`, `search_clinicaltrials`, `search_openfda`, `search_pubmed`,
+`fetch_url_text`, `build_grounded_context`. `app.py` is the Streamlit UI +
+`generate_spec` (the Fable 5 synthesis call). Phase 1 emits a **bundle**: the
+spec plus the source records it was grounded on, so evidence travels with the
+artifact (the clean seam into Phase 2). Code detail in the Appendix.
 
 ### What each field is grounded in
 | Output field | Primary grounding source |

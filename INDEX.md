@@ -22,8 +22,11 @@ app is the automated, programmatic mirror of that workflow.
 ## File map
 | File | What it's for | Status |
 |---|---|---|
-| `app.py` | The app: retrieval pipeline + constrained synthesis | ✅ built, compiles; not yet run end-to-end |
+| `app.py` | UI layer: inputs, constraint-layer prompt, Fable 5 call, bundle output | ✅ built, compiles; not yet run end-to-end |
+| `engine.py` | **Core Deterministic Engine**: registry retrieval + query building (no UI, importable, unit-tested) | ✅ hardened, live-verified |
+| `test_engine.py` | 8 critical tests: query determinism + JSON field-path parsing | ✅ 8/8 pass |
 | `requirements.txt` | Deps: streamlit, anthropic, requests | ✅ |
+| `requirements-dev.txt` | Dev tools: markdown (render_docs), pytest (tests) | ✅ |
 | `README.md` | Public-facing: what it is + how to run | ✅ |
 | `SUBMISSION.md` | Draft answers to the 5 hackathon questions (video script TBD) | ✅ draft |
 | `DEMO_PLAN.md` | 3-min video blueprint | ✅ |
@@ -39,8 +42,9 @@ app is the automated, programmatic mirror of that workflow.
 - [ ] Push local git repo to GitHub (`git push -u origin main`)
 - [x] Consolidate architecture into one canonical `ARCHITECTURE.md` (v3)
 - [ ] Confirm `CORE_ENGINE_INTEGRATION_BLUEPRINT.md` can be deleted (now folded into the ARCHITECTURE appendix)
-- [ ] Harden Phase 1 retrieval: query construction, use `population` input, add tests
-- [ ] Add `st.session_state` cache so re-runs don't re-hit registries (rate-limit safety)
+- [x] Harden Phase 1 retrieval (query construction, device-keyword selection) + add tests (8/8 pass); found `population` is a poor retrieval filter → drives subgroup reasoning instead
+- [x] Emit Phase-1 bundle: spec + source records travel together (download)
+- [ ] Add `st.session_state` cache so re-runs don't re-hit registries (rate-limit safety) — Phase 1 polish, do after first successful run
 - [ ] Decide the JOURNAL safety-framing reframe (currently flagged, not applied)
 - [ ] Write the final demo video talk-track script (after the app is finalized)
 
