@@ -1,0 +1,193 @@
+{
+  "manifest_version": "1.0",
+  "purpose": "Disease-agnostic deterministic retrieval layer for a clinical AI eval-designer app. Every source here is a public API reachable from plain Python (requests). Each returns a stable, third-party-resolvable identifier = the verifiability anchor. Subscription sources (Cochrane/Embase/PsycINFO/WoS/Scopus) are intentionally EXCLUDED because they cannot live in a free, deterministic, no-auth layer.",
+  "determinism_contract": {
+    "reproducible_not_bit_identical": "Live DBs update, so re-running may add rows. Determinism is achieved by (1) pinned query strings, (2) explicit sort key + hard result cap (never rely on default relevance rank), (3) snapshotting raw records + retrieval timestamp into the bundle. Verifiability = re-resolvable IDs, not re-runnable ranking.",
+    "verification_pass": "After retrieval, resolve every captured identifier (PMID via E-utils, DOI via Crossref, NCT via CT.gov, K/DEN/PMA via openFDA). A record whose ID does not resolve is dropped, not synthesized."
+  },
+  "sources": [
+    {
+      "id": "pubmed_esearch",
+      "name": "PubMed E-utilities (esearch)",
+      "base_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "params": {"db": "pubmed", "term": "<query>", "retmax": "<cap>", "sort": "relevance|pub_date", "retmode": "json"},
+      "returns_id": "PMID",
+      "grounds_fields": ["Performance Benchmarks", "Sensor/Input Validation", "Ground Truth Strategy", "Subgroup Requirements", "Post-Deployment Monitoring"],
+      "intervention": "both",
+      "tier": "public-noauth",
+      "notes": "Backbone literature index. Pair with esummary/efetch for abstracts. Add contact email param if available; not required."
+    },
+    {
+      "id": "pubmed_esummary",
+      "name": "PubMed E-utilities (esummary/efetch)",
+      "base_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
+      "params": {"db": "pubmed", "id": "<pmid_csv>", "retmode": "json"},
+      "returns_id": "PMID",
+      "grounds_fields": ["*"],
+      "intervention": "both",
+      "tier": "public-noauth",
+      "notes": "efetch (rettype=abstract) for abstract text used in synthesis grounding."
+    },
+    {
+      "id": "europepmc",
+      "name": "Europe PMC REST",
+      "base_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+      "params": {"query": "<query>", "format": "json", "pageSize": "<cap>", "resultType": "core"},
+      "returns_id": "PMID|PMCID|DOI",
+      "grounds_fields": ["Performance Benchmarks", "Sensor/Input Validation", "Ground Truth Strategy", "Subgroup Requirements"],
+      "intervention": "both",
+      "tier": "public-noauth",
+      "notes": "STRONG ADD: one API unifies PubMed + Agricola + preprints + patents, returns abstract + all three IDs in one call, and full-text for OA. Reduces the number of separate calls and cross-maps IDs for free."
+    },
+    {
+      "id": "mesh_lookup",
+      "name": "NCBI MeSH (E-utils, db=mesh)",
+      "base_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "params": {"db": "mesh", "term": "<free_text_concept>", "retmode": "json"},
+      "returns_id": "MeSH descriptor",
+      "grounds_fields": ["query-construction"],
+      "intervention": "both",
+      "tier": "public-noauth",
+      "notes": "The disease-agnostic query-construction key. Map free-text user input -> controlled MeSH terms deterministically, so build_queries is reproducible instead of ad-hoc keyword guessing."
+    },
+    {
+      "id": "ctgov_v2",
+      "name": "ClinicalTrials.gov API v2",
+      "base_url": "https://clinicaltrials.gov/api/v2/studies",
+      "params": {"query.term": "<query>", "pageSize": "<cap>", "sort": "@relevance|LastUpdatePostDate", "filter.overallStatus": "<optional>"},
+      "returns_id": "NCT",
+      "grounds_fields": ["Study Design", "Sample Size", "Ground Truth Strategy"],
+      "intervention": "both",
+      "tier": "public-noauth",
+      "notes": "Use nctId + briefTitle (officialTitle often missing). designModule.enrollmentInfo.count for sample-size grounding."
+    },
+    {
+      "id": "ictrp",
+      "name": "WHO ICTRP (global trials)",
+      "base_url": "https://trialsearch.who.int/api/",
+      "params": {"query": "<term>"},
+      "returns_id": "registry trial ID",
+      "grounds_fields": ["Study Design", "Sample Size"],
+      "intervention": "both",
+      "tier": "public-noauth-limited",
+      "notes": "Global registry meta-search for multi-jurisdiction coverage. Less clean than CT.gov; enable only if non-US trials matter. [REVIEW: deferred/skipped for now — flaky API.]"
+    },
+    {
+      "id": "openfda_device_class",
+      "name": "openFDA device classification",
+      "base_url": "https://api.fda.gov/device/classification.json",
+      "params": {"search": "device_name:<term> | product_code:<code>", "limit": "<cap>"},
+      "returns_id": "product_code",
+      "grounds_fields": ["Regulatory Pathway"],
+      "intervention": "device",
+      "tier": "public-noauth",
+      "notes": "Product code, device_class, regulation_number, definition. Start here to find the code, then pivot to 510k/pma."
+    },
+    {
+      "id": "openfda_device_510k",
+      "name": "openFDA device 510(k) [De Novo indexed here]",
+      "base_url": "https://api.fda.gov/device/510k.json",
+      "params": {"search": "product_code:<code> | applicant:<name> | k_number:DEN*", "limit": "<cap>"},
+      "returns_id": "K-number / DEN-number",
+      "grounds_fields": ["Regulatory Pathway"],
+      "intervention": "device",
+      "tier": "public-noauth",
+      "notes": "De Novo grants live in this endpoint (k_number prefix DEN), NOT a separate de_novo endpoint."
+    },
+    {
+      "id": "openfda_device_pma",
+      "name": "openFDA device PMA",
+      "base_url": "https://api.fda.gov/device/pma.json",
+      "params": {"search": "product_code:<code>", "limit": "<cap>"},
+      "returns_id": "PMA number",
+      "grounds_fields": ["Regulatory Pathway"],
+      "intervention": "device",
+      "tier": "public-noauth",
+      "notes": "MISSING FROM CURRENT PIPELINE. Class III / high-risk pathway. Needed for disease-agnostic (some conditions => Class III)."
+    },
+    {
+      "id": "openfda_device_event",
+      "name": "openFDA device adverse events (MAUDE)",
+      "base_url": "https://api.fda.gov/device/event.json",
+      "params": {"search": "device.generic_name:<term> | device.device_report_product_code:<code>", "limit": "<cap>"},
+      "returns_id": "MDR report key",
+      "grounds_fields": ["Post-Deployment Monitoring"],
+      "intervention": "device",
+      "tier": "public-noauth",
+      "notes": "MISSING. Real-world safety-signal grounding for the monitoring field."
+    },
+    {
+      "id": "openfda_device_recall",
+      "name": "openFDA device recalls",
+      "base_url": "https://api.fda.gov/device/recall.json",
+      "params": {"search": "product_code:<code>", "limit": "<cap>"},
+      "returns_id": "recall number",
+      "grounds_fields": ["Post-Deployment Monitoring", "Regulatory Pathway"],
+      "intervention": "device",
+      "tier": "public-noauth",
+      "notes": "MISSING. Recall precedent for risk framing."
+    },
+    {
+      "id": "openfda_drugsfda",
+      "name": "openFDA Drugs@FDA",
+      "base_url": "https://api.fda.gov/drug/drugsfda.json",
+      "params": {"search": "openfda.brand_name:<name> | openfda.generic_name:<name>", "limit": "<cap>"},
+      "returns_id": "NDA/BLA application number",
+      "grounds_fields": ["Regulatory Pathway"],
+      "intervention": "drug",
+      "tier": "public-noauth",
+      "notes": "Enable when intervention is a drug/biologic (disease-agnostic toggle). Approvals + labels."
+    },
+    {
+      "id": "openfda_drug_label",
+      "name": "openFDA drug labeling (SPL)",
+      "base_url": "https://api.fda.gov/drug/label.json",
+      "params": {"search": "openfda.generic_name:<name>", "limit": "<cap>"},
+      "returns_id": "SPL set id",
+      "grounds_fields": ["Ground Truth Strategy", "Regulatory Pathway"],
+      "intervention": "drug",
+      "tier": "public-noauth",
+      "notes": "Indications, endpoints, warnings from the official label."
+    },
+    {
+      "id": "openfda_drug_event",
+      "name": "openFDA drug adverse events (FAERS)",
+      "base_url": "https://api.fda.gov/drug/event.json",
+      "params": {"search": "patient.drug.medicinalproduct:<name>", "limit": "<cap>"},
+      "returns_id": "safetyreportid",
+      "grounds_fields": ["Post-Deployment Monitoring"],
+      "intervention": "drug",
+      "tier": "public-noauth",
+      "notes": "Drug safety-signal grounding."
+    },
+    {
+      "id": "medrxiv",
+      "name": "medRxiv/bioRxiv API",
+      "base_url": "https://api.biorxiv.org/details/medrxiv/",
+      "params": {"interval": "<from>/<to>", "cursor": "0"},
+      "returns_id": "preprint DOI",
+      "grounds_fields": ["Performance Benchmarks", "Sensor/Input Validation"],
+      "intervention": "both",
+      "tier": "public-noauth",
+      "notes": "Recency/publication-bias coverage. Note: date-window API, not free-text; pair with Europe PMC preprint filter for keyword search. [REVIEW: skipped direct — use Europe PMC preprint filter instead.]"
+    },
+    {
+      "id": "crossref",
+      "name": "Crossref",
+      "base_url": "https://api.crossref.org/works/",
+      "params": {"<doi>": "(path)"},
+      "returns_id": "DOI (verified)",
+      "grounds_fields": ["verification"],
+      "intervention": "both",
+      "tier": "public-noauth",
+      "notes": "VERIFICATION PASS. Confirm every DOI resolves to the intended title before it enters the spec. Currently missing from the pipeline diagram."
+    }
+  ],
+  "disease_type_toggles": {
+    "intervention_device": ["openfda_device_class", "openfda_device_510k", "openfda_device_pma", "openfda_device_event", "openfda_device_recall"],
+    "intervention_drug_biologic": ["openfda_drugsfda", "openfda_drug_label", "openfda_drug_event"],
+    "construct_behavioral": ["NOTE: PubMed under-covers psychology; PsycINFO/CINAHL are subscription [C] and cannot be in the deterministic layer. Flag to user for manual retrieval; do NOT silently omit."],
+    "jurisdiction_multi_market": ["ictrp", "NOTE: EMA/EUDAMED/MHRA/PMDA/TGA lack clean free APIs; treat as [C] manual or scoped-out."]
+  },
+  "always_run_regardless_of_disease": ["pubmed_esearch", "pubmed_esummary", "europepmc", "ctgov_v2", "crossref"]
+}

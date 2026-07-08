@@ -25,6 +25,8 @@ app is the automated, programmatic mirror of that workflow.
 | `app.py` | UI layer: inputs, constraint-layer prompt, Fable 5 call, bundle output | ✅ built, compiles; not yet run end-to-end |
 | `engine.py` | **Core Deterministic Engine**: registry retrieval + query building (no UI, importable, unit-tested) | ✅ hardened, live-verified |
 | `test_engine.py` | 20 tests: query determinism, JSON field-path parsing, + a 12-indication disease-agnosticism sweep | ✅ 20/20 pass |
+| `retrieval_sources_manifest.json` | Source-of-truth: 16 registry endpoints + params + identifier fields + toggles (from Claude Science) | ✅ saved, valid |
+| `claude_code_task_brief.md` | Implementation spec for the retrieval expansion (references the manifest) | ✅ saved |
 | `requirements.txt` | Deps: streamlit, anthropic, requests | ✅ |
 | `requirements-dev.txt` | Dev tools: markdown (render_docs), pytest (tests) | ✅ |
 | `README.md` | Public-facing: what it is + how to run | ✅ |
@@ -45,7 +47,19 @@ app is the automated, programmatic mirror of that workflow.
 
 ## Open to-dos
 - [ ] Run `app.py` end-to-end with a real API key — the Phase-1 gate. Only setup needed: Anthropic key in `.streamlit/secrets.toml`; the 3 registries need no keys.
-- [ ] Review Claude Science's source list vs. our engine (+ Europe PMC / OpenAlex); wire only free, stable, identifier-returning sources — **waiting on the list from Claude Science**
+- [x] Review Claude Science's source list — done. Saved `retrieval_sources_manifest.json` (16 sources) + `claude_code_task_brief.md`. Verdict below.
+
+### Phase 1 — retrieval expansion (do AFTER the end-to-end run works)
+Ordered. From the Claude Science manifest/brief review:
+- [ ] **Quick wins:** pin explicit sort keys on every registry query + add UTC `retrieval_timestamp` to the bundle (the real determinism fix); reframe docs to "reproducible + verifiable, not bit-identical"
+- [ ] Wire **Europe PMC** (returns PMID+PMCID+DOI in one call) + **Crossref** DOI verification pass (drops non-resolving citations)
+- [ ] Add **openFDA PMA / MAUDE / recall** (Class III pathway + Post-Deployment Monitoring safety signal) — each with a test
+- [ ] Add **drug/biologic endpoints** (Drugs@FDA / SPL label / FAERS), gated by an intervention toggle
+- [ ] Add an **intervention-type input** (device / drug-biologic / both) or infer it from the model description — pick whichever keeps input→synthesis→output most deterministic
+- [ ] Add the **`coverage_gaps` honesty flag** to the bundle (names PsycINFO/Cochrane/EMA etc. as "manual retrieval required" when relevant)
+- [ ] **MeSH normalization LAST** (highest complexity; disease-agnostic, not stress-specific)
+- [ ] **SKIP:** WHO ICTRP (flaky API) and direct medRxiv API (date-window, not keyword) — get preprints via Europe PMC instead
+- [ ] Write the vetted decisions into `SOURCES.md`
 - [ ] Push local git repo to GitHub (`git push -u origin main`)
 - [x] Consolidate architecture into one canonical `ARCHITECTURE.md` (v3)
 - [ ] Confirm `CORE_ENGINE_INTEGRATION_BLUEPRINT.md` can be deleted (now folded into the ARCHITECTURE appendix)
