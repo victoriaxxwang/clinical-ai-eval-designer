@@ -1,0 +1,146 @@
+{
+  "description": "Golden identifier set the automated pipeline should retrieve/resolve for the warfarin initial-dosing decision-support reference case. Third pilot golden; companion to golden_expected_ids.json (HRV) and golden_expected_ids_DR.json (DR). This is the first DRUG case (exercises the Drugs@FDA / drug-label path) and the second regulatory-NULL case (no FDA-authorized dosing algorithm exists - that grounded absence is the Field-7 finding, like HRV). Use in the ablation harness: score recall = golden ids present in the bundle's records (FDA codes EXACT; literature as a >=K resolvable-ID floor per COMPARISON.md Lesson 2), precision = on-topic rate. Every id in 'required' resolved live 2026-07-09 (PMIDs via E-utils, DOIs via Crossref, K-numbers via openFDA 510k, product codes via openFDA classification, NDA via openFDA drugsfda, NCTs via ClinicalTrials.gov v2; the null-evidence PMAs and the ANDA040616 SPL label also confirmed live).",
+  "reference_case": "Algorithmic initial warfarin dose recommendation (and early adjustment) to reach/maintain target INR, using clinical variables +/- CYP2C9/VKORC1 pharmacogenomics; inpatient initiation and outpatient anticoagulation-clinic management",
+  "source_spec_artifact": "golden_validation_spec_warfarin.md",
+  "generated": "2026-07-09",
+  "match_policy": {
+    "required_min_coverage": "All ids in 'required' should be present for full recall. 'field_grounding' is the per-field breakdown, following each source's role per the spec's SOURCE INVENTORY. Like DR (and unlike HRV), warfarin has a scored 'ncts' category: COAG / EU-PACT / GIFT are named load-bearing pivotal trials that ground Study Design and Sample Size. The two EU-PACT sibling arms are non-warfarin coumarins (phenprocoumon / acenocoumarol) and are recorded as related-context, NOT scored.",
+    "resolution_pass": "PMID -> E-utils esummary; DOI -> Crossref works; product_code -> openFDA classification; K/DEN/PMA -> openFDA 510k/De Novo/pma; NDA/ANDA -> openFDA drugsfda; SPL set_id -> openFDA drug/label; NCT -> ClinicalTrials.gov v2. A required id that fails to resolve is a TEST FAILURE, not a silent drop.",
+    "regulatory_null": "No FDA-cleared/approved warfarin dose-RECOMMENDATION algorithm exists. 510(k) searches return only CYP2C9/VKORC1 genotyping assays (product codes ODW/NSU) and a coagulation-management instrument (KQG, CoagCare K050821); no dosing algorithm. openFDA device/pma returns 4 warfarin records (P990037/P000037/P930038/P130013), all cardiovascular hardware, none a dosing tool. The PRESENCE of only adjacent input-validation devices + the ABSENCE of a dosing-algorithm device is the Field-7 assertion (parallels HRV).",
+    "denovo_coverage_gap": "openFDA exposes NO /device/denovo endpoint (404 even unfiltered) this session, so the De Novo database was NOT queryable. The regulatory-null claim explicitly does NOT cover De Novo - stated as a coverage gap, not asserted as searched.",
+    "drug_label_note": "The reference-drug APPLICATION record NDA009218 (Coumadin) resolves via openFDA drugsfda, but its openFDA drug/LABEL entry 404s (Coumadin predates structured product labeling). The pharmacogenomic dosing table lives on a current warfarin-sodium SPL label that DOES resolve (example: set_id 0cbce382-9c88-4f58-ae0f-532a841e8f95 under ANDA040616). Scoring targets the deterministic NDA009218 application record + 'a resolvable warfarin SPL label', NOT the exact set_id (many generic warfarin labels exist)."
+  },
+  "required": {
+    "pmids": [
+      "18305455",
+      "19228618",
+      "24251361",
+      "24251363",
+      "28973620",
+      "28198005",
+      "8470047"
+    ],
+    "dois": [
+      "10.1038/clpt.2008.10",
+      "10.1056/NEJMoa0809329",
+      "10.1056/NEJMoa1310669",
+      "10.1056/NEJMoa1311386",
+      "10.1001/jama.2017.11469",
+      "10.1002/cpt.668",
+      "10.1055/s-0038-1651587"
+    ],
+    "ncts": [
+      "NCT00839657",
+      "NCT01119300",
+      "NCT01006733"
+    ],
+    "fda_product_codes": [
+      "ODW",
+      "NSU",
+      "GJS",
+      "KQG"
+    ],
+    "fda_k_numbers": [
+      "K073014",
+      "K070804",
+      "K073071",
+      "K073720",
+      "K110786",
+      "K050821"
+    ],
+    "fda_nda_numbers": [
+      "NDA009218"
+    ]
+  },
+  "related_context_not_scored": {
+    "note": "Retrieved and verified live, but NOT part of the scored recall set.",
+    "eu_pact_sibling_arms": {
+      "NCT01119274": "EU-PACT phenprocoumon arm (COMPLETED, n=970) - non-warfarin coumarin",
+      "NCT01119261": "EU-PACT acenocoumarol arm (COMPLETED, n=970) - non-warfarin coumarin"
+    },
+    "warfarin_spl_label_example": {
+      "set_id": "0cbce382-9c88-4f58-ae0f-532a841e8f95",
+      "application": "ANDA040616",
+      "brand": "Warfarin Sodium",
+      "note": "Resolvable SPL carrying the CYP2C9/VKORC1 pharmacogenomic dosing table (grounds Field 7 where NDA009218's label 404s)."
+    }
+  },
+  "regulatory_null_evidence": {
+    "note": "Proof-of-ABSENCE identifiers: these confirm there is no dosing-algorithm device. They are NOT required app retrievals (surfacing them is a precision bonus, not a recall requirement).",
+    "pma_cardiovascular_hardware": {
+      "P990037": "MGB - D-Stat Flowable Hemostat",
+      "P000037": "LWQ - On-X Prosthetic Heart Valves (low-dose-warfarin registry)",
+      "P930038": "MGB - Angio-Seal Hemostatic Puncture Closure Device",
+      "P130013": "NGV - Watchman FLX Pro Left Atrial Appendage Closure"
+    },
+    "denovo": "NOT queryable via openFDA this session (no /device/denovo endpoint)"
+  },
+  "field_grounding": {
+    "1_study_design": {
+      "pmids": ["18305455", "19228618", "24251361", "24251363", "28973620"],
+      "dois": ["10.1038/clpt.2008.10", "10.1056/NEJMoa0809329", "10.1056/NEJMoa1310669", "10.1056/NEJMoa1311386", "10.1001/jama.2017.11469"],
+      "ncts": ["NCT00839657", "NCT01119300", "NCT01006733"],
+      "note": "Algorithm-derivation cohort (Gage 2008; IWPC 2009) + the pivotal genotype-guided-vs-clinical dosing RCTs (COAG, EU-PACT, GIFT). The comparator-arm choice is the central design lesson (EU-PACT positive vs COAG null hinged on it). RCT with a clinically-relevant anticoagulation endpoint is the reference design."
+    },
+    "2_input_signal_validation": {
+      "pmids": ["28198005"],
+      "dois": ["10.1002/cpt.668"],
+      "fda_product_codes": ["GJS", "ODW", "NSU"],
+      "fda_k_numbers": ["K073014", "K070804", "K073071", "K073720", "K110786"],
+      "note": "The two model inputs must be validated before the dose output is interpreted: (a) INR measurement via an FDA-cleared PT/INR assay (product code GJS); (b) CYP2C9/VKORC1 genotype CALL via a cleared genotyping assay (ODW/NSU class; K073014, K070804, K073071, K073720, K110786). CPIC (28198005) specifies the allele set genotyping must cover."
+    },
+    "3_performance_benchmarks": {
+      "pmids": ["8470047", "24251361", "24251363", "28973620"],
+      "dois": ["10.1055/s-0038-1651587", "10.1056/NEJMoa1310669", "10.1056/NEJMoa1311386", "10.1001/jama.2017.11469"],
+      "note": "Percent Time in Therapeutic Range by the Rosendaal linear-interpolation method (8470047) is the standard control metric; the RCTs report TTR / out-of-range time as the primary performance readout. No single codified numeric threshold - study-defined endpoints only."
+    },
+    "4_ground_truth": {
+      "pmids": ["8470047", "18305455", "24251361", "24251363", "28973620"],
+      "dois": ["10.1055/s-0038-1651587", "10.1038/clpt.2008.10"],
+      "note": "Ground truth = measured INR trajectory reduced to TTR (Rosendaal) + adjudicated clinical events (major bleeding, thromboembolism, INR>=4). The 'correct dose' label is the achieved anticoagulation outcome, not a retrospectively-computed model dose. CPIC gives the genotype->starting-dose reference logic, not an outcome ground truth."
+    },
+    "5_sample_size": {
+      "pmids": ["19228618", "24251361", "24251363", "28973620"],
+      "dois": ["10.1056/NEJMoa0809329", "10.1056/NEJMoa1310669", "10.1056/NEJMoa1311386", "10.1001/jama.2017.11469"],
+      "ncts": ["NCT00839657", "NCT01119300", "NCT01006733"],
+      "note": "Precedent enrollments (COAG 1015 / EU-PACT warfarin arm 455 / GIFT 1598) are calibration anchors; exact N is study-defined, powered to the initiation-period TTR difference."
+    },
+    "6_subgroup": {
+      "pmids": ["28198005", "19228618", "24251361", "28973620"],
+      "dois": ["10.1002/cpt.668", "10.1056/NEJMoa0809329", "10.1056/NEJMoa1310669", "10.1001/jama.2017.11469"],
+      "note": "CYP2C9/VKORC1 genotype strata and ANCESTRY are load-bearing (IWPC derived multi-ancestry; CPIC flags ancestry-aware dosing; COAG's null was attributed partly to differential performance in a non-white subgroup - making ancestry mandatory, not exploratory). Age, body size, interacting drugs, indication."
+    },
+    "7_regulatory": {
+      "fda_product_codes": ["ODW", "NSU", "GJS", "KQG"],
+      "fda_k_numbers": ["K073014", "K070804", "K073071", "K073720", "K110786", "K050821"],
+      "fda_nda_numbers": ["NDA009218"],
+      "note": "Regulatory NULL: no dosing-algorithm device. Treat as CDS/SaMD, gate on Cures Act 520(o) non-device-CDS criteria first. Adjacent cleared devices are genotyping assays (ODW/NSU) + a PT/INR assay (GJS) + a coagulation-management instrument (KQG, CoagCare K050821). Reference drug = Coumadin NDA009218 (drugsfda); its label 404s so the PGx dosing table is read off a current warfarin SPL (ANDA040616). PMA null (cardiovascular hardware only); De Novo not queryable (gap)."
+    },
+    "8_monitoring": {
+      "pmids": ["8470047", "24251361", "24251363", "28973620"],
+      "dois": ["10.1055/s-0038-1651587"],
+      "fda_product_codes": ["KQG"],
+      "fda_k_numbers": ["K050821"],
+      "note": "Ongoing INR surveillance and TTR tracking (Rosendaal 8470047), stratified by genotype/ancestry (same axes as Field 6, given the trial-level subgroup divergence), via anticoagulation-clinic management workflow (CoagCare KQG, K050821). Input-signal integrity (INR QC, genotype call-rate) as a leading indicator. No mandated drift cadence retrieved (gap)."
+    }
+  },
+  "expected_conclusions": {
+    "regulatory_class": "No FDA-authorized warfarin dose-recommendation algorithm; treat as Clinical Decision Support / SaMD and gate on the 21st Century Cures Act 520(o) non-device-CDS criteria first. Adjacent cleared devices are Class II genotyping assays (ODW 862.3360 / NSU 862.2570), a Class II PT/INR test (GJS 864.7750), and a Class II coagulation instrument (KQG 864.5400).",
+    "authorization_exists": false,
+    "is_drug_case": true,
+    "reference_drug_nda": "NDA009218 (Coumadin, Bristol Myers Squibb) - resolves via drugsfda; drug/label 404s (pre-SPL). PGx dosing table on a current warfarin SPL under ANDA040616.",
+    "no_dosing_algorithm_device_510k": true,
+    "no_dosing_algorithm_device_pma": true,
+    "denovo_not_queryable": true,
+    "no_established_numeric_benchmark": true,
+    "benchmark_precedent_only": "Percent Time in Therapeutic Range (Rosendaal method, PMID 8470047) is the accepted control metric, not a codified pass/fail threshold; the genotype-guided RCTs (COAG null, EU-PACT positive, GIFT positive-on-composite) show the benefit itself is contested - the comparator arm decides the result."
+  },
+  "coverage_gaps_expected": [
+    "FDA De Novo database (no openFDA /device/denovo endpoint; not queryable via the app's openFDA path)",
+    "510(k) / PMA narrative decision-summary PDFs (accessdata.fda.gov; FDA-accepted acceptance criteria not readable via openFDA)",
+    "openFDA drug/label returned 404 for NDA009218 (pre-SPL legacy application; PGx table read off a current warfarin SPL under ANDA040616 instead)",
+    "Full-text per-trial TTR values / effect sizes (only PubMed metadata + Crossref resolved; numeric thresholds left study-defined)",
+    "PharmGKB / WarfarinDosing.org algorithm coefficients (not on the allowlisted API set)",
+    "Mandated post-market INR-drift / recalibration cadence for a dosing-CDS tool (none retrieved; flagged for expert review)"
+  ]
+}

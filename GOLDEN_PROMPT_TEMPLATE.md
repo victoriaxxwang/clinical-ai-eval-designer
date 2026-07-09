@@ -66,7 +66,8 @@ Use the exact table columns above so the output is machine-parseable.
 ### Case 1 — HRV stress detection (ALREADY DONE — do not re-run)
 Existing golden: `golden_validation_spec_HRV.md`. Listed here only as the format anchor.
 
-### Case 2 — Diabetic-retinopathy screening (imaging device)
+### Case 2 — Diabetic-retinopathy screening (imaging device) — DONE
+Golden: `golden_validation_spec_DR.md` + `golden_expected_ids_DR.json` (regulatory *positive*).
 An AI algorithm that analyzes color retinal fundus photographs to detect **referable
 (more-than-mild) diabetic retinopathy** in adults with diabetes, deployed as an autonomous /
 point-of-care screening tool in primary-care and non-ophthalmology settings. Intended claim:
@@ -74,13 +75,34 @@ flag patients who should be referred to an eye-care professional. Input: fundus 
 non-mydriatic retinal camera, with an image-quality/gradeability gate. Population: adults with
 type 1 or type 2 diabetes, across skin tones and camera models.
 
-### Case 3 — Warfarin dosing (drug / pharmacogenomics)
+### Case 3 — Warfarin dosing (drug / pharmacogenomics) — DONE
+Golden: `golden_validation_spec_warfarin.md` + `golden_expected_ids_warfarin.json` (regulatory
+*null*, first drug case).
 An algorithm that recommends an **initial warfarin dose (and early dose adjustment)** to reach and
 maintain therapeutic anticoagulation (target INR), using clinical variables (age, weight, height,
 concomitant medications, indication) and optionally pharmacogenomic inputs (CYP2C9, VKORC1
 genotype). Intended claim: decision support to help clinicians reach stable INR faster and reduce
 out-of-range time. Setting: inpatient initiation and outpatient anticoagulation-clinic management.
 Population: adults starting warfarin, spanning genotypes and ancestries.
+
+---
+
+**PILOT-3 SLATE LOCKED 2026-07-09.** Cases 1–3 span the three retrieval paths
+(wellness-sensor null / imaging-device positive / drug null). The cases below are the
+expansion toward the full 10; run them only as the harness needs more coverage. Case 4 (sepsis)
+is queued to keep Claude Science warm while the harness is built.
+
+### Case 4 — Sepsis early-warning prediction (EHR-based predictive SaMD)
+An algorithm that continuously analyzes routinely-collected electronic health record data (vital
+signs, laboratory results, nursing assessments, demographics) to **predict the onset of sepsis (or
+septic shock) in hospitalized adults hours before clinical recognition**, deployed as an inpatient
+early-warning / clinical decision support tool that alerts clinicians to initiate sepsis workup and
+treatment. Intended claim: earlier identification of patients at high risk of sepsis to prompt
+timely intervention. Input: structured EHR time-series data only (no new sensor, image, or genomic
+assay). Setting: inpatient medical-surgical wards and ICUs. Population: hospitalized adults across
+care settings, sexes, ages, races/ethnicities, and admitting diagnoses. *(Opens a new axis: a
+predictive model on EHR data, with the Epic Sepsis Model external-validation failure as a rich
+Input-Validation + Post-Deployment-Monitoring test.)*
 
 ---
 
