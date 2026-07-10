@@ -50,6 +50,36 @@ the UI.
 - **Core First, Agents Later.** A bounded, deterministic engine ships and is tested first (verified disease-agnostic across 12 unrelated indications). Agentic critics — a clinical-integrity checker and a self-correction loop — are Phase 2, layered on top and inheriting the same constraints, never replacing the deterministic core.
 - **Claude Science is the discovery engine, not a runtime dependency.** It proved the concept; it has no programmatic endpoint, so the product replicates its *pattern* — grounded retrieval → constrained reasoning — with direct public-registry APIs. In one respect that's *more* verifiable than routing through any model: there is no model in the retrieval path.
 
+### How I validated the grounding — a 10-case ablation eval
+Retrieval that *looks* reasonable isn't evidence. So I built a hand-verified answer
+key for **10 diverse clinical AI cases** — spanning devices, drugs, biologics, and
+hybrids; regulatory-approved, regulatory-null, and mixed situations — and scored the
+live pipeline against them on **precision and recall**, never raw counts (counts
+always reward the widest, noisiest net). Every one of the ~470 scored identifiers
+re-resolves against its live registry today. Then I ran an **ablation study**: hold
+the shipped pipeline as a baseline and change exactly one dial at a time, across all
+10 cases, to see which parts actually earn their place.
+
+- **What earns its place:** the multi-database literature layer does — adding
+  OpenAlex recovers a genuinely load-bearing landmark paper in every case where the
+  golden literature is retrievable at all (4 of 10). Crossref DOI-verification is a
+  correctness guard that costs nothing on clean data. Both stay.
+- **The honest negative — reported, not hidden:** one vocabulary-expansion feature
+  is **still unvalidated**, because a bug in how the engine builds its search query
+  blocked the two cases designed to test it. I'm reporting that openly and scheduling
+  the fix, rather than claiming a win.
+- **The headline finding:** the dials we can turn barely move recall. What actually
+  determines whether the right FDA records and trials surface is **how the question
+  is aimed** — records named by *function* ("Prioritization Software") or by a
+  *specific device name* don't rank on a *disease* query, in 6 of 10 cases. The fix
+  isn't a knob; it's a curated known-record seed layer, scoped as Phase 2. Diagnosing
+  that cleanly — with a repeatable harness, not a hunch — is itself part of the
+  deliverable.
+
+This is the trust story in miniature: the tool is measurably honest about what it
+grounds well, what it doesn't, and why. (Full method + per-case detail:
+`eval_results/ablation_findings.md`.)
+
 ## 2. Link to your work
 - **GitHub:** https://github.com/victoriaxxwang/clinical-ai-eval-designer
   *(ensure the repo is public before submission)*

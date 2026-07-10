@@ -8,6 +8,37 @@ auto-generated `eval_results/ablation_results.md` (rebuild anytime with
 `ablation_results.json`. This file is the human interpretation — the harness
 never overwrites it._
 
+## Bottom line (10 cases, up front)
+_The one-screen version; the per-axis verdicts and per-case detail follow._
+
+- **Slate:** 10 hand-verified goldens spanning device / drug / biologic / hybrid,
+  regulatory-positive / null / mixed, and leaf vs broad-parent conditions;
+  ~470 scored identifiers, all re-resolved live against their issuing registries.
+  Scored **precision + recall**, never raw counts (counts always crown the widest,
+  noisiest net — the exact failure these layers exist to prevent).
+- **Headline — recall is capped by query *targeting*, not by any swept config.**
+  Deterministic FDA/NCT recall is **config-invariant on all 10 cases**, and 6 of 10
+  also zero out on literature before any provider / MeSH / verify knob can matter.
+  Named records (pivotal NCTs, specific 510(k)s, De Novo grants) and
+  **function-named FDA codes** (e.g. "Prioritization Software," which carries no
+  disease token) don't rank in a generic disease search. The lever is a curated
+  known-record **seed layer = a Phase-2 feature, not a config knob.**
+- **What earns its place:** the multi-provider literature layer — **OpenAlex**
+  recovers a load-bearing golden paper in exactly the **4 of 10** cases whose golden
+  literature is retrievable at all (DR / warfarin / sepsis / AFib); Semantic Scholar
+  is redundant-but-harmless; Crossref-verify is precision-neutral (drops **0** golden
+  DOIs). **Keep the shipped defaults** (canonical+synonyms / all-3-providers / verify-on).
+- **Honest negative — the MeSH `+hierarchy` axis remains UNVALIDATED.** It no-ops on
+  all four broad-parent terms that reached the slate, but on the two built to test it
+  decisively (sepsis, pneumonia) the no-op is caused by **Finding B** (the bare
+  condition token is crowded off the MeSH candidate list before lookup), *not* by the
+  axis being genuinely inert. It cannot be judged until the engine fix lands.
+- **Next (its own window): the engine-hardening fix** — seed the bare condition from
+  `use_case` (closes **Finding A**, mechanism-first phrasing zeroing retrieval) and
+  always try the **bare condition token** in the MeSH lookup (closes **Finding B**),
+  then **re-run pneumonia** to finally exercise `+hierarchy`. This is the single
+  load-bearing prerequisite for judging the hierarchy axis end-to-end.
+
 ## Verdict per swept axis
 
 ### 1. Literature providers (+OpenAlex, +Semantic Scholar) — **EARNS ITS PLACE**
