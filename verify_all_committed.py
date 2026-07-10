@@ -18,16 +18,25 @@ Two orthogonal checks per case, for every SCORED id in the `required` block:
     - field_grounding ids are a SUBSET of required (no orphan grounding ids)
     - no duplicate ids within a category
     - no cross-case LITERATURE collisions (a pmid/doi/nct shared across cases
-        is suspicious -> FAIL). FDA regulatory ids (product codes, K/DEN/NDA)
-        are a shared taxonomy and legitimately recur when two cases share a
-        device class -> reported as EXPECTED, not a failure.
+        is suspicious -> FAIL). Two narrow exceptions are shared vocabulary,
+        not copy-paste errors, and are reported EXPECTED rather than failing:
+          (a) FDA regulatory ids (product codes, K/DEN/PMA/NDA) are a shared
+              taxonomy and legitimately recur when two cases share a device class.
+          (b) discipline-wide reporting-STANDARD papers (DECIDE-AI, TRIPOD+AI,
+              and the like) are methodology anchors that any clinical-AI spec
+              cites for Field 1; they are enumerated in METHODOLOGY_SHARED so a
+              genuinely disease-specific duplicate still FAILS.
     - every required id textually appears in the case's source spec .md
         (skipped only for a case with no spec file on disk)
 
 Exit code 0 iff every case PASSES both parts. Any failure -> non-zero.
 
 Run from repo root with the venv active:
-    source .venv/bin/activate && python scratchpad/verify_all_committed.py
+    source .venv/bin/activate && python verify_all_committed.py
+Flags:
+    --no-live        skip Part 1 (offline consistency check only)
+    --case NAME      restrict per-case checks + live re-resolution to one case
+                     (the cross-case collision pre-pass still spans all goldens)
 """
 import json
 import re
@@ -45,6 +54,7 @@ CASES = {
     "warfarin": ("golden_expected_ids_warfarin.json",  "golden_validation_spec_warfarin.md"),
     "sepsis":   ("golden_expected_ids_sepsis.json",    "golden_validation_spec_sepsis.md"),
     "AFib":     ("golden_expected_ids_AFib.json",      "golden_validation_spec_AFib.md"),
+    "melanoma": ("golden_expected_ids_melanoma.json",  "golden_validation_spec_melanoma.md"),
 }
 
 FORMAT = {
@@ -54,7 +64,20 @@ FORMAT = {
     "fda_product_codes": re.compile(r"^[A-Z]{3}$"),
     "fda_k_numbers":     re.compile(r"^K\d+$"),
     "fda_den_numbers":   re.compile(r"^DEN\d+$"),
+    "fda_pma_numbers":   re.compile(r"^P\d+$"),
     "fda_nda_numbers":   re.compile(r"^(NDA|BLA|ANDA)\d+$"),
+}
+
+# Discipline-wide reporting-STANDARD citations that legitimately recur across
+# cases (methodology anchors for Field 1, not disease-specific findings). A
+# cross-case overlap on one of these is EXPECTED shared vocabulary; any OTHER
+# shared pmid/doi/nct is still treated as a suspicious collision -> FAIL.
+# Each entry is the standard's PMID and DOI, kept together for provenance.
+METHODOLOGY_SHARED = {
+    ("pmids", "35585198"),                       # DECIDE-AI  (Nat Med 2022)
+    ("dois",  "10.1038/s41591-022-01772-9"),     # DECIDE-AI
+    ("pmids", "38626948"),                        # TRIPOD+AI  (BMJ 2024)
+    ("dois",  "10.1136/bmj-2023-078378"),        # TRIPOD+AI
 }
 
 UA = {"User-Agent": "clinical-eval-verify/1.0 (mailto:wang.victoriax@gmail.com)"}
@@ -123,6 +146,11 @@ def resolve_nda(app):
     return _openfda_total(url) > 0
 
 
+def resolve_pma(p):
+    url = "https://api.fda.gov/device/pma.json?search=pma_number:%s&limit=1" % p
+    return _openfda_total(url) > 0
+
+
 RESOLVER = {
     "pmids": resolve_pmid,
     "dois": resolve_doi,
@@ -130,6 +158,7 @@ RESOLVER = {
     "fda_product_codes": resolve_product_code,
     "fda_k_numbers": resolve_k,
     "fda_den_numbers": resolve_k,   # DEN resolves via the 510k k_number field
+    "fda_pma_numbers": resolve_pma,
     "fda_nda_numbers": resolve_nda,
 }
 
@@ -156,6 +185,17 @@ def main():
 
     skip_live = "--no-live" in sys.argv
 
+    # Optional per-case filter: `--case NAME` restricts the per-case checks (and
+    # the live re-resolution) to one case, while the cross-case collision
+    # pre-pass below still loads ALL goldens (collisions are inherently global).
+    only = None
+    if "--case" in sys.argv:
+        i = sys.argv.index("--case")
+        if i + 1 < len(sys.argv):
+            only = sys.argv[i + 1]
+            if only not in CASES:
+                sys.exit("unknown --case %r; choose from %s" % (only, ", ".join(CASES)))
+
     # ---- cross-case collision pre-pass (part 2) ----
     # Literature/trial ids are expected unique across cases; a shared one is
     # suspicious. FDA regulatory ids are shared taxonomy -> overlap is expected.
@@ -166,13 +206,19 @@ def main():
             for i in ids:
                 id_owner[(cat, i)].add(case)
     shared = {k: sorted(v) for k, v in id_owner.items() if len(v) > 1}
-    lit_collisions = {k: v for k, v in shared.items() if k[0] in LIT_CATS}
     fda_overlaps = {k: v for k, v in shared.items() if k[0] not in LIT_CATS}
+    lit_shared = {k: v for k, v in shared.items() if k[0] in LIT_CATS}
+    # split literature overlaps: named reporting standards are expected shared
+    # vocabulary; anything else is a suspicious collision -> FAIL.
+    method_overlaps = {k: v for k, v in lit_shared.items() if k in METHODOLOGY_SHARED}
+    lit_collisions = {k: v for k, v in lit_shared.items() if k not in METHODOLOGY_SHARED}
 
     overall_ok = True
     summary_rows = []
 
     for case, (kf, md) in CASES.items():
+        if only and case != only:
+            continue
         d = keys[case]
         required = d.get("required", {})
         print("\n" + "=" * 72)
@@ -292,7 +338,11 @@ def main():
         for (cat, i), cs in sorted(lit_collisions.items()):
             print("    COLLISION  %s '%s' in cases: %s" % (cat, i, ", ".join(cs)))
     else:
-        print("  LITERATURE: PASS (no pmid/doi/nct shared across cases)")
+        print("  LITERATURE: PASS (no suspicious pmid/doi/nct shared across cases)")
+    if method_overlaps:
+        print("  Reporting-standard overlaps (EXPECTED - shared methodology vocabulary):")
+        for (cat, i), cs in sorted(method_overlaps.items()):
+            print("    expected   %s '%s' in cases: %s" % (cat, i, ", ".join(cs)))
     if fda_overlaps:
         print("  FDA regulatory overlaps (EXPECTED - shared device-class taxonomy):")
         for (cat, i), cs in sorted(fda_overlaps.items()):

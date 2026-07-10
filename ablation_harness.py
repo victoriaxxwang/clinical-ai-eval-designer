@@ -159,6 +159,29 @@ CASES = {
         "population": "Adults without prior AFib diagnosis across ages, skin tones, wrist sizes, and activity states",
         "setting": "Over-the-counter / direct-to-consumer, ambulatory unsupervised (non-diagnostic)",
     },
+    "melanoma": {
+        # Case 6. Regulatory-POSITIVE device case with a MODALITY-NULL twist:
+        # three adjunctive Class II codes exist (QZS De Novo DEN230008; OYD PMA
+        # P090012; ONV PMA P150046) but each uses a DIFFERENT physical signal —
+        # none is a photograph-input image-AI classifier (the system under eval).
+        # Slate's FIRST case with fda_pma_numbers; no K-numbers, no NDA.
+        # "Melanoma" (MeSH D008545) sits under broader "Skin Neoplasms" (D012878),
+        # so this is a 2nd broad-parent point for the "+hierarchy" axis (after
+        # sepsis) — whether it diverges is read empirically from the sweep.
+        # model_desc is CONDITION-FORWARD ("Skin-lesion malignancy / melanoma …")
+        # so the condition reaches build_queries before the top-12 keyword cap
+        # (Case-4 Finding A); a mechanism-first phrasing would bury it.
+        "golden": "golden_expected_ids_melanoma.json",
+        "intervention_type": "device",
+        "model_desc": ("Skin-lesion malignancy / melanoma risk-assessment algorithm that "
+                       "analyzes dermoscopic or clinical photographs of a skin lesion to "
+                       "estimate malignancy risk and provide an adjunctive biopsy/refer "
+                       "recommendation to a physician who is not a skin-cancer specialist."),
+        "use_case": ("Adjunctive image-based skin-lesion malignancy / biopsy-referral "
+                     "decision support for melanoma and other skin cancers"),
+        "population": "Adults presenting with suspicious skin lesions across skin tones and lesion types",
+        "setting": "Primary-care / non-dermatology point-of-care skin-cancer triage (adjunctive, non-standalone)",
+    },
 }
 
 

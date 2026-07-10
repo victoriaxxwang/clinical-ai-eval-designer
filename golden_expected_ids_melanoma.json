@@ -1,0 +1,141 @@
+{
+  "description": "Golden identifier set the automated pipeline should retrieve/resolve for the image-based skin-lesion malignancy / biopsy-referral decision-support reference case (Case 6). Companion to the HRV/DR/warfarin/sepsis/AFib goldens. This is a DEVICE case (intervention_type=device) and is regulatory-POSITIVE (three adjunctive Class II product codes exist - QZS via De Novo DEN230008, plus OYD/ONV under 21 CFR 878.1820 with PMAs P090012/P150046) carrying a regulatory-NULL TWIST on the MODALITY: every FDA-authorized device in this space uses a different physical signal (QZS=elastic-scattering spectroscopy, OYD=multispectral optical imaging, ONV=electrical impedance spectroscopy); there is NO authorization for a device whose input is dermoscopic/clinical PHOTOGRAPHS analyzed by image AI - the exact system under evaluation. This is the slate's FIRST case with PMA numbers (P090012 MelaFind, P150046 Nevisense). Use in the ablation harness: score recall = golden ids present in the bundle's records (FDA codes / DEN / PMA / NCT EXACT; literature as a >=K resolvable-ID floor per COMPARISON.md Lesson 2), precision = on-topic rate. Every id in 'required' resolved live 2026-07-09 (PMIDs via E-utils esummary, DOIs via Crossref, product codes via openFDA device/classification, DEN via openFDA device/510k, PMA via openFDA device/pma, NCTs via ClinicalTrials.gov v2).",
+  "reference_case": "Image-based skin-lesion malignancy risk / biopsy-referral decision support: a photograph-in / malignancy-risk-out AI classifier of dermoscopic or clinical skin-lesion images, providing an adjunctive second-read biopsy/refer recommendation to a physician not specialized in skin-cancer diagnosis. Non-standalone decision support; the pivotal endpoint is the change in the human biopsy/refer decision, not the model's isolated AUC.",
+  "source_spec_artifact": "golden_validation_spec_melanoma.md",
+  "generated": "2026-07-09",
+  "intervention_type": "device",
+  "condition_forward": true,
+  "mesh_note": "Condition authored condition-forward ('skin-lesion malignancy / melanoma'), so Case-4 Finding A cannot bite. 'Melanoma' (MeSH D008545) sits under the broader 'Skin Neoplasms' (D012878); whether the '+hierarchy' axis diverges here is determined empirically by the sweep and written up in ablation_findings.md - not asserted in advance.",
+  "match_policy": {
+    "required_min_coverage": "All ids in 'required' should be present for full recall. 'field_grounding' is the per-field breakdown following each source's role in the spec's SOURCE INVENTORY. Like DR/warfarin/sepsis/AFib, melanoma has a scored 'ncts' category, but ONLY the 2 load-bearing trials (NCT06690086 sample-size anchor; NCT06666790 postmarket-monitoring template). The 2 additional NCTs the spec mentions (NCT06080711, NCT03362138) are explicitly 'not used as numeric anchors' - design-norm context only - and are recorded in 'context_only_identifiers' (NOT scored). This resolves the 4-vs-2 NCT count: 4 mentioned, 2 load-bearing/scored. Melanoma introduces 'fda_pma_numbers' (first case with PMAs); it has no 'fda_k_numbers' (no 510(k) predicate in the same modality) and no 'fda_nda_numbers' (device case, no drug).",
+    "resolution_pass": "PMID -> E-utils esummary; DOI -> Crossref works; product_code -> openFDA device/classification; DEN (De Novo) -> openFDA device/510k (De Novo grants indexed with a DEN k_number - verified live: DEN230008 returns DermaSensor/QZS); PMA -> openFDA device/pma (verified live: P090012 MelaFind, P150046 Nevisense); NCT -> ClinicalTrials.gov v2. A required id that fails to resolve is a TEST FAILURE, not a silent drop.",
+    "regulatory_positive_with_modality_null": "POSITIVE: three adjunctive Class II product codes are FDA-authorized - QZS (21 CFR 878.1830, created by De Novo DEN230008, DermaSensor 2024-01-12), OYD (21 CFR 878.1820, MelaFind multispectral optical imaging, PMA P090012), ONV (21 CFR 878.1820, Nevisense electrical impedance spectroscopy, PMA P150046). MODALITY NULL TWIST: searching openFDA 510(k)/De Novo/PMA for dermoscopic/photographic image-analysis skin devices returns NO authorization for a device whose input is a photograph analyzed by image AI - every cleared device uses a DIFFERENT physical signal. A photograph-in image-AI classifier of the type described has no same-modality authorized predicate, which pushes it toward De Novo and makes signal-validation (Field 2) and benchmarks (Field 3) pivotal."
+  },
+  "required": {
+    "pmids": [
+      "28117445",
+      "29846502",
+      "31201137",
+      "32572267",
+      "30106392",
+      "35960806",
+      "30073260",
+      "31411641",
+      "22007046",
+      "26511519",
+      "38626948",
+      "35585198",
+      "30521691",
+      "32041693",
+      "37071089",
+      "37071090",
+      "28659278"
+    ],
+    "dois": [
+      "10.1038/nature21056",
+      "10.1093/annonc/mdy166",
+      "10.1016/S1470-2045(19)30333-X",
+      "10.1038/s41591-020-0942-0",
+      "10.1038/sdata.2018.161",
+      "10.1126/sciadv.abq6147",
+      "10.1001/jamadermatol.2018.2348",
+      "10.1001/jamadermatol.2019.1735",
+      "10.7326/0003-4819-155-8-201110180-00009",
+      "10.1136/bmj.h5527",
+      "10.1136/bmj-2023-078378",
+      "10.1038/s41591-022-01772-9",
+      "10.1002/14651858.CD013186",
+      "10.1136/bmj.m127",
+      "10.1001/jama.2023.4342",
+      "10.1001/jama.2023.3262",
+      "10.1136/bmj.j2813"
+    ],
+    "ncts": [
+      "NCT06690086",
+      "NCT06666790"
+    ],
+    "fda_product_codes": [
+      "QZS",
+      "OYD",
+      "ONV"
+    ],
+    "fda_den_numbers": [
+      "DEN230008"
+    ],
+    "fda_pma_numbers": [
+      "P090012",
+      "P150046"
+    ]
+  },
+  "context_only_identifiers": {
+    "description": "Identifiers cited in the melanoma spec for context but deliberately NOT scored. The harness reads only the 'required' block (ablation_harness.py:256), so nothing here is counted as a hit or a miss. Recorded for a complete audit trail.",
+    "ncts": [
+      {
+        "id": "NCT06080711",
+        "scored": false,
+        "role": "design-norm context",
+        "reason": "Surfaced by broader AI-dermatology searches confirming the reader/decision-study design norm for Field 1; the spec states it was 'not used as numeric anchors'. Resolves live but is not a load-bearing citation, so scoring it would penalize correct pipeline behavior."
+      },
+      {
+        "id": "NCT03362138",
+        "scored": false,
+        "role": "design-norm context",
+        "reason": "Same as NCT06080711 - a design-norm exemplar, not a numeric anchor. Resolves live; recorded here for provenance, not scored."
+      }
+    ]
+  },
+  "field_grounding": {
+    "1_study_design": {
+      "pmids": ["32572267", "22007046", "26511519", "38626948", "35585198"],
+      "dois": ["10.1038/s41591-020-0942-0", "10.7326/0003-4819-155-8-201110180-00009", "10.1136/bmj.h5527", "10.1136/bmj-2023-078378", "10.1038/s41591-022-01772-9"],
+      "ncts": ["NCT06690086"]
+    },
+    "2_signal_validation": {
+      "pmids": ["30106392", "31411641", "32041693"],
+      "dois": ["10.1038/sdata.2018.161", "10.1001/jamadermatol.2019.1735", "10.1136/bmj.m127"]
+    },
+    "3_performance_benchmarks": {
+      "pmids": ["28117445", "29846502", "31201137", "32572267", "30521691", "32041693", "37071089", "37071090"],
+      "dois": ["10.1038/nature21056", "10.1093/annonc/mdy166", "10.1016/S1470-2045(19)30333-X", "10.1038/s41591-020-0942-0", "10.1002/14651858.CD013186", "10.1136/bmj.m127", "10.1001/jama.2023.4342", "10.1001/jama.2023.3262"]
+    },
+    "4_ground_truth": {
+      "pmids": ["31201137", "30106392", "22007046", "26511519", "37071090", "28659278"],
+      "dois": ["10.1016/S1470-2045(19)30333-X", "10.1038/sdata.2018.161", "10.7326/0003-4819-155-8-201110180-00009", "10.1136/bmj.h5527", "10.1001/jama.2023.3262", "10.1136/bmj.j2813"]
+    },
+    "5_sample_size": {
+      "pmids": ["28117445", "30521691"],
+      "dois": ["10.1038/nature21056", "10.1002/14651858.CD013186"],
+      "ncts": ["NCT06690086", "NCT06666790"]
+    },
+    "6_subgroup": {
+      "pmids": ["35960806", "30073260"],
+      "dois": ["10.1126/sciadv.abq6147", "10.1001/jamadermatol.2018.2348"]
+    },
+    "7_regulatory": {
+      "fda_product_codes": ["QZS", "OYD", "ONV"],
+      "fda_den_numbers": ["DEN230008"],
+      "fda_pma_numbers": ["P090012", "P150046"]
+    },
+    "8_monitoring": {
+      "pmids": ["31411641", "35585198", "32041693"],
+      "dois": ["10.1001/jamadermatol.2019.1735", "10.1038/s41591-022-01772-9", "10.1136/bmj.m127"],
+      "ncts": ["NCT06666790"]
+    }
+  },
+  "expected_conclusions": {
+    "regulatory_class": "Class II, product code QZS (21 CFR 878.1830), via De Novo (predicate DEN230008) or 510(k) to the QZS predicate; related adjunctive codes OYD (P090012) and ONV (P150046) are Class II under 878.1820.",
+    "no_same_modality_photograph_ai_authorization_exists": true,
+    "no_established_numeric_benchmark": true,
+    "all_cleared_devices_are_adjunctive_not_standalone": true
+  },
+  "regulatory_null_evidence": {
+    "claim": "No FDA authorization exists for a device that estimates skin-lesion malignancy by AI analysis of dermoscopic/clinical PHOTOGRAPHS. Every FDA-authorized device in this space uses a different physical signal (QZS elastic-scattering spectroscopy / OYD multispectral optical imaging / ONV electrical impedance spectroscopy).",
+    "how_verified": "openFDA 510(k), De Novo and PMA endpoints searched for dermoscop*/photograph*/photographic image-analysis skin devices this session; returned no same-modality photograph-input image-AI classifier. The positive codes QZS/OYD/ONV and grants DEN230008/P090012/P150046 are the adjacent-but-different-modality landscape, all scored in 'required'."
+  },
+  "coverage_gaps_expected": [
+    "Full-text pivotal DermaSensor / MelaFind / Nevisense clinical studies (device-specific sensitivity/specificity numbers not asserted)",
+    "FDA De Novo decision summary / 510(k) summary PDFs (openFDA summary text field empty for DEN230008)",
+    "March 2026 Federal Register reclassification rule text (doc 2026-05772; Class II status of OYD/ONV taken from openFDA classification fields, not the rule)",
+    "Drugs@FDA / drug labeling (not applicable - software/imaging device, not a drug or biologic)"
+  ]
+}

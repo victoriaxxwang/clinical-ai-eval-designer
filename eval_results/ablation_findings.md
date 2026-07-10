@@ -1,6 +1,6 @@
 # Door B — Ablation findings (pilot-3 slate)
 
-_2026-07-09 (Case 5 AFib added 2026-07-09). 5 cases (HRV / DR / warfarin / sepsis / AFib) × 6 configs, scored **precision + recall**
+_2026-07-09 (Case 6 melanoma added 2026-07-09). 6 cases (HRV / DR / warfarin / sepsis / AFib / melanoma) × 6 configs, scored **precision + recall**
 vs the hand-verified goldens. Live retrieval snapshots cached under
 `eval_results/contexts/` (git-ignored, regenerable). The scored table is the
 auto-generated `eval_results/ablation_results.md` (rebuild anytime with
@@ -137,10 +137,57 @@ the **same query-targeting ceiling** as warfarin/DR/sepsis — and it now holds 
 regulatory answer is a clean *positive*, reinforcing that the missing lever is seeding known
 device names / product codes / trial acronyms, **not** any config knob.
 
+## Case 6 (melanoma) — the OpenAlex pattern's *boundary*, a 2nd broad-parent no-op, and the first PMA case
+Melanoma (photograph-in image-AI skin-lesion malignancy / biopsy-referral decision support) is
+the slate's **first case with PMA numbers** (P090012 MelaFind, P150046 Nevisense) and a
+**regulatory-POSITIVE case with a MODALITY-null twist**: three adjunctive Class II codes exist
+(QZS via De Novo DEN230008; OYD/ONV under 21 CFR 878.1820) but *each uses a different physical
+signal* — none is a photograph-input image-AI classifier, the exact system under eval. Authored
+**condition-forward** (Finding A avoided). All 44 identifiers (17 PMID / 17 DOI / 3 codes / 1
+DEN / 2 PMA / 2 scored NCT + 2 context-only) re-verified live 2026-07-09 before the sweep.
+
+**Literature 0 across all six configs — the boundary of the OpenAlex story.** Unlike DR /
+warfarin / sepsis / AFib, baseline recovers **zero** golden papers here, so the provider axis
+has nothing to discriminate: `lit_epmc_only` and `lit_epmc_openalex` are both 0, same as
+baseline. Melanoma joins **HRV** as the 2nd case where query targeting zeroes literature recall
+*before* providers can matter. The correct cross-case statement is therefore: **OpenAlex is the
+discriminator in every case whose golden literature is retrievable at all (4 of 6); in the other
+2 (HRV, melanoma) the ceiling is query targeting and no provider/MeSH/verify knob moves it.**
+Why melanoma zeroes out: its golden lit is a curated **landmark + reporting-standard** set
+(Esteva *Nature* 2017, the ISIC data papers, DECIDE-AI, TRIPOD+AI) that the live
+"skin-lesion malignancy" query doesn't rank into the top-15 recent hits — a golden=landmark
+vs. retrieval=recent mismatch, not a provider gap.
+
+**MeSH `+hierarchy` inert on a 2nd broad-parent — and inert at the *retrieval* level, not just
+the score.** "Melanoma" (MeSH D008545) sits under the broader "Skin Neoplasms" (D012878), so
+this is the second broad-parent point after sepsis. `mesh_hierarchy` is **identical to baseline**
+— and not merely because lit recall is 0: the retrieved *set sizes* are unchanged too (pmids
+n=14, dois n=15 in both). So `+hierarchy` adds nothing even where a broad parent genuinely has
+children. (Caveat: with 0 golden lit overlap, the *score* can't move regardless; pneumonia
+Case 8 — broad-parent **with** retrievable golden lit — remains the decisive `+hierarchy` test,
+after the engine fix.)
+
+**Deterministic 2/8 — targeting ceiling, but the first case it partly *hits*.** The query
+surfaces the adjacent skin-device neighborhood and lands **OYD (MelaFind) + its PMA P090012**
+(2 of 8), but misses the newest/most-specific grants — **QZS / DEN230008** (DermaSensor, the
+2024 De Novo) and **ONV / P150046** (Nevisense, electrical-impedance) — plus both 2024+ pivotal
+NCTs (0/2). Same lever as every prior case: the classification device-names don't carry the
+condition, so a generic "melanoma / skin-lesion" openFDA search ranks the older/broader entries
+and never reaches the two newest devices. The 2/8 (vs. AFib's 0/16, sepsis's 0/8) comes only
+because the older MelaFind entry happens to sit on the generic query — not because config helped.
+
+**Process note (my verify tool caught a real ambiguity).** The independent sweep flagged 4
+literature IDs shared melanoma↔sepsis. They are **DECIDE-AI** (PMID 35585198) and **TRIPOD+AI**
+(PMID 38626948) — discipline-wide reporting *standards*, not disease-specific findings, cited in
+both specs' Field-1 study-design inventory. Handled exactly like shared FDA device-class codes:
+a named `METHODOLOGY_SHARED` allowlist marks these as expected shared vocabulary, while any
+*other* cross-case literature overlap still FAILs the sweep.
+
 ## What ships
 - **Keep the shipped defaults** (canonical+synonyms / all-3-providers / verify-on):
-  validated safe on 5 cases; OpenAlex earns its place (now **4 of 5**); MeSH + Crossref
-  inert-but-harmless.
+  validated safe on 6 cases; OpenAlex earns its place **wherever golden lit is retrievable at
+  all (4 of 6; HRV + melanoma zero out at query targeting first)**; MeSH + Crossref
+  inert-but-harmless (MeSH `+hierarchy` now inert on **two** broad-parents, sepsis and melanoma).
 - **Two engine-hardening items are now queued** from Case 4 (see above): (A) seed the
   condition from `use_case` so mechanism-first phrasing can't zero out retrieval, and
   (B) always try the bare condition token in MeSH so broad parents resolve. One small
