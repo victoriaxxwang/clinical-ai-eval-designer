@@ -13,7 +13,7 @@
         "Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed \u2014 PMID + DOI, merged & de-duplicated)",
         "Coverage & Retrieval Gaps"
       ],
-      "context_chars": 7119,
+      "context_chars": 7109,
       "registry_hits_ok": 3,
       "context_file": "f5_frozen_context.txt"
     },

@@ -1,5 +1,5 @@
 ### Retrieval Metadata
-- Retrieved (UTC): 2026-07-11T16:14:59Z
+- Retrieved (UTC): 2026-07-11T16:42:30Z
 - Intervention type: device
 - Literature/trials query: '("Heart Failure" OR "Cardiac Failure" OR "Heart Decompensation" OR "Decompensation, Heart" OR "Congestive Heart Failure") AND gradient AND boosted'
 - MeSH normalization: 'heart failure' → "Heart Failure" (D006333) + 4 synonyms

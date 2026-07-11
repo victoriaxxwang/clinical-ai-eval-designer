@@ -1,0 +1,75 @@
+{
+  "panel": [
+    {
+      "persona": "regulator",
+      "strength": "The plan correctly identifies that the retrieved openFDA hits (OZR, QPE, POL, PIG, QSU, DWM, OHR, K943392, K883186) are keyword collisions and refuses to treat them as predicates, and it flags the MediPress recall (Z-1343-2019) as a change-control precedent rather than overreading it.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The intended clinical claim is explicitly 'not specified by the team' and is only assumed by the drafters. A validation plan cannot be finalized \u2014 or its endpoint, comparator, and pathway analysis assessed \u2014 until the sponsor commits to the claim language, since the CDS-exemption vs. device determination hinges on it.",
+          "evidence_basis": "The draft itself states the claim is assumed; no retrieved 510(k)/De Novo/PMA record establishes a claim family for EHR-based deterioration alerting (Guardian System P150009 is an implantable ACS alert device, acknowledged as non-analogous)."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The predicate landscape was never actually searched: the retrieval keyed on 'gradient boosted ensemble' and returned dental/compression-device collisions. A re-run with indication-based terms (deterioration prediction, early warning, sepsis-alerting software) is required before the 510(k)-vs-De-Novo recommendation can stand.",
+          "evidence_basis": "Retrieval metadata shows the query 'gradient boosted ensemble ingests' and openFDA terms ['gradient','acute','care','inpatient','boosted']; all returned device records are off-topic, and the plan concedes no on-point predicate was retrieved."
+        },
+        {
+          "severity": "minor",
+          "issue": "The plan gestures at a PCCP for retraining but does not commit to drafting one as a deliverable of this validation stage; retraining triggers named in Field 8 have no linkage to a pre-authorized change protocol.",
+          "evidence_basis": "MediPress recall Z-1343-2019 in the retrieved evidence (design change deployed without premarket clearance) demonstrates the regulatory consequence the plan should pre-empt concretely."
+        }
+      ]
+    },
+    {
+      "persona": "biostatistician",
+      "strength": "The plan correctly insists on event-driven sizing, calibration reporting per site, threshold-specific operating characteristics rather than global AUROC alone, and subgroup analyses powered by events rather than patient counts.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "No primary endpoint metric, no pre-specified operating point, and no sample-size calculation exist \u2014 everything is deferred to a future biostatistician. A submission-ready plan needs at least a pre-specified primary metric (e.g., discrimination at a fixed alert threshold vs. the NEWS2/MEWS comparator), a precision target, and a derivation framework filled in with local event-rate data.",
+          "evidence_basis": "Fields 3 and 5 of the draft state no benchmark numbers or enrollment precedents were retrieved (confidence LOW); no ClinicalTrials.gov deterioration-model trial appears in the retrieved evidence to borrow design parameters from."
+        },
+        {
+          "severity": "blocking",
+          "issue": "'\u22651 external site' is inadequately specified for a claim of cross-site validity: the plan itself notes cross-site differences will partly reflect escalation culture, yet gives no minimum number of external sites, no heterogeneity analysis plan, and no rule for pooled vs. site-stratified reporting.",
+          "evidence_basis": "Absence in the retrieved evidence of any multi-site validation precedent for this model class; the closest retrieved analogue (PMID 42327625, intraoperative-data AKI prediction) is single-indication and retrospective, offering no multi-site design template."
+        },
+        {
+          "severity": "minor",
+          "issue": "The prediction window N and gap/blanking window are left open, but these choices materially change the event rate and therefore the sample size and AUPRC \u2014 they should be fixed before, not alongside, the power calculation.",
+          "evidence_basis": "Draft Field 4 states 'N to be set by the team'; no retrieved record supplies a reference standard or window convention for 'deterioration.'"
+        }
+      ]
+    },
+    {
+      "persona": "clinical_scientist",
+      "strength": "The plan treats alert burden (alerts-per-nurse-per-shift, override rates) as a first-class endpoint and correctly identifies EHR charting latency as the dominant retrospective-to-prospective failure mode for a 'continuous' score.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "There is no specified clinical response protocol: the plan never states what a clinician is expected to do when the score crosses threshold, so 'actionable lead time' cannot be evaluated \u2014 a 2-hour lead time is meaningless without a defined escalation pathway it enables.",
+          "evidence_basis": "Absence in both the draft and the retrieved evidence of any workflow/response-arm specification; no retrieved trial record describes an alerting-to-action protocol for this indication."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The silent-mode stage measures score behavior but includes no plan to characterize the counterfactual clinical baseline (current RRT activation timing, existing NEWS2/MEWS alert burden on the ward), without which the claimed added value over incumbent monitoring cannot be judged.",
+          "evidence_basis": "Draft Field 3 names NEWS2/MEWS as comparators but no retrieved record supplies their performance in this population, and the design stages do not include baseline workflow measurement."
+        },
+        {
+          "severity": "minor",
+          "issue": "Comfort-care/DNR handling is flagged for adjudication but the clinical consequence \u2014 alerts firing on patients for whom escalation is not goal-concordant, a distinct alarm-fatigue and harm channel \u2014 is not addressed in the deployment or monitoring plan.",
+          "evidence_basis": "Draft Field 4 acknowledges the label-semantics issue; no retrieved record addresses goals-of-care handling for deterioration models, so this rests on an explicit gap."
+        }
+      ]
+    }
+  ],
+  "fix_before_submission": [
+    "Obtain a committed intended-use / claims statement from the sponsor before finalizing endpoint, comparator, and pathway analysis.",
+    "Re-run regulatory and literature retrieval with indication-based terms (deterioration prediction, early warning, sepsis/hemodynamic alerting software) to establish the actual predicate and benchmark landscape.",
+    "Pre-specify the primary endpoint metric, operating threshold, precision targets, and complete an event-driven sample-size calculation using local ADHF event rates.",
+    "Define the multi-site plan: minimum number of external sites, heterogeneity analysis, and pooled vs. site-stratified reporting rules.",
+    "Specify the clinical response protocol triggered by an alert so lead-time actionability can be evaluated.",
+    "Add baseline measurement of current ward escalation timing and incumbent NEWS2/MEWS alert burden to the silent-mode stage."
+  ]
+}

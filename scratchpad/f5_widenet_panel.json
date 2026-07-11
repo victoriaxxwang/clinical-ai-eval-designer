@@ -1,0 +1,75 @@
+{
+  "panel": [
+    {
+      "persona": "regulator",
+      "strength": "The plan honestly discloses that no on-point predicate was retrieved and correctly refuses to cite the keyword-noise openFDA hits (K943392, K883186, product codes OZR/POL/PIG) as precedent, treating the pathway question as unresolved.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The intended clinical claim is explicitly 'not specified by the team' and only assumed by the drafters. A validation program cannot be designed, and a regulatory strategy cannot be assessed, against an assumed intended use \u2014 the claim must be finalized and owned by the sponsor before design lock.",
+          "evidence_basis": "The plan's own statement that the claim was assumed; no retrieved device record or trial defines an accepted claim for this model class."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The comparative-effectiveness phase lists its primary endpoint as an 'e.g.' menu (time-to-escalation, ICU transfer, or in-hospital mortality). A single predefined primary endpoint with a pre-specified analysis must be fixed; a menu of candidates is not an adequately designed pivotal study.",
+          "evidence_basis": "No ClinicalTrials.gov record for a comparable inpatient HF deterioration trial appears in the retrieved evidence, so no endpoint precedent can be borrowed \u2014 the plan must define one itself and currently does not."
+        },
+        {
+          "severity": "minor",
+          "issue": "The 510(k)-vs-De-Novo decision is deferred pending a targeted predicate search, and non-US pathways were explicitly not queried. Acceptable as a disclosed gap, but this search should be completed before the design is finalized, since predicate choice can reshape endpoint and comparator requirements.",
+          "evidence_basis": "Retrieved openFDA records contain no relevant SaMD predicate; the only cardiac-alerting record retrieved (Guardian System, PMA P150009) is a Class III implantable and only tangential; the Coverage & Retrieval Gaps section confirms non-US regulators were not searched."
+        }
+      ]
+    },
+    {
+      "persona": "biostatistician",
+      "strength": "The plan correctly identifies that adjudicated deterioration events, not admissions, are the limiting quantity for power, and correctly prohibits applying class-imbalance correction (SMOTE) to validation data.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "No numeric performance targets, event-rate assumptions, or sample-size calculation exist anywhere in the plan \u2014 every quantitative element is deferred to a future biostatistician session. The plan is not reviewable as a validation protocol until at least provisional targets and an event-driven N are stated with assumptions.",
+          "evidence_basis": "The plan's Fields 3 and 5 state no benchmark or sample-size precedent was retrieved; adjacent retrieved literature (PMID 27784047, C-statistics ~0.6 range for HF readmission) confirms targets cannot be transplanted, but their absence is still a protocol gap."
+        },
+        {
+          "severity": "blocking",
+          "issue": "Metric specification is incomplete for a rare-event alerting task: the plan names discrimination and calibration but does not pre-specify AUPRC or PPV/sensitivity at the operating threshold as co-primary performance measures, even though AUROC alone is misleading at low event prevalence. Additionally, if the development pipeline used SMOTE-style rebalancing (as in the retrieved development literature), calibration on natural-prevalence validation data will be systematically distorted and a recalibration plan must be pre-specified.",
+          "evidence_basis": "OpenAlex W3134537993 documents SMOTE use in HF prediction development; the plan flags SMOTE for validation data but does not address training-induced miscalibration or fix threshold-level operating metrics."
+        },
+        {
+          "severity": "minor",
+          "issue": "Seven pre-specified subgroup axes (some multi-level, e.g., HFrEF/HFmrEF/HFpEF \u00d7 site) will almost certainly outstrip available event counts, and no multiplicity or hierarchical-testing strategy is stated. The plan acknowledges the constraint but does not resolve it.",
+          "evidence_basis": "No retrieved study reports subgroup performance for an inpatient HF deterioration model (per the plan's own Field 6), and the retrieved literature (e.g., PMID 29929496, PMID 28263938) is single-cohort without subgroup power precedent."
+        }
+      ]
+    },
+    {
+      "persona": "clinical_scientist",
+      "strength": "The plan correctly treats EHR charting cadence, informative missingness, and documentation-behavior shift as the sensor-validity analog, and stages a silent-mode shadow phase to measure real alert burden before turning alerts on.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The core claim is 'earlier than standard care,' but no minimum clinically actionable lead time is defined, nor an acceptance criterion tying claimed lead time to the ward's actual vitals cadence (q4\u2013q8h manual charting). Without this, 'earlier detection' is unfalsifiable and possibly physically impossible given input staleness.",
+          "evidence_basis": "The plan itself notes the model cannot detect earlier than its sampling interval permits; no retrieved study quantifies actionable lead time for this task, so the plan must define it and does not."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The composite outcome includes rapid-response/code-team activation, but in the alert-on phase the model's own alerts will trigger rapid-response activations \u2014 the intervention contaminates its endpoint, risking circular inflation of apparent benefit. The plan flags treatment-confounded labels generally but does not specify how this circularity is broken (e.g., outcome components restricted to physiologically-anchored events for the comparative phase).",
+          "evidence_basis": "No retrieved citation validates this composite for HF inpatients (acknowledged in Field 4), and the retrieved literature uses only administrative post-discharge outcomes (PMIDs 29929496, 28263938, 31606361), offering no template for handling alert-triggered endpoint components."
+        },
+        {
+          "severity": "minor",
+          "issue": "Alert-burden and number-needed-to-alert ceilings are deferred to site nursing/RRT capacity with no provisional bound, yet the plan itself names alarm fatigue as the primary real-world failure mode. A provisional maximum alerts-per-nurse-shift threshold should be set before the silent-mode phase so shadow data can be judged against it.",
+          "evidence_basis": "The plan's Field 8 identifies alarm fatigue as the dominant failure mode for this class but sets no threshold; no retrieved evidence supplies one."
+        }
+      ]
+    }
+  ],
+  "fix_before_submission": [
+    "Have the sponsoring team formally specify and own the intended clinical claim before design lock, replacing the drafters' assumed claim.",
+    "Select and predefine a single primary endpoint (with analysis plan) for the comparative-effectiveness phase, replacing the 'e.g.' menu of candidates.",
+    "Produce an event-driven sample-size calculation with stated event-rate assumptions and at least provisional numeric performance targets, rather than deferring all quantities.",
+    "Pre-specify threshold-level operating metrics (AUPRC, PPV/sensitivity at operating point) as co-primary performance measures and add a recalibration plan if training used class-imbalance correction.",
+    "Define a minimum clinically actionable lead-time acceptance criterion explicitly reconciled with the ward's actual vitals charting cadence.",
+    "Resolve endpoint circularity in the alert-on phase by specifying how model-triggered rapid-response activations are handled within the composite outcome (e.g., physiologically-anchored endpoint components for the comparative analysis)."
+  ]
+}

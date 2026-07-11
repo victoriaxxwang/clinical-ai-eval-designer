@@ -1,0 +1,86 @@
+# Clinical Validation Specification
+
+**Generated:** 2026-07-11
+**Source:** Live retrieval — ClinicalTrials.gov, openFDA, PubMed/Europe PMC/OpenAlex (+ Crossref DOI verification)
+
+## Inputs
+- **AI model:** Gradient-boosted ensemble producing a continuously-updated deterioration risk score from longitudinal structured EHR vitals, laboratory time-series, and medication-administration records.
+- **Clinical use case:** Continuous inpatient deterioration monitoring during admissions for decompensated heart failure.
+- **Patient population:** Adults admitted to a general medicine service with decompensated heart failure.
+- **Healthcare setting:** Acute-care inpatient ward with telemetry.
+- **Intended clinical claim:** Not specified by the team. **Assumed claim (most defensible):** "The model identifies hospitalized adult HF patients at elevated risk of in-hospital clinical deterioration (composite of ICU transfer, rapid-response/code activation, or in-hospital death) earlier than standard care, to prompt clinician re-assessment — as an adjunct to, not a replacement for, clinical judgment and telemetry." This is a prioritization/notification claim, deliberately weaker than a diagnostic or autonomous-triage claim.
+
+## Output at a Glance
+
+| Field | Output summary |
+|---|---|
+| 1. Study design | Retrospective multi-site temporal validation → prospective silent-mode shadow deployment → pragmatic stepped-wedge or cluster-RCT of alert-on workflow |
+| 2. Input validation | No physical sensor; EHR data-integrity validation (vitals cadence, lab mapping, med-admin timestamps) is the pre-condition |
+| 3. Benchmarks | No FDA or consensus inpatient-HF-deterioration benchmark retrieved; adjacent HF ML literature gives context (AUC ~0.6–0.8 range in readmission/mortality tasks), targets must be set by the study team |
+| 4. Ground truth | Adjudicated composite deterioration outcome; label noise from care-escalation-limitation orders caps achievable performance |
+| 5. Sample size | No retrieved precedent; must be event-driven power calculation by biostatistician (deterioration events, not admissions, are the limiting count) |
+| 6. Subgroups | HFrEF/HFpEF, renal function strata, age, sex, race/ethnicity (creatinine/eGFR label provenance), documentation-cadence strata, ward vs step-down |
+| 7. Regulatory pathway | Likely FDA-regulated SaMD (continuous time-critical alarm-like function likely fails non-device CDS criteria); no on-point predicate retrieved — De Novo plausible; regulatory counsel required |
+| 8. Post-deployment monitoring | Alert-burden/PPV surveillance, drift monitoring on EHR feature pipelines, change-control (Recall Z-1343-2019 cautionary precedent), PCCP consideration |
+
+## 1. Study Design
+**Recommendation:** Three-stage design. (1) **Retrospective external + temporal validation** on ≥2 sites not used in training, with strict temporal split to detect EHR-era drift. (2) **Prospective silent-mode (shadow) deployment** on the target ward, scoring live data with alerts suppressed, to measure real-time performance, lead time before deterioration events, and alert burden per nurse-shift. (3) **Prospective comparative effectiveness study** — stepped-wedge cluster or cluster-randomized trial with a clinical primary endpoint (e.g., time-to-escalation, ICU transfer with high acuity, or in-hospital mortality), since discrimination alone does not establish clinical utility.
+**Rationale:** The retrieved HF ML literature is almost entirely retrospective single-cohort development (30-day readmission: Golas et al., 2018, PMID 29929496; Frizzell et al., 2016, PMID 27784047; Mortazavi et al., 2016, PMID 28263938; HFpEF outcomes: Angraal et al., 2019, PMID 31606361; 3-year mortality with SHAP: PMID 34481185), and a 2025 review notes HF risk models rarely undergo prospective impact evaluation (PMID 41357488). A model that acts as a continuous inpatient alarm changes clinician behavior, so evidence of workflow-level benefit — not just AUC — is the deployable standard. No ClinicalTrials.gov record for a comparable inpatient HF deterioration model was retrieved; the TIM-HF3 voice substudy (PMC:PMC12795128) is remote/outpatient monitoring and is only an adjacent design template.
+**Confidence:** MEDIUM — design logic is well-established, but no directly on-point trial precedent was retrieved.
+**Expert review:** Expert working session — assumptions need expert judgment before finalizing.
+
+## 2. Sensor / Input Validation (Pre-Condition)
+**Recommendation:** No physical sensor is consumed, so the pre-condition shifts to **EHR data-pipeline validity**: (a) vitals **charting cadence and latency** on a general-medicine ward (q4–q8h manual charting vs. telemetry-derived feeds — the model's "continuous" score is only as fresh as its slowest input; quantify median staleness per feature); (b) **lab mapping fidelity** (LOINC/unit harmonization across sites, assay changes over the study window, e.g., troponin generation or BNP vs NT-proBNP); (c) **medication-administration record integrity** (charted-vs-administered timestamp lag, PRN documentation variability); (d) **informative missingness** — vitals frequency itself encodes clinician concern, so the model must be tested for whether it learns documentation behavior rather than physiology (a known failure mode when transporting across sites with different charting policies).
+**Rationale:** These are the direct analogs of sensor validity: if the ward charts vitals q8h, the model cannot honestly claim earlier detection than that sampling interval permits. No retrieved record addresses this for HF inpatient models; the openFDA "gradient"-keyword device hits (e.g., K943392, K883186 compression devices) are retrieval noise and not applicable.
+**Confidence:** MEDIUM — threat model is well-understood in the informatics literature, but no retrieved citation quantifies it for this exact task.
+**Expert review:** Expert working session — assumptions need expert judgment before finalizing.
+
+## 3. Performance Benchmarks
+**Recommendation:** **No established regulatory or consensus benchmark for inpatient HF deterioration prediction was retrieved.** Discrimination, calibration (slope/intercept, not just Brier), lead time before event, and alert PPV / number-needed-to-alert must be pre-specified by the study team with clinical stakeholders. Comparator baselines should include an existing general early-warning score (e.g., NEWS2/MEWS as deployed locally) and a published HF risk score — superiority over these, not an absolute AUC, is the meaningful bar.
+**Rationale:** Retrieved adjacent evidence: HF 30-day readmission models cluster at modest discrimination (Frizzell et al. reported C-statistics ~0.6 range, PMID 27784047; Mortazavi et al., PMID 28263938; Golas et al., PMID 29929496); HFpEF outcome ML models performed better than regression baselines (PMID 31606361). These are **different prediction targets** (post-discharge readmission/mortality, not in-hospital deterioration) and cannot be transplanted as thresholds. Per constraint 1: no numeric target is offered here — it must be set by the study team, and PPV/alert-burden targets must come from nursing/rapid-response capacity at the deployment site.
+**Confidence:** LOW — only tangential benchmarks retrieved.
+**Expert review:** Expert working session — assumptions need expert judgment before finalizing.
+
+## 4. Ground Truth Strategy
+**Recommendation:** Composite deterioration outcome — unplanned ICU transfer, rapid-response/code-team activation, initiation of vasoactive/inotropic support or mechanical ventilation, or in-hospital death — adjudicated by a blinded two-clinician panel with a third-party tiebreak; report inter-adjudicator kappa. Explicitly handle: (a) **DNR/comfort-care patients**, whose deterioration does not produce ICU transfer (censor or adjudicate separately, otherwise labels are systematically missing for the sickest patients); (b) **treatment-confounded labels** — a correct alert that prompts intervention prevents the labeled outcome, biasing prospective evaluation (address via silent-mode phase and pre-specified surrogate escalation endpoints).
+**Rationale:** Retrieved HF ML studies use administrative outcomes (readmission, mortality — PMIDs 29929496, 28263938, 31606361) with no adjudication; that is insufficient for a time-critical deterioration label. **Label reliability is a ceiling:** if adjudicators disagree on what counts as "deterioration" (kappa below substantial agreement), achievable sensitivity/specificity is capped by that noise and reported performance must be interpreted against it.
+**Confidence:** MEDIUM — composite endpoint construction is standard practice, but no retrieved citation validates this specific composite for HF inpatients.
+**Expert review:** Expert sign-off — output is well-grounded; expert confirms or adjusts.
+
+## 5. Sample Size
+**Recommendation:** **No retrieved sample-size precedent for this task — the power calculation must be done by a biostatistician** and must be **event-driven**: the limiting quantity is the number of adjudicated deterioration events, not admissions (in-hospital deterioration among general-medicine HF admissions is a minority event; the exact rate must come from the site's own historical data). Separately power: (i) the confidence interval on sensitivity at the operating threshold, (ii) calibration assessment, (iii) the pre-specified subgroups in Field 6 (each subgroup needs adequate events, which typically dominates total N), and (iv) the cluster/stepped-wedge design effect (ICC) for the comparative phase. Note that retrieved development cohorts used class-imbalance correction (SMOTE — OpenAlex W3134537993), which must **not** be applied to validation data.
+**Rationale:** Retrieved studies range from small survival cohorts to multi-thousand-patient EHR cohorts (e.g., PMID 29929496 used a large single-system EHR sample) but none powered a prospective inpatient-deterioration evaluation; no number can be honestly borrowed.
+**Confidence:** LOW — no direct precedent retrieved.
+**Expert review:** Expert working session — assumptions need expert judgment before finalizing.
+
+## 6. Subgroup Requirements
+**Recommendation:** Pre-specify and separately report: (1) **HFrEF vs HFmrEF vs HFpEF** — different physiology, lab trajectories, and treatment patterns; the 2025 review documents that model performance differs by HF phenotype (PMID 41357488); (2) **renal function strata** (CKD/dialysis) — creatinine and diuretic-response features behave differently, and eGFR feature values may be contaminated by the historical race-coefficient depending on data vintage (a concrete label/feature-provenance threat, not optics); (3) **age strata** including ≥80, where atypical presentations and care-limitation orders distort both features and labels; (4) **sex**; (5) **race/ethnicity**; (6) **documentation-cadence strata** (ward vs step-down vs telemetry-fed beds) — the physics-equivalent threat for an EHR model: score freshness and informative-missingness patterns differ mechanically by charting environment; (7) **site**, in multi-site validation, with vendor/EHR-instance shift named as the transport threat.
+**Rationale:** Constraint 6: for an EHR time-series model, the population-specific validity threats are feature-provenance and documentation-behavior shifts, and they must be tested as pre-specified subgroups, not post-hoc exploration. No retrieved study reports subgroup performance for an inpatient HF deterioration model.
+**Confidence:** MEDIUM — threats are concrete and well-reasoned; subgroup event counts will constrain what is testable.
+**Expert review:** Expert working session — assumptions need expert judgment before finalizing.
+
+## 7. Regulatory Pathway
+**Recommendation:** Treat this as **likely FDA-regulated Software as a Medical Device**, not exempt non-device CDS. Under FDA's CDS guidance criteria, a continuously-updated, time-critical deterioration score functioning as an alarm-adjacent monitor plausibly fails the "clinician can independently review the basis" and "not intended for time-critical decision-making" criteria — even with SHAP-style explanations (as in PMID 34481185), explanation does not automatically confer exemption. **No on-point predicate was retrieved:** the openFDA hits returned by the keyword query (product codes OZR, POL, PIG, DWM, etc.; 510(k)s K943392, K883186) are unrelated devices matched on "gradient/acute" and must not be cited as precedent. The only cardiac-monitoring record retrieved, the Guardian System (PMA P150009, product code QBI, approved supplement S011, 2024-01-25), is an implantable ischemia-alerting Class III device — tangential, but a signal that FDA treats acute cardiac-event alerting as high-scrutiny. Known cleared predicates for physiologic deterioration-prediction software exist in the market but **were not retrieved by this pipeline**; regulatory counsel must run a targeted predicate search (relevant product-code families for cardiovascular/physiological-monitoring software) before choosing between 510(k) and De Novo. Non-US pathways (EMA/MHRA/PMDA, EU MDR classification) were not queried — explicit gap.
+**Rationale:** As above; the honest statement is that this pipeline retrieved no valid predicate, not that none exists.
+**Confidence:** LOW — pathway reasoning is defensible but predicate landscape is unretrieved.
+**Expert review:** Expert working session — regulatory counsel required before any claims language is finalized.
+
+## 8. Post-Deployment Monitoring
+**Recommendation:** (1) **Alert-quality surveillance:** monthly PPV, sensitivity proxy (missed deteriorations without prior alert), alert volume per nurse-shift, and override/acknowledgment rates — alarm fatigue is the primary real-world failure mode for this class. (2) **Drift monitoring:** automated feature-distribution and calibration-drift checks tied to known EHR change events (lab assay changes, order-set updates, charting-policy changes, EHR upgrades). (3) **Silent failure detection:** monitor input staleness and pipeline outages — a score computed on stale vitals is a safety hazard that looks like a normal score. (4) **Change control:** any retraining or threshold change must go through the pre-specified regulatory mechanism (a Predetermined Change Control Plan if pursued); the retrieved recall of the MediPress system (Recall Z-1343-2019, Class II) — pulled because a design change shipped **without proper premarket clearance** — is a directly instructive precedent for modifying a cleared product outside its authorization. (5) **Adverse-event reporting:** define reportable events (deterioration with suppressed/failed alert leading to harm) and MDR procedures; the retrieved MAUDE records (MW1002029, MW5025786) are unrelated devices and illustrate only the reporting mechanism, not a signal for this product.
+**Rationale:** Post-market records retrieved are keyword noise except as procedural precedent; the monitoring plan is therefore built from the model's failure-mode analysis rather than device-specific signals.
+**Confidence:** MEDIUM — monitoring architecture is standard for SaMD; specific thresholds must be site-set.
+**Expert review:** Expert sign-off — output is well-grounded; expert confirms or adjusts.
+
+## What This Validation Certifies — and What It Does Not
+**CERTIFIES:** A passing program would establish that, on general-medicine wards with telemetry at the validated sites, the model identifies adult decompensated-HF inpatients at elevated risk of an adjudicated composite deterioration event (ICU transfer, rapid-response activation, escalation of support, or in-hospital death) earlier than the site's standard early-warning practice, with pre-specified performance maintained across HF phenotype, renal-function, age, sex, race/ethnicity, and documentation-cadence subgroups, and with acceptable alert burden in prospective use.
+
+**DOES NOT CERTIFY:**
+- FDA clearance/approval or any regulatory marketing authorization — that is a separate submission process.
+- Any autonomous action claim (triage, treatment initiation, or replacement of telemetry monitoring or clinical judgment).
+- Performance in ICUs, EDs, outpatient/remote settings, pediatric patients, or non-HF admissions.
+- Generalization to health systems with different EHR vendors, charting policies, or lab assays not represented in validation.
+- Improvement in downstream outcomes (mortality, length of stay) beyond what the comparative phase directly measured.
+- Continued validity after model retraining, EHR upgrades, or care-pathway changes — each requires re-verification under the monitoring/change-control plan.
+
+## Footer
+*Output generated from live retrieval (ClinicalTrials.gov, openFDA device classification / 510(k)/De Novo / PMA / MAUDE / recalls, and the Europe PMC / OpenAlex / Semantic Scholar / PubMed literature layer). Cited identifiers should be verified before use. Benchmark numbers are literature-derived, not regulatory standards. Licensed databases (Embase, Cochrane CENTRAL, Scopus, Web of Science, CINAHL) and non-US regulators (EMA, MHRA, PMDA) were not searched. Every field requires expert review before clinical or commercial application.*

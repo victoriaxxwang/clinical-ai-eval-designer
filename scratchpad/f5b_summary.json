@@ -1,0 +1,20 @@
+{
+  "case": "heart_failure_mechanism_first",
+  "effort": "medium",
+  "arms": {
+    "frozen": {
+      "spec_chars": 17004,
+      "spec_refusal": false,
+      "spec_file": "f5_frozen_spec.md",
+      "panel_blockers": 6,
+      "panel_file": "f5_frozen_panel.json"
+    },
+    "widenet": {
+      "spec_chars": 17246,
+      "spec_refusal": false,
+      "spec_file": "f5_widenet_spec.md",
+      "panel_blockers": 6,
+      "panel_file": "f5_widenet_panel.json"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+/Users/victoriaxwang/Desktop/Claude/Clinical-AI-Eval-Designer/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+[tripwire] engine.py md5 OK (2e6d49cdaa3106b6c29ee66b5df37e58)
+
+================ F5a — retrieval diff (no API key) ================
+case: heart_failure_mechanism_first  |  oracle disease: Heart Failure
+
+--- FROZEN ---
+  MeSH normalization : none (condition not an exact MeSH heading, or lookup unavailable) — raw keywords used
+  query              : 'gradient boosted ensemble ingests'
+  surfaced 'Heart Failure'? -> False
+  sections           : ['Retrieval Metadata', 'openFDA (device classification / 510(k) precedents)', 'openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)', 'Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)', 'Coverage & Retrieval Gaps']
+  context chars      : 7109   registry ✅ statuses: 3
+
+--- WIDENET ---
+  MeSH normalization : 'heart failure' → "Heart Failure" (D006333) + 4 synonyms
+  query              : '("Heart Failure" OR "Cardiac Failure" OR "Heart Decompensation" OR "Decompensation, Heart" OR "Congestive Heart Failure") AND gradient AND boosted'
+  surfaced 'Heart Failure'? -> True
+  sections           : ['Retrieval Metadata', 'openFDA (device classification / 510(k) precedents)', 'openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)', 'Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)', 'Coverage & Retrieval Gaps']
+  context chars      : 7229   registry ✅ statuses: 3
+
+================ GATE ================
+frozen MISSES disease + widenet SURFACES it? -> True
+  -> GO for F5b (live spec generation)
+
+================ F5b — live spec generation + critic panel ================
+
+--- FROZEN : generating spec (effort=medium) ---
+    spec chars: 17004  refusal=False
+--- FROZEN : convening critic panel ---
+    panel blockers (fix_before_submission): 6
+
+--- WIDENET : generating spec (effort=medium) ---
+    spec chars: 17246  refusal=False
+--- WIDENET : convening critic panel ---
+    panel blockers (fix_before_submission): 6
+
+================ F5b DONE ================
+{
+  "case": "heart_failure_mechanism_first",
+  "effort": "medium",
+  "arms": {
+    "frozen": {
+      "spec_chars": 17004,
+      "spec_refusal": false,
+      "spec_file": "f5_frozen_spec.md",
+      "panel_blockers": 6,
+      "panel_file": "f5_frozen_panel.json"
+    },
+    "widenet": {
+      "spec_chars": 17246,
+      "spec_refusal": false,
+      "spec_file": "f5_widenet_spec.md",
+      "panel_blockers": 6,
+      "panel_file": "f5_widenet_panel.json"
+    }
+  }
+}
+
+[tripwire] engine.py md5 still OK (2e6d49cdaa3106b6c29ee66b5df37e58)
