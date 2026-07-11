@@ -538,8 +538,10 @@ def test_grounded_context_falls_back_to_pubmed_when_literature_empty(monkeypatch
 def test_mesh_candidates_prefers_bigrams_then_unigrams():
     # Multi-word MeSH headings ("Lung Neoplasms") need a bigram to resolve, so the
     # candidate list must try consecutive-word phrases BEFORE single words.
-    cands = engine._mesh_candidates("Lung cancer screening", "Detects lung nodules on chest CT",
-                                    ["lung"])
+    # _mesh_candidates now returns (candidates, new_bares) — the second element is the
+    # set of model-description unigrams appended by the surface-buried-disease broadening.
+    cands, new_bares = engine._mesh_candidates(
+        "Lung cancer screening", "Detects lung nodules on chest CT", ["lung"])
     assert "lung cancer" in cands                 # condition-anchored bigram present
     assert " " in cands[0]                         # a multi-word phrase is tried first
     # every surviving unigram is ranked after all bigrams (specific → general)
@@ -547,7 +549,10 @@ def test_mesh_candidates_prefers_bigrams_then_unigrams():
     unigram_idx = [i for i, c in enumerate(cands) if " " not in c]
     assert not unigram_idx or max(bigram_idx) < min(unigram_idx)
     assert all(len(c) > 2 for c in cands)         # no 1-2 char junk
-    assert len(cands) <= 4                         # bounded → at most a few lookups
+    assert len(cands) <= 8                         # still bounded (existing + model bares)
+    # the appended model-desc bares are reported and are all part of the candidate list
+    assert new_bares <= set(cands)                 # new bares are a subset of candidates
+    assert "nodules" in new_bares                  # a buried model-desc word was surfaced
 
 
 def test_normalize_mesh_resolves_synonym_to_canonical(monkeypatch):
@@ -588,7 +593,7 @@ def test_mesh_candidates_uses_model_terms_when_usecase_is_generic():
     # A terse use_case ("DR screening") names no condition; the real one ("diabetic
     # retinopathy") lives in the model description. Anchoring bigrams on the model's
     # clinical terms must surface it, tried BEFORE the generic bare "screening".
-    cands = engine._mesh_candidates(
+    cands, _new_bares = engine._mesh_candidates(
         "DR screening", "Detects diabetic retinopathy from fundus photographs",
         ["diabetic", "retinopathy"], ["screening"])
     assert "diabetic retinopathy" in cands
@@ -611,6 +616,97 @@ def test_normalize_mesh_survives_lookup_outage(monkeypatch):
         raise requests.ConnectionError("mesh down")
     monkeypatch.setattr(engine.requests, "get", boom)
     assert engine.normalize_mesh(["melanoma"]) is None
+
+
+# --- 1c. Clinical-category filter + surface-buried-disease (engine hardening) --
+
+def _mesh_resolver(monkeypatch, descriptor, terms):
+    """Make normalize_mesh resolve its first candidate to a fixed descriptor+terms,
+    bypassing the two E-utilities calls. The tree CATEGORY is controlled separately
+    by mocking _mesh_tree_cats, so each test isolates the category gate cleanly."""
+    def fake_get(endpoint, params):
+        if endpoint == "esearch":
+            return FakeResp({"esearchresult": {"idlist": ["1"]}})
+        return FakeResp({"result": {"1": {"ds_meshui": descriptor,
+                                          "ds_meshterms": terms}}})
+    monkeypatch.setattr(engine, "_eutils_mesh_get", fake_get)
+
+
+def test_accept_mesh_category_truth_table():
+    # Pure gate. EXISTING disciplined candidates accept a real clinical heading —
+    # C (disease), F/F03 (psychology/mental disorder), or D (drug) — and reject
+    # body-parts (A), methods (G/L), people/groups (M). A NEW model-description bare
+    # accepts a DISEASE (C) ONLY, so a buried condition surfaces but noise words don't.
+    acc = engine._accept_mesh_category
+    for cat in ({"C"}, {"F"}, {"F03"}, {"D"}):
+        assert acc(cat, False) is True          # existing candidate keeps clinical/drug
+    for cat in ({"A"}, {"G"}, {"L"}, {"M"}):
+        assert acc(cat, False) is False         # existing candidate rejects junk
+    assert acc({"C"}, True) is True             # new bare: disease surfaces
+    for cat in ({"F"}, {"F03"}, {"D"}, {"A"}):
+        assert acc(cat, True) is False          # new bare: everything non-disease dropped
+    # Tree lookup unavailable (empty cats) → keep existing, never introduce a new bare.
+    assert acc(set(), False) is True
+    assert acc(set(), True) is False
+
+
+def test_normalize_mesh_keeps_existing_clinical_headings(monkeypatch):
+    # The filter must NOT break the working goldens: an existing candidate resolving
+    # to a drug (warfarin, D) or a psychology heading (HRV → Stress, Psychological, F)
+    # is kept exactly as before.
+    _mesh_resolver(monkeypatch, "D014859", ["Warfarin", "Coumadin"])
+    monkeypatch.setattr(engine, "_mesh_tree_cats", lambda did: {"D"})
+    assert engine.normalize_mesh(["warfarin"])["preferred"] == "Warfarin"
+
+    _mesh_resolver(monkeypatch, "D013315", ["Stress, Psychological", "Psychological Stress"])
+    monkeypatch.setattr(engine, "_mesh_tree_cats", lambda did: {"F"})
+    assert engine.normalize_mesh(["psychological stress"])["preferred"] == "Stress, Psychological"
+
+
+def test_normalize_mesh_rejects_existing_anatomy_or_method(monkeypatch):
+    # The mis-resolutions the filter exists to kill: a description that buried its
+    # disease used to map to body-parts (Thorax, A) or methods (Machine Learning, G).
+    # Even as an EXISTING candidate, a non-clinical/non-drug heading is now rejected.
+    _mesh_resolver(monkeypatch, "D013909", ["Thorax"])
+    monkeypatch.setattr(engine, "_mesh_tree_cats", lambda did: {"A"})
+    assert engine.normalize_mesh(["thorax"]) is None
+
+    _mesh_resolver(monkeypatch, "D000069550", ["Machine Learning"])
+    monkeypatch.setattr(engine, "_mesh_tree_cats", lambda did: {"G", "L"})
+    assert engine.normalize_mesh(["machine learning"]) is None
+
+
+def test_normalize_mesh_surfaces_buried_disease_as_new_bare(monkeypatch):
+    # A disease name buried in a mechanism-first description is appended as a NEW bare;
+    # because it resolves to a disease heading (C), the category gate lets it through —
+    # this is what finally lets a buried condition ground the query.
+    _mesh_resolver(monkeypatch, "D011014", ["Pneumonia"])
+    monkeypatch.setattr(engine, "_mesh_tree_cats", lambda did: {"C"})
+    mesh = engine.normalize_mesh(["pneumonia"], new_bares={"pneumonia"})
+    assert mesh is not None and mesh["preferred"] == "Pneumonia"
+
+
+def test_normalize_mesh_drops_new_bare_that_is_not_a_disease(monkeypatch):
+    # A broadened model-description bare that resolves to a NON-disease heading
+    # (e.g. "learning" → Learning, F) must be dropped — new bares accept C only, so
+    # noise words the description happens to contain can't misground the query.
+    _mesh_resolver(monkeypatch, "D007858", ["Learning"])
+    monkeypatch.setattr(engine, "_mesh_tree_cats", lambda did: {"F"})
+    assert engine.normalize_mesh(["learning"], new_bares={"learning"}) is None
+
+
+def test_build_queries_emits_mesh_new_bares_from_buried_disease(monkeypatch):
+    # build_queries must expose the broadened bares so build_grounded_context can pass
+    # them to normalize_mesh. A mechanism-first description that never names the disease
+    # in the opening words still surfaces it as a candidate + a reported new bare.
+    q = engine.build_queries(
+        "A gradient-boosted model that ingests routine EHR vital-sign trends and "
+        "laboratory results to flag inpatient pneumonia decompensation.",
+        "Inpatient deterioration monitoring", "Admitted adults")
+    assert "mesh_new_bares" in q
+    assert q["mesh_new_bares"] == sorted(q["mesh_new_bares"])   # emitted sorted
+    assert set(q["mesh_new_bares"]) <= set(q["mesh_candidates"])  # bares ⊆ candidates
+    assert "pneumonia" in q["mesh_new_bares"]                   # buried disease surfaced
 
 
 def test_build_queries_expands_condition_when_mesh_given():
@@ -786,6 +882,9 @@ def test_normalize_mesh_populates_children_when_requested(monkeypatch):
         return FakeResp({"result": {"68008545": {
             "ds_meshui": "D008545", "ds_meshterms": ["Melanoma", "Malignant Melanoma"]}}})
     monkeypatch.setattr(engine, "_eutils_mesh_get", fake_get)
+    # the clinical-category filter looks up the descriptor's MeSH tree via live SPARQL;
+    # stub it so this offline test never touches the network (Melanoma is category C).
+    monkeypatch.setattr(engine, "_mesh_tree_cats", lambda did: {"C"})
     seen = []
     monkeypatch.setattr(engine, "_mesh_children",
                         lambda did: seen.append(did) or ["Melanoma, Amelanotic"])
