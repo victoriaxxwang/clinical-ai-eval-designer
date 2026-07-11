@@ -1,0 +1,70 @@
+{
+  "_about": "Option-1 (wide-net surfacing) F1 test topics. THREE fresh non-golden clinical-AI topics, each written TWICE: a condition-forward CONTROL (disease named plainly/early -> both frozen and wide-net engines should already surface it) and a mechanism-first phrasing (disease buried after ML jargon -> frozen engine's first-12-unigram new-bares MISS it; wide-net reads the whole write-up + emits bigrams first, so it should SURFACE it). The two phrasings of a topic describe the SAME underlying clinical AI, so any retrieval difference is attributable to phrasing x engine, not to a different product. Conditions were chosen because each has a MULTI-WORD or COMMA-INVERTED MeSH heading, the exact case the frozen unigram-only new-bares cannot resolve but a bigram can. intervention_type is FIXED per topic (all three are predictive/diagnostic device software). Used by F2 (frozen vs wide-net, retrieval-only) and, if F2 recovers, F3.",
+  "_created": "2026-07-11",
+  "_frozen_engine_md5_at_authoring": "2e6d49cdaa3106b6c29ee66b5df37e58",
+  "topics": [
+    {
+      "id": "heart_failure",
+      "condition_lay": "acute decompensated heart failure",
+      "mesh_heading_oracle": "Heart Failure",
+      "mesh_note": "Multi-word heading. Bare unigram 'failure' resolves to nothing/generic; the bigram 'heart failure' resolves to Heart Failure (D006333).",
+      "intervention_type": "device",
+      "phrasings": {
+        "control": {
+          "model_desc": "A clinical decision-support tool that predicts acute decompensated heart failure and flags patients at risk of near-term decompensation.",
+          "use_case": "early prediction of heart failure decompensation to prompt escalation of diuretic therapy",
+          "population": "hospitalized adults with a prior heart failure diagnosis",
+          "setting": "inpatient cardiology and telemetry wards"
+        },
+        "mechanism_first": {
+          "model_desc": "A gradient-boosted ensemble model that ingests longitudinal structured EHR vitals, laboratory time-series, and medication-administration records to output a continuously-updated deterioration risk score for patients admitted with decompensated heart failure.",
+          "use_case": "continuous inpatient deterioration monitoring",
+          "population": "adults admitted to a general medicine service",
+          "setting": "acute-care inpatient ward with telemetry"
+        }
+      }
+    },
+    {
+      "id": "chronic_kidney_disease",
+      "condition_lay": "chronic kidney disease progression",
+      "mesh_heading_oracle": "Renal Insufficiency, Chronic",
+      "mesh_note": "COMMA-INVERTED official heading (never appears verbatim in prose). Lay bigram 'kidney disease' / 'chronic kidney' is the realistic surfaced form; whether it resolves to the inverted heading is exactly the kind of residue F3/curated-map handles. Good stress test for the bigram net.",
+      "intervention_type": "device",
+      "phrasings": {
+        "control": {
+          "model_desc": "A predictive model that estimates the risk of chronic kidney disease progressing to end-stage renal disease within two years.",
+          "use_case": "risk stratification of chronic kidney disease progression to guide nephrology referral",
+          "population": "adults with stage 3-4 chronic kidney disease",
+          "setting": "outpatient primary-care and nephrology clinics"
+        },
+        "mechanism_first": {
+          "model_desc": "A recurrent neural network that ingests serial serum creatinine, estimated glomerular filtration rate, and urine albumin-to-creatinine trajectories, learning temporal patterns to forecast renal-function decline in patients with chronic kidney disease.",
+          "use_case": "longitudinal outpatient monitoring of renal function trends",
+          "population": "adults followed in an integrated health system",
+          "setting": "ambulatory primary-care network"
+        }
+      }
+    },
+    {
+      "id": "pulmonary_embolism",
+      "condition_lay": "pulmonary embolism",
+      "mesh_heading_oracle": "Pulmonary Embolism",
+      "mesh_note": "Multi-word heading. Bare unigram 'embolism' resolves to the wrong/broader heading Embolism; the bigram 'pulmonary embolism' resolves to Pulmonary Embolism (D011655). Imaging (CT) modality, distinct from the two EHR/lab topics.",
+      "intervention_type": "device",
+      "phrasings": {
+        "control": {
+          "model_desc": "A triage algorithm that detects pulmonary embolism on CT pulmonary angiography and flags positive studies for immediate radiologist review.",
+          "use_case": "worklist prioritization for suspected pulmonary embolism",
+          "population": "emergency-department patients undergoing CT pulmonary angiography",
+          "setting": "hospital emergency department and radiology reading room"
+        },
+        "mechanism_first": {
+          "model_desc": "A convolutional neural network that analyzes contrast-enhanced chest CT volumes voxel-by-voxel to localize intraluminal filling defects within the pulmonary arterial tree and prioritize the radiology worklist for cases suspicious for pulmonary embolism.",
+          "use_case": "automated prioritization of chest CT studies",
+          "population": "adults imaged for acute chest symptoms",
+          "setting": "acute-care radiology department"
+        }
+      }
+    }
+  ]
+}
