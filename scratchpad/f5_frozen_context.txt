@@ -1,0 +1,48 @@
+### Retrieval Metadata
+- Retrieved (UTC): 2026-07-11T16:14:38Z
+- Intervention type: device
+- Literature/trials query: 'gradient boosted ensemble ingests'
+- MeSH normalization: none (condition not an exact MeSH heading, or lookup unavailable) — raw keywords used
+- openFDA device terms: ['gradient', 'acute', 'care', 'inpatient', 'boosted']
+
+### openFDA (device classification / 510(k) precedents)
+- CLASSIFICATION | Intraoral Pressure Gradient Device | product_code=OZR | class=2 | regulation=872.5570 | panel=Dental
+- 510(k) | THERA-FLOW GRADIENT SEQUENTIAL PUMP | k_number=K943392 | decision=Substantially Equivalent | date=1994-12-30 | applicant=Meds Systems, Inc.
+- 510(k) | WRIGHT GRADIENT PRESSURE SUPPORT STOCKINGS | k_number=K883186 | decision=Substantially Equivalent | date=1988-11-21 | applicant=Wright Linear Pump, Inc.
+- CLASSIFICATION | Phototherapy Device For Reducing The Appearance Of Acute Post-Surgical Incisions | product_code=QPE | class=2 | regulation=878.4880 | panel=General, Plastic Surgery
+- CLASSIFICATION | Neurovascular Mechanical Thrombectomy Device For Acute Ischemic Stroke Treatment | product_code=POL | class=2 | regulation=882.5600 | panel=Neurology
+- CLASSIFICATION | Acute Kidney Injury Test System | product_code=PIG | class=2 | regulation=862.1220 | panel=Clinical Chemistry
+- CLASSIFICATION | Point Of Care Hiv Serology Diagnostic And/Or Supplemental Test | product_code=QSU | class=2 | regulation=866.3956 | panel=Microbiology
+- CLASSIFICATION | Apparatus, Suction, Patient Care | product_code=DWM | class=2 | regulation=870.5050 | panel=Cardiovascular
+- CLASSIFICATION | Catheter Care Tray | product_code=OHR | class=2 | regulation=876.5130 | panel=Gastroenterology, Urology
+
+### openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)
+- PMA | Guardian System | pma_number=P150009 | supplement=S011 | decision=APPR | date=2024-01-25 | product_code=QBI | applicant=Avertix Medical, Inc.
+- PMA | RESPONSE CV CARDIOVERSION ELECTROPHYSIOLOGY CATHETER | pma_number=P020052 | supplement=S004 | decision=OK30 | date=2007-09-21 | product_code=MTE | applicant=St Jude Medical
+- MAUDE | DENSITY GRADIENT RED BLOOD CELL/SERUM | event_type=Malfunction | date_received=19940318 | report_number=MW1002029
+- MAUDE | CERVICAL PLATE AND SCREW SYSTEM -GRADIENT PLUS SYSTEM | event_type=Injury | date_received=20120611 | report_number=MW5025786
+- Recall | MediPress pneumatic compression system, Half Leg-Segmental Gradient, Model #6102-S | classification=Class II | status=Terminated | reason=Product design change did not receive proper premarket clearance and lacks a 510 (k) | firm=Compass Health Brands (Corporate Office) | date=20190408 | recall_number=Z-1343-2019
+- Recall | ETEST Doripenem DOR32 FOAM packaging, Product Name: Etest Doripenem DOR 0.002-32. ETEST is a quantitative technique for  | classification=Class II | status=Terminated | reason=Product Stability issues: The current shelf-life claims of the ETEST products are not supported by internal testing. | firm=BioMerieux SA | date=20161215 | recall_number=Z-1526-2017
+
+### Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)
+- PMID 42156795 | DOI 10.1038/s41598-026-49373-7 ✓Crossref | Enhancing wind and solar energy forecasting through time-series feature engineering and ensemble machine learning. | Sci Rep 2026 [Europe PMC]
+- PMID 36220875 | DOI 10.1038/s41598-022-20149-z ✓Crossref | Gradient boosting decision tree becomes more reliable than logistic regression in predicting probability for diabetes with big data | Scientific Reports 2022 [OpenAlex]
+- PMID 42193384 | DOI 10.3390/biomedicines14051058 ✓Crossref | Artificial Intelligence for Prediction and Detection of Atrial Fibrillation from Sinus-Rhythm Electrocardiograms and Ambulatory Monitoring. | Biomedicines 2026 [Europe PMC]
+- https://openalex.org/W3171729851 | DOI 10.3390/electronics10111285 ✓Crossref | An Optimized Stacking Ensemble Model for Phishing Websites Detection | Electronics 2021 [OpenAlex]
+- PMID 42327625 | DOI 10.1093/jamiaopen/ooag092 ✓Crossref | Integration of intraoperative data in interpretable machine learning models to predict postoperative AKI in noncardiac surgery patients. | JAMIA Open 2026 [Europe PMC]
+- PMID 35408413 | DOI 10.3390/s22072798 ✓Crossref | Zero-Day Malware Detection and Effective Malware Analysis Using Shapley Ensemble Boosting and Bagging Approach | Sensors 2022 [OpenAlex]
+- PMID 42339208 | DOI 10.3389/frai.2026.1865219 ✓Crossref | A multimodal, risk-stratified framework for AI-driven early risk prediction and personalised prevention in obesity. | Front Artif Intell 2026 [Europe PMC]
+- https://openalex.org/W4402521185 | DOI 10.56294/dm2024.363 ✓Crossref | Advanced Ensemble Machine Learning Techniques for Optimizing Diabetes Mellitus Prognostication: A Detailed Examination of Hospital Data | Data & Metadata 2024 [OpenAlex]
+- PMID 41266695 | DOI 10.1038/s41598-025-25033-0 ✓Crossref | SHAP enhanced transformer GWO boosting model for transparent and robust anomaly detection in IIoT environments. | Sci Rep 2025 [Europe PMC]
+- https://openalex.org/W7134979048 | DOI 10.55124/jbid.v2i3.261 ✓Crossref | Empirical Evaluation of Cloud Migration Performance Using Gradient Boosting Models | Journal of business intelligence and data analytics. 2023 [OpenAlex]
+- PMID 41918776 | DOI 10.3389/frai.2026.1746661 ✓Crossref | NIDS-β*: an explainable large language based framework for contextual intrusion resilience in network security. | Front Artif Intell 2026 [Europe PMC]
+- https://openalex.org/W3194453017 | DOI 10.3390/su13169124 ✓Crossref | Developing an Ensembled Machine Learning Prediction Model for Marine Fish and Aquaculture Production | Sustainability 2021 [OpenAlex]
+- PMID 41374651 | DOI 10.3390/s25237276 ✓Crossref | Event-Based Camera Modeling for Atmospheric Turbulence Prediction. | Sensors (Basel) 2025 [Europe PMC]
+- PMID 30947496 | DOI 10.30773/pi.2018.12.21.2 ✓Crossref | Review of Machine Learning Algorithms for Diagnosing Mental Illness | Psychiatry Investigation 2019 [OpenAlex]
+- PMID 41974984 | DOI 10.1007/s00277-026-06996-0 ✓Crossref | Artificial intelligence reshaping the paradigm of hematologic malignancy diagnosis and treatment: From static assessment to dynamic precision management. | Ann Hematol 2026 [Europe PMC]
+
+### Coverage & Retrieval Gaps
+This spec was grounded ONLY in sources that expose a free, public API: ClinicalTrials.gov, openFDA (device classification, 510(k), PMA, MAUDE adverse events, recalls), the merged literature indexes Europe PMC / OpenAlex / Semantic Scholar (PubMed fallback), and Crossref (DOI verification). It deliberately does NOT include:
+- Licensed databases with no public API (institutional / manual retrieval required): Embase, PsycINFO, Cochrane Library (CENTRAL), Scopus, Web of Science, CINAHL.
+- FDA drug/biologic pathways (Drugs@FDA, SPL labeling, FAERS) and non-US regulators (EMA, MHRA, PMDA) — not queried by this pipeline.
+Absence of a record above is NOT evidence of absence. Treat the retrieved evidence as a floor for expert review, not a complete landscape.

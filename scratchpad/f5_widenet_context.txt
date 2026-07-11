@@ -1,0 +1,48 @@
+### Retrieval Metadata
+- Retrieved (UTC): 2026-07-11T16:14:59Z
+- Intervention type: device
+- Literature/trials query: '("Heart Failure" OR "Cardiac Failure" OR "Heart Decompensation" OR "Decompensation, Heart" OR "Congestive Heart Failure") AND gradient AND boosted'
+- MeSH normalization: 'heart failure' → "Heart Failure" (D006333) + 4 synonyms
+- openFDA device terms: ['gradient', 'acute', 'care', 'inpatient', 'boosted']
+
+### openFDA (device classification / 510(k) precedents)
+- CLASSIFICATION | Intraoral Pressure Gradient Device | product_code=OZR | class=2 | regulation=872.5570 | panel=Dental
+- 510(k) | THERA-FLOW GRADIENT SEQUENTIAL PUMP | k_number=K943392 | decision=Substantially Equivalent | date=1994-12-30 | applicant=Meds Systems, Inc.
+- 510(k) | WRIGHT GRADIENT PRESSURE SUPPORT STOCKINGS | k_number=K883186 | decision=Substantially Equivalent | date=1988-11-21 | applicant=Wright Linear Pump, Inc.
+- CLASSIFICATION | Phototherapy Device For Reducing The Appearance Of Acute Post-Surgical Incisions | product_code=QPE | class=2 | regulation=878.4880 | panel=General, Plastic Surgery
+- CLASSIFICATION | Neurovascular Mechanical Thrombectomy Device For Acute Ischemic Stroke Treatment | product_code=POL | class=2 | regulation=882.5600 | panel=Neurology
+- CLASSIFICATION | Acute Kidney Injury Test System | product_code=PIG | class=2 | regulation=862.1220 | panel=Clinical Chemistry
+- CLASSIFICATION | Point Of Care Hiv Serology Diagnostic And/Or Supplemental Test | product_code=QSU | class=2 | regulation=866.3956 | panel=Microbiology
+- CLASSIFICATION | Apparatus, Suction, Patient Care | product_code=DWM | class=2 | regulation=870.5050 | panel=Cardiovascular
+- CLASSIFICATION | Catheter Care Tray | product_code=OHR | class=2 | regulation=876.5130 | panel=Gastroenterology, Urology
+
+### openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)
+- PMA | Guardian System | pma_number=P150009 | supplement=S011 | decision=APPR | date=2024-01-25 | product_code=QBI | applicant=Avertix Medical, Inc.
+- PMA | RESPONSE CV CARDIOVERSION ELECTROPHYSIOLOGY CATHETER | pma_number=P020052 | supplement=S004 | decision=OK30 | date=2007-09-21 | product_code=MTE | applicant=St Jude Medical
+- MAUDE | DENSITY GRADIENT RED BLOOD CELL/SERUM | event_type=Malfunction | date_received=19940318 | report_number=MW1002029
+- MAUDE | CERVICAL PLATE AND SCREW SYSTEM -GRADIENT PLUS SYSTEM | event_type=Injury | date_received=20120611 | report_number=MW5025786
+- Recall | MediPress pneumatic compression system, Half Leg-Segmental Gradient, Model #6102-S | classification=Class II | status=Terminated | reason=Product design change did not receive proper premarket clearance and lacks a 510 (k) | firm=Compass Health Brands (Corporate Office) | date=20190408 | recall_number=Z-1343-2019
+- Recall | ETEST Doripenem DOR32 FOAM packaging, Product Name: Etest Doripenem DOR 0.002-32. ETEST is a quantitative technique for  | classification=Class II | status=Terminated | reason=Product Stability issues: The current shelf-life claims of the ETEST products are not supported by internal testing. | firm=BioMerieux SA | date=20161215 | recall_number=Z-1526-2017
+
+### Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)
+- PMC:PMC13266322 | Activation of the nucleus nuclear factor erythroid 2-related factor 2 via ghrelin/growth hormone secretagogue receptor 1a signaling by Yueju pill (越鞠丸) confers cardioprotective and antidepressant effects | J Tradit Chin Med 2026 [Europe PMC]
+- https://openalex.org/W3134537993 | DOI 10.1109/access.2021.3064084 ✓Crossref | Improving the Prediction of Heart Failure Patients’ Survival Using SMOTE and Effective Data Mining Techniques | IEEE Access 2021 [OpenAlex]
+- PMC:PMC12795128 | Voice-based remote monitoring for the early detection of adverse events in chronic heart failure: rationale and design of the TIM-HF3 voice substudy | Eur Heart J Digit Health 2026 [Europe PMC]
+- PMID 27784047 | DOI 10.1001/jamacardio.2016.3956 ✓Crossref | Prediction of 30-Day All-Cause Readmissions in Patients Hospitalized for Heart Failure | JAMA Cardiology 2016 [OpenAlex]
+- PPR:PPR1250295 | DOI 10.21203/rs.3.rs-9776541/v1 ✓Crossref | Augmenting Heart Failure Detection with AI: A Clinical Approach | PPR 2026 [Europe PMC]
+- https://openalex.org/W4376602921 | DOI 10.1109/access.2023.3276468 ✓Crossref | Gradient Boosting Based Model for Elderly Heart Failure, Aortic Stenosis, and Dementia Classification | IEEE Access 2023 [OpenAlex]
+- PMID 41357488 | DOI 10.3389/fmed.2025.1652307 ✓Crossref | Prediction models and risk scores in different types of heart failure: a review. | Front Med (Lausanne) 2025 [Europe PMC]
+- PMID 34481185 | DOI 10.1016/j.compbiomed.2021.104813 ✓Crossref | Interpretable prediction of 3-year all-cause mortality in patients with heart failure caused by coronary heart disease based on machine learning and SHAP | Computers in Biology and Medicine 2021 [OpenAlex]
+- PPR:PPR1268186 | DOI 10.64898/2026.02.26.26346970 ✓Crossref | Improving Clinical Applicability of Heart Failure Readmission Prediction via Automated Feature Engineering | PPR 2026 [Europe PMC]
+- PMID 31606361 | DOI 10.1016/j.jchf.2019.06.013 ✓Crossref | Machine Learning Prediction of Mortality and Hospitalization in Heart Failure With Preserved Ejection Fraction | JACC Heart Failure 2019 [OpenAlex]
+- PMID 40118812 | DOI 10.1161/jaha.124.037727 ✓Crossref | Polygenic Risk and Cardiovascular Event Risk in Patients With Atrial Fibrillation With Low to Intermediate Stroke Risk. | J Am Heart Assoc 2025 [Europe PMC]
+- PMID 29929496 | DOI 10.1186/s12911-018-0620-z ✓Crossref | A machine learning model to predict the risk of 30-day readmissions in patients with heart failure: a retrospective analysis of electronic medical records data | BMC Medical Informatics and Decision Making 2018 [OpenAlex]
+- PMID 41061571 | DOI 10.1016/j.jacadv.2025.102162 | Development and Validation of Novel Residual Risk Scores for Patients With ASCVD. | JACC Adv 2025 [Europe PMC]
+- PMID 28263938 | DOI 10.1161/circoutcomes.116.003039 ✓Crossref | Analysis of Machine Learning Techniques for Heart Failure Readmissions | Circulation Cardiovascular Quality and Outcomes 2016 [OpenAlex]
+- PMID 42116293 | DOI 10.1097/md.0000000000048599 | PFAS exposure and hypertension in US adults: A multi-method, cross-sectional analysis of NHANES 2005 to 2014. | Medicine (Baltimore) 2026 [Europe PMC]
+
+### Coverage & Retrieval Gaps
+This spec was grounded ONLY in sources that expose a free, public API: ClinicalTrials.gov, openFDA (device classification, 510(k), PMA, MAUDE adverse events, recalls), the merged literature indexes Europe PMC / OpenAlex / Semantic Scholar (PubMed fallback), and Crossref (DOI verification). It deliberately does NOT include:
+- Licensed databases with no public API (institutional / manual retrieval required): Embase, PsycINFO, Cochrane Library (CENTRAL), Scopus, Web of Science, CINAHL.
+- FDA drug/biologic pathways (Drugs@FDA, SPL labeling, FAERS) and non-US regulators (EMA, MHRA, PMDA) — not queried by this pipeline.
+Absence of a record above is NOT evidence of absence. Treat the retrieved evidence as a floor for expert review, not a complete landscape.

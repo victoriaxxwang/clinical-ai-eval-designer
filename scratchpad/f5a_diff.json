@@ -1,0 +1,37 @@
+{
+  "case": "heart_failure_mechanism_first",
+  "oracle": "Heart Failure",
+  "arms": {
+    "frozen": {
+      "mesh_normalization": "none (condition not an exact MeSH heading, or lookup unavailable) \u2014 raw keywords used",
+      "query": "'gradient boosted ensemble ingests'",
+      "surfaced_oracle_disease": false,
+      "sections": [
+        "Retrieval Metadata",
+        "openFDA (device classification / 510(k) precedents)",
+        "openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)",
+        "Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed \u2014 PMID + DOI, merged & de-duplicated)",
+        "Coverage & Retrieval Gaps"
+      ],
+      "context_chars": 7119,
+      "registry_hits_ok": 3,
+      "context_file": "f5_frozen_context.txt"
+    },
+    "widenet": {
+      "mesh_normalization": "'heart failure' \u2192 \"Heart Failure\" (D006333) + 4 synonyms",
+      "query": "'(\"Heart Failure\" OR \"Cardiac Failure\" OR \"Heart Decompensation\" OR \"Decompensation, Heart\" OR \"Congestive Heart Failure\") AND gradient AND boosted'",
+      "surfaced_oracle_disease": true,
+      "sections": [
+        "Retrieval Metadata",
+        "openFDA (device classification / 510(k) precedents)",
+        "openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)",
+        "Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed \u2014 PMID + DOI, merged & de-duplicated)",
+        "Coverage & Retrieval Gaps"
+      ],
+      "context_chars": 7229,
+      "registry_hits_ok": 3,
+      "context_file": "f5_widenet_context.txt"
+    }
+  },
+  "gate_pass": true
+}

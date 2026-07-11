@@ -1,0 +1,12 @@
+{
+  "_note": "Option-1 F5 live before/after capstone. ONE mechanism-first, SINGLE-disease case (heart failure) taken verbatim from scratchpad/option1_test_topics.json (F2 heart_failure.mechanism_first). The disease 'heart failure' appears only in the last clause of model_desc; the use_case names NO disease -> the buried-disease scenario. Single-disease by design so the wide-net arm resolves cleanly WITHOUT the F3 disambiguation pop-up (whose correctness is separately measured 10/10). Frozen engine should MISS the disease; wide-net engine should SURFACE it.",
+  "id": "heart_failure_mechanism_first",
+  "mesh_heading_oracle": "Heart Failure",
+  "intervention_type": "device",
+  "model_desc": "A gradient-boosted ensemble model that ingests longitudinal structured EHR vitals, laboratory time-series, and medication-administration records to output a continuously-updated deterioration risk score for patients admitted with decompensated heart failure.",
+  "use_case": "continuous inpatient deterioration monitoring",
+  "population": "adults admitted to a general medicine service",
+  "setting": "acute-care inpatient ward with telemetry",
+  "claim": "",
+  "optional_url": ""
+}
