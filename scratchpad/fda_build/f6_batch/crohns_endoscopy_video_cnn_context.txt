@@ -1,0 +1,56 @@
+### Retrieval Metadata
+- Retrieved (UTC): 2026-07-12T01:06:07Z
+- Intervention type: device
+- Literature/trials query: '("Crohn Disease" OR "Crohn\'s Disease" OR "Crohns Disease" OR "Crohn\'s Enteritis" OR "Inflammatory Bowel Disease 1") AND multimodal AND combines'
+- MeSH normalization: 'crohn disease' → "Crohn Disease" (D003424) + 4 synonyms
+- openFDA device terms: ['multimodal', 'gastroenterology', 'specialty', 'clinics', 'endoscopic']
+
+### ClinicalTrials.gov (study designs, endpoints, enrollment)
+- NCT07167186 | Evaluation of a Multimodal Day Hospital for the Overall Management of Patients With Chronic Inflammatory Bowel Diseases (IBD) | status=NOT_YET_RECRUITING | type=OBSERVATIONAL phases= | n=240 | allocation= masking= | primary_outcomes=Proportion of patients with a change in their skills at one month or a modification in the management of their disease
+- NCT06698601 | Wild Blueberries in Colitis | status=RECRUITING | type=INTERVENTIONAL phases=NA | n=60 | allocation=RANDOMIZED masking=NONE | primary_outcomes=Improvement of the intestinal inflammation status evaluated via fecal calprotectin levels
+
+### openFDA (device classification / 510(k) precedents)
+- 510(k) | CURRY MULTIMODAL NEUROIMAGING SOFTWARE | k_number=K001781 | decision=Substantially Equivalent | date=2001-02-05 | applicant=Neurosoft, Inc.
+- 510(k) | CUTERA MULTIMODAL CELLULITE PRODUCT (CMMCD) | k_number=K080300 | decision=Substantially Equivalent | date=2008-04-08 | applicant=Cutera, Inc.
+- 510(k) | CUTERA MULTIMODAL CELLULITE PRODUCT (CMMCD) | k_number=K092195 | decision=Substantially Equivalent | date=2009-10-01 | applicant=Cutera, Inc.
+- CLASSIFICATION | Endoscopic Morcellator Gastroenterology | product_code=PTE | class=2 | regulation=884.1690 | panel=Obstetrics/Gynecology
+- CLASSIFICATION | Endoscopic Access Overtube, Gastroenterology-Urology | product_code=FED | class=2 | regulation=876.1500 | panel=Gastroenterology, Urology
+- CLASSIFICATION | Endoscopic Video Imaging System/Component, Gastroenterology-Urology | product_code=OCS | class=2 | regulation=876.1500 | panel=Gastroenterology, Urology
+- CLASSIFICATION | Medical Glove, Specialty | product_code=LZC | class=1 | regulation=880.6250 | panel=General Hospital
+- CLASSIFICATION | Coil, Magnetic Resonance, Specialty | product_code=MOS | class=2 | regulation=892.1000 | panel=Radiology
+- 510(k) | LORREX GAUZE SPONGES SPECIALTY | k_number=K942314 | decision=Substantially Equivalent | date=1994-06-02 | applicant=Lorrex Health Products
+- 510(k) | HOMECARE CLINICS INFRAHEAT #230 | k_number=K854151 | decision=Substantially Equivalent | date=1986-01-30 | applicant=Nelkin/Piper Intl.
+- 510(k) | SLEEP SYSTEM FOR CLINICS & RESEARCH | k_number=K955841 | decision=Unknown | date=1997-03-11 | applicant=Compumedics Ptd , Ltd.
+- CLASSIFICATION | Endoscopic Magnetic Retriever | product_code=FCC | class=2 | regulation=876.1500 | panel=Gastroenterology, Urology
+- CLASSIFICATION | Endoscopic Leak Tester | product_code=PCV | class=2 | regulation=876.1500 | panel=Gastroenterology, Urology
+- 510(k) | AESCULAP MANUAL ENDOSCOPIC INSTRUMENTS | k_number=K932346 | decision=Substantially Equivalent | date=1994-01-07 | applicant=Aesculap, Inc.
+
+### openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)
+- PMA | KARL STORZ PHOTODYNAMIC D-LIGHT C (PDD) SYSTEM | pma_number=P050027 | supplement=S001 | decision=APPR | date=2010-08-10 | product_code=OAY | applicant=KARL STORZ Endoscopy-America, Inc.
+- MAUDE | OCY, ENDOSCOPIC GUIDEWIRE, GASTROENTEROLOGY-UROLOGY | event_type=Malfunction | date_received=20200501 | report_number=1037905-2020-00191
+- MAUDE | OCY, ENDOSCOPIC GUIDEWIRE, GASTROENTEROLOGY-UROLOGY | event_type=Malfunction | date_received=20200508 | report_number=1037905-2020-00201
+- Recall | AURIGA 30 BRAZIL ZERO COST SYSTEM UPN: M0068S30BZ0 Product Usage: The Auriga XL 4007 Laser System and the Auriga 30 Lase | classification=Class II | status=Terminated | reason=Certain Auriga consoles may exhibit faster than normal power degradation due to a potential issue in the mechanical cooling system that could lead to a low powe | firm=Boston Scientific Corporation | date=20190408 | recall_number=Z-1396-2019
+- Recall | Olympus SurgMaster UES-40 electrosurgical unit ("UES-40") Product Usage: Designed for use in a medical facility under th | classification=Class II | status=Terminated | reason=Olympus initiated a software upgrade and enhancement in 2009 and completed the action in 2010. The upgrade and enhancement were initiated due to complaints of o | firm=Olympus America Inc. | date=20091110 | recall_number=Z-1277-2013
+
+### Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)
+- PMID 42238140 | DOI 10.7759/cureus.108178 ✓Crossref | Performance of Deep Learning Models in Endoscopic Severity Assessment of Inflammatory Bowel Disease: A Systematic Review. | Cureus 2026 [Europe PMC]
+- PMID 24436656 | DOI 10.1055/s-0033-1348047 ✓Crossref | Surgical Treatment of Anorectal Crohn Disease | Clinics in Colon and Rectal Surgery 2013 [OpenAlex]
+- PMID 41142712 | DOI 10.1016/j.vgie.2025.05.005 ✓Crossref | Hybrid endoscopic stricturotomy and balloon dilation of ascending colon stricture with cecal fecaliths in Crohn's disease guided by preprocedural intestinal ultrasound. | VideoGIE 2025 [Europe PMC]
+- PMID 36528797 | DOI 10.1093/ecco-jcc/jjac187 ✓Crossref | ECCO Guidelines on Inflammatory Bowel Disease and Malignancies | Journal of Crohn s and Colitis 2022 [OpenAlex]
+- PMID 41809609 | DOI 10.18295/2075-0528.2971 ✓Crossref | Adalimumab Therapy for Crohn's Disease and Axial Spondyloarthritis in Latent Tuberculosis: &lt;i&gt;A bibliometric-systematic literature review&lt;/i&gt;. | Sultan Qaboos Univ Med J 2026 [Europe PMC]
+- PMID 32195365 | DOI 10.1038/s41746-020-0229-3 ✓Crossref | A systematic review of the applications of artificial intelligence and machine learning in autoimmune diseases | npj Digital Medicine 2020 [OpenAlex]
+- PMID 41113555 | DOI 10.1002/jgh3.70290 ✓Crossref | 3D Imaging of Crohn's Disease Strictures: A Novel Tool to Enhance Patient Understanding and Support Multidisciplinary Decision-Making. | JGH Open 2025 [Europe PMC]
+- PMID 29531862 | Diagnostic performance of PET/MR in the evaluation of active inflammation in Crohn disease. | PubMed 2018 [OpenAlex]
+- PMID 41002400 | DOI 10.3390/cells14181435 ✓Crossref | Predictive Role of MicroRNAs in the Diagnosis and Management of Patients with Crohn's Disease: A Clinician's View. | Cells 2025 [Europe PMC]
+- PMID 37495570 | DOI 10.1038/s41467-023-40156-6 | Macrophage and neutrophil heterogeneity at single-cell spatial resolution in human inflammatory bowel disease | Nature Communications 2023 [OpenAlex]
+- PMC:PMC12533543 | Abstract | JPGN Rep 2025 [Europe PMC]
+- PMID 27247531 | DOI 10.1055/s-0036-1580633 ✓Crossref | Perioperative Considerations in Crohn Disease and Ulcerative Colitis | Clinics in Colon and Rectal Surgery 2016 [OpenAlex]
+- PMID 39888400 | DOI 10.1007/s00595-025-02995-2 | Understanding the anatomical basis of anorectal fistulas and their surgical management: exploring different types for enhanced precision and safety. | Surg Today 2025 [Europe PMC]
+- PMID 32697950 | DOI 10.1016/j.addr.2020.07.010 ✓Crossref | Advanced nanomedicines for the treatment of inflammatory diseases | Advanced Drug Delivery Reviews 2020 [OpenAlex]
+- PMID 40817032 | DOI 10.1002/jcu.70041 ✓Crossref | Accuracy of Bowel Ultrasound for Detecting Inflammatory Bowel Disease at a Tertiary Hospital in Central South Africa. | J Clin Ultrasound 2026 [Europe PMC]
+
+### Coverage & Retrieval Gaps
+This spec was grounded ONLY in sources that expose a free, public API: ClinicalTrials.gov, openFDA (device classification, 510(k), PMA, MAUDE adverse events, recalls), the merged literature indexes Europe PMC / OpenAlex / Semantic Scholar (PubMed fallback), and Crossref (DOI verification). It deliberately does NOT include:
+- Licensed databases with no public API (institutional / manual retrieval required): Embase, PsycINFO, Cochrane Library (CENTRAL), Scopus, Web of Science, CINAHL.
+- FDA drug/biologic pathways (Drugs@FDA, SPL labeling, FAERS) and non-US regulators (EMA, MHRA, PMDA) — not queried by this pipeline.
+Absence of a record above is NOT evidence of absence. Treat the retrieved evidence as a floor for expert review, not a complete landscape.

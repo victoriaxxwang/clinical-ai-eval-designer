@@ -1,10 +1,11 @@
 # Option 1 — the wide-net + disambiguation prototype
 
-*A standalone writeup of a Phase-2 experiment. This is an **appendix**, not the
-submission and not shipped code. The submitted app runs the frozen engine
-(`engine.py`); the work described here lives entirely in an isolated copy
-(`experimental/engine_widenet.py`) and was never allowed to touch the shipped
-engine.*
+*A standalone writeup of the disease-aware grounding path. It was built entirely in an
+isolated copy (`experimental/engine_widenet.py`) that was **never allowed to touch** the
+frozen `engine.py` (identical md5 throughout) — and it is now **wired into the shipped
+app and on by default**, with the frozen keyword engine one toggle away for a live
+side-by-side. The same disease-awareness was later extended to the FDA layer and
+validated live on all 10 demo cases (see "The FDA net learns the disease too", below).*
 
 ---
 
@@ -20,7 +21,9 @@ both is yes, measured: the net recovers the buried disease (**oracle match 2/6 �
 all gains on the hard mechanism-first cases, zero regression on the easy ones), and a
 three-rule tiebreaker plus a clarifying-question pop-up resolves the multi-disease fork
 or asks the user — scoring **10/10** on a combined test slate, and **never making a
-silent wrong pick.**
+silent wrong pick.** A follow-on step carried the same disease-awareness into the **FDA
+device-precedent search** and validated it live across all 10 demo cases with **zero
+fabricated predicates** (last section).
 
 ---
 
@@ -128,14 +131,60 @@ pick.**
 
 ---
 
+## The FDA net learns the disease too
+
+The wide net recovers the *disease*. But the FDA layer had a matching blind spot: it
+searched openFDA by **device / machine-learning keywords**, so even when the disease was
+known, the FDA search never used it — a melanoma case came back with surgical lasers, an
+NSCLC case with a bladder-cancer lab test. The fix is a standalone module
+(`experimental/fda_bridge.py`; it imports only `re` and `requests`, and the frozen engine
+is untouched) that aims the FDA search at the **recovered disease**, on two axes:
+
+1. **Code axis** — disease → FDA device *classification* codes whose name or definition
+   contains the disease → the 510(k) clearances filed under those codes.
+2. **Device-name axis** — search the 510(k) *device names* directly for the disease and
+   its anatomy, then keep a device only if it sits under a known AI / CAD / triage code
+   **or** carries a diagnostic signal in its name and was cleared in 2015 or later.
+
+The second axis is the important one: most cleared clinical-AI devices sit under
+**generically-named** codes ("Computer-Assisted Detection", "Radiological
+Computer-Assisted Triage") that a disease-name query would never rank — exactly the
+"records named by function don't surface" gap the ablation study measured. When a disease
+is recovered, this disease-aware result **replaces** the old keyword FDA section; when no
+disease is recovered, or the search comes back empty, the old keyword search stands
+untouched (a safe fallback).
+
+**Validated live, end-to-end, on all 10 demo cases** (real Fable-5 generations plus the
+three-persona critic panel, 2026-07-11; frozen-engine fingerprint unchanged the whole
+time):
+
+| Outcome | Cases | What the generated spec did |
+|---|---|---|
+| **Real device-AI predicate cited** | Diabetic retinopathy, ischemic stroke, NSCLC | Cited the actual cleared AI devices — EyeArt / IDx-DR / AEYE-DS; Brainomix / Methinks / Rapid stroke-triage; syngo.CT Lung CAD / Lung Vision |
+| **Correct reference grounded** | Tuberculosis | Cited Xpert MTB/RIF as the bacteriological ground-truth reference — the right record, used correctly |
+| **Safe degradation** | Melanoma, T2DM, COPD, AKI, Crohn's, MDD | Off-target and keyword-noise records were **either absent from the spec or explicitly named and rejected** ("not valid predicates") — never cited as analogous |
+
+**Zero fabricated predicates across all 10 cases.** Every critic panel returned a clean
+grounding audit; the blockers the panels raised were legitimate methodology items
+(intended-use claim, sample size, subgroup power), never a wrong FDA citation. In several
+degradation cases the spec did better than staying silent — it *named* the false-positive
+keyword matches ("the 'transformer' hits are electrical hardware… irrelevant") and told
+the team to run a deeper predicate search. **Verdict: the FDA net earns its keep too, and
+fails safe when there's nothing real to catch.**
+
+---
+
 ## Where it sits
 
-This is a **measured Phase-2 prototype, not shipped**. The submitted app still runs the
-frozen engine, and the honest bound of that shipped line (surfacing helps only when the
-disease is named early) is reported openly in `SUBMISSION.md` and
-`eval_results/ablation_findings.md`. What this experiment adds is evidence that the
-recovery path is real and bounded — a capability we've built and measured, not a promise
-— ready to graduate into the engine as a Phase-2 feature.
+This is **wired into the shipped app and on by default.** The sidebar's *Disease-aware
+grounding (wide-net)* toggle starts ON, so a visitor gets the disease-recovery path — now
+including the disease-aware FDA search — out of the box; turning it OFF drops back to the
+frozen keyword engine for a live side-by-side. The frozen `engine.py` itself was **never
+edited** (identical md5 throughout), so the baseline is always one toggle away, and its
+honest bound (surfacing helps most when the disease is named early) stays documented in
+`SUBMISSION.md` and `eval_results/ablation_findings.md`. What began as a measured recovery
+experiment is now a validated, default-on capability — recovery on the wide-net side, and
+disease-aware FDA precedents with zero fabrication on the grounding side.
 
 **Source of record:** the measurement scripts and results are in `scratchpad/`
 (`f2_run.py`, `f3_probe.py`, `f3_build_run.py`, and their `.json`/`.log` outputs); the

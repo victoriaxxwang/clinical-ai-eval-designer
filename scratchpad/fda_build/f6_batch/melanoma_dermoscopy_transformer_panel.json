@@ -1,0 +1,74 @@
+{
+  "panel": [
+    {
+      "persona": "regulator",
+      "strength": "The plan correctly refuses the higher-risk autonomous 'rule-out biopsy' claim, frames the device as SaMD/CADx adjunct, and explicitly disqualifies the retrieved in-vitro codes (SDP, PWD/K183592/DEN160047, QFK) as invalid predicates.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The intended clinical claim is 'Not specified by team' \u2014 the entire plan rests on an assumed most-defensible claim. Without a fixed, sponsor-approved intended-use statement, the primary endpoint, comparator, and evidentiary bar cannot be locked.",
+          "evidence_basis": "The plan's own Inputs section states the intended clinical claim is 'Not specified by team' and proceeds on an assumption; no retrieved record supplies a claim to substitute."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The regulatory pathway (De Novo vs 510(k) with special controls) is inferred rather than evidenced; no pigmented-lesion/dermoscopy CADx predicate or product code was retrieved, so predicate strategy is undetermined.",
+          "evidence_basis": "openFDA pull returned only hematology/oncology IVD codes (SDP ISH probe, PWD flow cytometry, QFK gene profiling); no dermoscopy imaging 510(k)/De Novo appears in the retrieved evidence."
+        },
+        {
+          "severity": "minor",
+          "issue": "EU MDR / UKCA / PMDA classification is declared out of scope but any multi-market submission will need it; the plan flags this without an action owner.",
+          "evidence_basis": "Coverage & Retrieval Gaps note states EMA/MHRA/PMDA endpoints were not queried by the pipeline."
+        }
+      ]
+    },
+    {
+      "persona": "biostatistician",
+      "strength": "The plan responsibly declines to invent a sample size or a sensitivity target, pre-specifies subgroups, and correctly insists abstained cases stay in the denominator rather than being silently dropped.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "No powered sample-size estimate exists; enrollment feasibility for a low-prevalence melanoma-sensitivity non-inferiority endpoint with MRMC variance and per-stratum melanoma counts is unresolved and could be prohibitively large.",
+          "evidence_basis": "Plan's Section 5 states no powered figure was retrieved; retrieved cohorts (n=5000 NCT05193656/NCT03857373, n=584 NCT06703112, n=392 NCT06540846) are observational scale-context only, not a power basis."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The model emits a malignancy probability, but the metric plan centers AUROC/sensitivity/specificity without a pre-specified calibration assessment; at realistic low melanoma prevalence a well-ranked AUROC can mask poor probability calibration and unstable PPV, and AUPRC is not named.",
+          "evidence_basis": "Plan lists AUROC, sensitivity/specificity, and PPV/NPV but no calibration or precision-recall metric; retrieved oncology-AI studies (e.g., NCT06703112 'AUC', PMID 29335825, PMID 33465354) report AUC-type metrics only, so the field's default reporting does not include calibration \u2014 a gap the plan inherits."
+        },
+        {
+          "severity": "minor",
+          "issue": "Subgroup analyses are pre-specified but the plan hedges between 'power' and 'report with CIs'; without committing to powered per-skin-tone melanoma counts, disparity findings may be underpowered and uninterpretable.",
+          "evidence_basis": "Section 6 states no retrieved record characterized skin-tone subgroup performance for this model class, leaving subgroup power entirely team-defined."
+        }
+      ]
+    },
+    {
+      "persona": "clinical_scientist",
+      "strength": "The plan ties validation to missed melanoma as the sentinel harm, requires a separate teledermatology store-and-forward arm, and analyzes abstained cases separately so workflow impact is not hidden.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The seven-point-checklist attribute outputs are displayed to clinicians as interpretable guidance yet the plan concedes they are not individually validated; unreliable morphologic attributes shown at the point of care can misdirect biopsy decisions rather than support them.",
+          "evidence_basis": "The plan's 'DOES NOT CERTIFY' list explicitly states the seven-point-checklist attributes need their own validation, while the Inputs section presents them as interpretable outputs to the clinician; no retrieved evidence validates these attribute outputs."
+        },
+        {
+          "severity": "minor",
+          "issue": "The abstention/uncertainty flag's clinical action path is undefined \u2014 what a clinician is expected to do with an abstained case (default to biopsy, escalate, ignore) is not specified, risking either alert fatigue or under-triage.",
+          "evidence_basis": "Plan describes MC-dropout abstention and separate analysis but the retrieved evidence contains no comparator establishing the clinician-with-abstention workflow effect (all retrieved dermoscopy/oncology studies are single-arm observational)."
+        },
+        {
+          "severity": "minor",
+          "issue": "Specificity/false-positive biopsy burden is named as a co-primary efficiency metric but not connected to a quantified alert-fatigue or over-biopsy threshold that would make the adjunct clinically worthwhile.",
+          "evidence_basis": "Section 3 treats specificity as an efficiency metric with targets deferred to the team; no retrieved benchmark quantifies acceptable unnecessary-biopsy rate for dermoscopy CADx."
+        }
+      ]
+    }
+  ],
+  "fix_before_submission": [
+    "Obtain a sponsor-approved, fixed intended-use/claim statement before locking any endpoint or design.",
+    "Conduct a dedicated FDA device-database search for pigmented-lesion CADx predicates and settle De Novo vs 510(k) predicate strategy with regulatory counsel.",
+    "Have a biostatistician compute a powered sample size for the melanoma-sensitivity non-inferiority endpoint, including MRMC variance, abstention inflation, and per-stratum melanoma counts.",
+    "Add pre-specified calibration assessment (and precision-recall/AUPRC at realistic prevalence) for the malignancy-probability output, not AUROC alone.",
+    "Define and validate the seven-point-checklist attribute outputs before displaying them to clinicians, or suppress them until separately validated."
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "panel": [
+    {
+      "persona": "regulator",
+      "strength": "The plan correctly refuses to assert a cleared pathway, and accurately labels QXC/DEN220058 as adjacent (a behavioral therapeutic) rather than an on-point risk-prediction predicate.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The entire specification is built on an INFERRED intended claim that the team has not confirmed; a prognostic-CDS claim versus an action-directing SaMD claim changes endpoints, comparator, and pathway.",
+          "evidence_basis": "The plan itself flags the claim as 'INFERRED \u2014 team to confirm'; no on-point 510(k)/De Novo record for a 5-year T2DM risk classifier appears in the retrieved openFDA evidence, so device status cannot be inherited from a precedent."
+        },
+        {
+          "severity": "blocking",
+          "issue": "Device-status determination (non-device CDS under Cures Act vs. SaMD requiring De Novo) is left unresolved, yet it must be settled before the primary endpoint and study design are locked.",
+          "evidence_basis": "Only adjacent device codes were retrieved (QXC/DEN220058 therapeutic; OIF autoantibody assays K171731/K073590/K220085; OYC insulin pump); the Compass Health MediPress recall Z-1343-2019 (marketing a change without proper 510(k)) shows the concrete cost of misjudging device status."
+        },
+        {
+          "severity": "minor",
+          "issue": "No validated comparator risk score is named against which the model would be benchmarked, leaving 'added value over existing practice' undefined.",
+          "evidence_basis": "No head-to-head comparator or established risk-score record appears in the retrieved literature or device set; the plan only gestures at 'an existing validated risk score' generically."
+        }
+      ]
+    },
+    {
+      "persona": "biostatistician",
+      "strength": "The plan appropriately makes calibration (slope/intercept, E/O, calibration curve) the dominant metric for a risk-communication tool and refuses to import single-cohort AUROC figures as targets.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "No sample size or incident-event count is computed; a prognostic validation is bound by number of events, and the plan defers the entire calculation to a later step.",
+          "evidence_basis": "The plan states 'No sample size or event count was retrieved from any record'; indeed no retrieved study reports a transferable N or EPV justification, so the binding precision calculation remains unperformed."
+        },
+        {
+          "severity": "blocking",
+          "issue": "Subgroups are named but no minimum per-subgroup event counts or pre-specified precision targets are set, so subgroup calibration risks being underpowered and effectively post-hoc.",
+          "evidence_basis": "Retrieved single-population studies (e.g., PPR:PPR1093984, Libya cohort) show performance is population-bound; no retrieved record supplies subgroup event thresholds, so these must be pre-computed rather than asserted."
+        },
+        {
+          "severity": "minor",
+          "issue": "No external numeric performance target (discrimination or calibration) is anchored, leaving pass/fail criteria to be judgment calls at analysis time.",
+          "evidence_basis": "The plan notes 'No FDA or society-endorsed numeric performance threshold... was retrieved'; retrieved modeling papers (PMID 34574055, PMID 31615566, W4388982729, W3038710713) report only internal discrimination without calibration or net benefit."
+        }
+      ]
+    },
+    {
+      "persona": "clinical_scientist",
+      "strength": "The plan honestly scopes out outcome-improvement certification (correctly stating that requires a prospective interventional design) and explicitly flags automation bias in clinicians over-trusting the score.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The operating thresholds that would trigger a clinical action (preventive counseling vs. confirmatory testing) are described as 'to be pre-registered' but never defined, so it is unproven the risk output actually changes clinical management or offers actionable lead time.",
+          "evidence_basis": "No retrieved study demonstrates that a diabetes-risk output alters clinical decisions; the retrieved literature is diagnosis/prediction modeling (PMID 34574055, PMID 31615566, PMID 28138367) with no deployment or action-linkage evidence, and no RCT for this indication was retrieved."
+        },
+        {
+          "severity": "minor",
+          "issue": "Alert fatigue and workflow integration in busy primary-care practices are mentioned only as monitoring items, not designed-for constraints (e.g., expected flag rate at chosen thresholds).",
+          "evidence_basis": "No retrieved record characterizes primary-care alert burden for a screening risk model; the concern rests on the absence of any workflow/fit study in the retrieved evidence."
+        },
+        {
+          "severity": "minor",
+          "issue": "The HbA1c-discordance confounders (anemia, hemoglobinopathy, CKD) are named as label/physiology threats but no clinical workflow is specified for flagging affected patients at the point of use.",
+          "evidence_basis": "The plan lists these confounders as capping label reliability; no retrieved study quantifies them for this model, so a point-of-care handling rule cannot be inherited and must be designed."
+        }
+      ]
+    }
+  ],
+  "fix_before_submission": [
+    "Confirm the intended clinical claim (risk-stratification CDS vs. action-directing SaMD) with the team before finalizing any endpoint or pathway.",
+    "Obtain regulatory-counsel determination of device status (non-device CDS vs. SaMD/De Novo) prior to locking study design.",
+    "Compute and pre-register the validation sample size driven by required incident-event count and calibration/C-statistic precision (e.g., pmsampsize).",
+    "Set minimum per-subgroup event counts and pre-specified precision targets for each named subgroup calibration analysis.",
+    "Define and pre-register the numeric operating thresholds that trigger clinical action (counseling vs. confirmatory testing) and demonstrate their actionability/lead-time."
+  ]
+}

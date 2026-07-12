@@ -1,0 +1,76 @@
+{
+  "panel": [
+    {
+      "persona": "regulator",
+      "strength": "The plan correctly analyzes the Cures Act \u00a7520(o) CDS criteria, concedes the retrieved openFDA 'transformer' hits (e.g., product code GCW, K142162, K822267) are irrelevant electrical hardware rather than predicates, and flags De Novo as the likely pathway.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The intended clinical claim is explicitly 'not specified by the team' and only an 'assumed defensible claim' is substituted. A validation plan cannot be finalized against an assumed intended use \u2014 the study design, risk classification, and endpoint all hinge on whether the claim is prognostic stratification vs. treatment guidance.",
+          "evidence_basis": "Stated in the plan itself; no retrieved 510(k)/De Novo record establishes an accepted claims framing for prognostic behavioral-health NLP (the retrieved behavioral-health codes PWE, QMY, SIE are therapeutic classifications, not prognostic software)."
+        },
+        {
+          "severity": "blocking",
+          "issue": "No predefined primary endpoint with a numeric performance target exists anywhere in the plan \u2014 Field 3 defers all targets to a future working session. A submission-ready protocol requires a pre-specified primary endpoint, comparator, and success criterion before enrollment, even if clinically anchored rather than literature-derived.",
+          "evidence_basis": "Absence: no MDD-trajectory performance benchmark appears in the retrieved literature or openFDA records, which the plan acknowledges, but the plan stops at 'to be pre-specified' rather than committing to a mechanism and timeline for locking the endpoint."
+        },
+        {
+          "severity": "minor",
+          "issue": "The predicate search itself was run on the wrong terms \u2014 the query 'transformer, outpatient, behavioral, health, text' returned power scooters and endoscope transformers. A targeted re-search using prognostic-software and psychiatry SaMD terminology is needed before concluding 'no predicate exists.'",
+          "evidence_basis": "The retrieved openFDA record set (GCW endoscope transformer, K142162 power scooter, K822267) demonstrates the query mismatch; the plan notes this but does not schedule the corrected search as a gating step."
+        }
+      ]
+    },
+    {
+      "persona": "biostatistician",
+      "strength": "The plan correctly identifies event-driven powering on the rarest trajectory class, calibration as a first-class endpoint, temporal holdout, and label-noise ceilings from serial PHQ-9-type scales as the governing statistical constraints.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "There is no feasibility estimate of deteriorating-trajectory prevalence, no minimum event count, and no interval-width target \u2014 the plan says a biostatistician is 'required' but provides no placeholder framework, making the entire three-stage design unsized and unschedulable.",
+          "evidence_basis": "Absence: no enrollment or sample-size precedent for MDD-trajectory NLP appears in the retrieved ClinicalTrials.gov or literature records, which the plan acknowledges; the retrieved AquaAI study (PMID 42265769) is internal-validation only and offers no external-validation sizing precedent."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The metric set proposes one-vs-rest AUROC for what will be a heavily imbalanced multiclass problem; for a rare deteriorating class, AUROC will be optimistic and AUPRC or PPV at deployment prevalence should be primary. PPV is mentioned but its role vs. AUROC as the confirmatory metric is unresolved.",
+          "evidence_basis": "Plan's own Field 5 states the deteriorating class 'will be the minority class'; no retrieved evidence establishes a metric convention for this model class, so the choice must be defended de novo in the protocol."
+        },
+        {
+          "severity": "minor",
+          "issue": "Field 6 demands separate powering across at least five subgroup axes plus administration mode and comorbidity strata with no multiplicity strategy \u2014 this is likely infeasible and needs an explicit hierarchy (confirmatory vs. descriptive subgroups) with appropriate alpha handling.",
+          "evidence_basis": "Absence: no retrieved study demonstrates a subgroup-powered external validation in this model class (the phenotyping review PMID 41990239 flags limited external validation field-wide), so the plan's subgroup ambition exceeds any grounded precedent and needs statistical triage."
+        }
+      ]
+    },
+    {
+      "persona": "clinical_scientist",
+      "strength": "The plan correctly identifies copy-forward/template text as a mechanistic threat (stale symptom language masquerading as current severity), grounded in the pipeline-dependence shown in retrieved EHR-NLP work (PMID 42384713, PMID 42214285).",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The plan never establishes whether the prediction arrives early enough to change an intensification decision \u2014 the lead time between prediction and the point at which standard measurement-based care (serial PHQ-9 thresholds) would trigger the same escalation is undefined, so the model may add no actionable window over the existing comparator.",
+          "evidence_basis": "Absence: no retrieved trial or study measures decision lead time or incremental actionability for trajectory-prediction NLP; the plan names 'time-to-intensification' as a trial outcome but not as a design-stage feasibility question."
+        },
+        {
+          "severity": "blocking",
+          "issue": "Alert burden and workflow integration are unaddressed outside the interventional stage: how outputs surface in the EHR, expected flag volume per clinician per clinic-day, and an override/fatigue threshold are not specified, yet these determine whether the shadow-mode results translate to any real behavior change.",
+          "evidence_basis": "Absence: no retrieved evidence covers alert-response behavior for this model class; the plan logs overrides post-deployment (Field 8) but has no pre-deployment estimate of flag volume at the chosen operating point."
+        },
+        {
+          "severity": "minor",
+          "issue": "The plan acknowledges informative missingness (deteriorating patients dropping out of PHQ-9 follow-up) as a label problem but proposes no active outcome-ascertainment strategy (e.g., outreach protocol in the prospective stage) \u2014 meaning the shadow-mode study may systematically miss exactly the class the model exists to catch.",
+          "evidence_basis": "Plan's own Field 4 identifies informative missingness; no retrieved study offers a resolved approach, so the mitigation must be designed rather than cited."
+        }
+      ]
+    }
+  ],
+  "fix_before_submission": [
+    "Obtain a team-committed intended-use statement and claim language before finalizing design, endpoints, or regulatory strategy.",
+    "Lock a pre-specified primary endpoint, comparator (usual measurement-based care), and numeric success/calibration criterion via the planned clinical-anchoring session, and write it into the protocol before any data pull.",
+    "Run a feasibility data pull to measure deteriorating-trajectory prevalence per site, then complete an event-driven power analysis with minimum event counts and interval-width targets.",
+    "Resolve the primary confirmatory metric for the imbalanced minority class (AUPRC / PPV at deployment prevalence vs. one-vs-rest AUROC) and justify it in the SAP.",
+    "Add a design-stage lead-time analysis quantifying how far ahead of standard PHQ-9-threshold escalation the model's prediction would arrive.",
+    "Specify workflow integration: output surfacing, expected flag volume per clinician at the chosen operating point, and predefined alert-fatigue/override thresholds.",
+    "Add an active outcome-ascertainment/outreach protocol for patients lost to follow-up in the prospective shadow-mode stage."
+  ]
+}

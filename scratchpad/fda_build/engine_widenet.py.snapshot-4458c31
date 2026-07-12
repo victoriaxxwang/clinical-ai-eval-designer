@@ -41,14 +41,6 @@ from html.parser import HTMLParser
 
 import requests
 
-try:  # F6: disease-aware FDA predicate search (standalone module, same dir).
-    import os as _os, sys as _sys
-    _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
-    import fda_bridge
-    _HAVE_FDA_BRIDGE = True
-except Exception:  # missing module must never break grounding — degrade silently
-    _HAVE_FDA_BRIDGE = False
-
 HTTP_TIMEOUT = 12  # seconds per registry call
 
 # The assembled grounding context is a snapshot handed to the model. The cap is
@@ -1478,21 +1470,6 @@ def build_grounded_context(model_desc, use_case, population, optional_url="", se
     fda_text = fda_status = safety_text = safety_status = None
     if want_device:
         fda_text, fda_status = search_openfda(q.get("fda_terms") or q["fda"])
-        # F6: when the wide net RECOVERED a disease, REPLACE the keyword FDA result
-        # with disease-aware FDA-cleared AI predicates (fda_bridge, two-axis search).
-        # The keyword search above stays as the fallback: if no disease was recovered
-        # OR the bridge returns zero real predicates OR it errors, we keep it — so the
-        # FDA section is never emptier or less grounded than before this wiring.
-        if _HAVE_FDA_BRIDGE and mesh and mesh.get("preferred"):
-            try:
-                bridge_text, bridge_status, bridge_meta = fda_bridge.disease_to_fda(
-                    mesh["preferred"])
-                n_hits = sum(len(v) for v in (bridge_meta.get("predicates") or {}).values())
-                n_hits += len(bridge_meta.get("name_axis_devices") or [])
-                if bridge_text and n_hits > 0:
-                    fda_text, fda_status = bridge_text, bridge_status
-            except Exception:
-                pass  # any bridge failure → keep the keyword result (safe degradation)
         safety_text, safety_status = search_openfda_safety(q.get("fda_terms") or q["fda"])
 
     # openFDA DRUG/BIOLOGIC pathway (Drugs@FDA approvals / SPL labeling / FAERS adverse

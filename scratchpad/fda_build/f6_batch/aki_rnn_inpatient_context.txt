@@ -1,0 +1,62 @@
+### Retrieval Metadata
+- Retrieved (UTC): 2026-07-12T01:01:58Z
+- Intervention type: device
+- Literature/trials query: '("Wounds and Injuries" OR "Injuries and Wounds" OR "Injuries, Wounds" OR "Wounds and Injury" OR "Injury and Wounds") AND sequence AND processes'
+- MeSH normalization: 'injury' → "Wounds and Injuries" (D014947) + 4 synonyms
+- openFDA device terms: ['sequence', 'acute', 'care', 'hospital', 'processes']
+
+### ClinicalTrials.gov (study designs, endpoints, enrollment)
+- NCT03433820 | Wound Healing in Healthy Volunteers | status=COMPLETED | type=INTERVENTIONAL phases=NA | n=18 | allocation=RANDOMIZED masking=NONE | primary_outcomes=Biopsy biomarkers; Local skin biomarkers; Clinical imaging; Clinical evaluation; Skin microbiome; Biopsy biomarkers; Biopsy biomarkers; Clinical imaging; Clinical imaging; Clinical imaging; Clinical imaging; Clinical imaging; Clinical evaluation; Clinical evaluation
+- NCT01545232 | Pragmatic, Randomized Optimal Platelet and Plasma Ratios | status=COMPLETED | type=INTERVENTIONAL phases=PHASE3 | n=680 | allocation=RANDOMIZED masking=SINGLE | primary_outcomes=24-hour Mortality; 30-day Mortality; Coagulation as Indicated by Number of Participants With Reported Venous Thrombolic Events (VTE)
+- NCT03058328 | The White Blood Cell Reactivity Following Surgical Trauma and Associated Regulatory Mechanisms. | status=COMPLETED | type=OBSERVATIONAL phases= | n=40 | allocation= masking= | primary_outcomes=Changes in subsets of Monocytes after surgical trauma
+- NCT04331392 | Online Memory Intervention for Individuals with Traumatic Brain Injury | status=RECRUITING | type=INTERVENTIONAL phases=NA | n=84 | allocation=RANDOMIZED masking=TRIPLE | primary_outcomes=Imaging; Change in Cognitive Map Formation Test (CMFT) (Medium transfer) performance,; Change in Route Learning Navigation Test Battery - Different Approach Task (Medium transfer) performance.; Change in Path Integration Task (Medium transfer) performance.; Change in Memory Image Completion Task (MI
+- NCT05198544 | Clinical Trial Evaluating a Hyaluronic Acid Matrix in the Treatment of Chronic Non-healing Diabetic Foot Ulcers (DFUs) | status=UNKNOWN | type=INTERVENTIONAL phases=NA | n=15 | allocation=NA masking=NONE | primary_outcomes=Evaluate Wound healing in Wagner 1 and 2 grade DFUs by wound size
+- NCT05441787 | The Usefulness of Inflammatory Markers to Predict Poor Outcomes for Trauma Patients | status=COMPLETED | type=OBSERVATIONAL phases= | n=89 | allocation= masking= | primary_outcomes=Mortality (dichotomous); Multiorgan distress syndrome (dichotomous)
+
+### openFDA (device classification / 510(k) precedents)
+- CLASSIFICATION | High Throughput Dna Sequence Analyzer | product_code=PFF | class=2 | regulation=862.2265 | panel=Immunology
+- CLASSIFICATION | System, Cystic Fibrosis Transmembrane Conductance Regulator Gene, Variant Gene Sequence Detection | product_code=PFS | class=2 | regulation=866.5900 | panel=Immunology
+- 510(k) | SYNERGIES PLUS GRAM-POSITIVE MIC/COMBO PANELS WITH GENTAMICIN (0.06-32MG/ML LONG DILUTION SEQUENCE | k_number=K063365 | decision=Substantially Equivalent | date=2006-12-08 | applicant=Dade Behring, Inc.
+- CLASSIFICATION | Phototherapy Device For Reducing The Appearance Of Acute Post-Surgical Incisions | product_code=QPE | class=2 | regulation=878.4880 | panel=General, Plastic Surgery
+- CLASSIFICATION | Neurovascular Mechanical Thrombectomy Device For Acute Ischemic Stroke Treatment | product_code=POL | class=2 | regulation=882.5600 | panel=Neurology
+- CLASSIFICATION | Acute Kidney Injury Test System | product_code=PIG | class=2 | regulation=862.1220 | panel=Clinical Chemistry
+- CLASSIFICATION | Point Of Care Hiv Serology Diagnostic And/Or Supplemental Test | product_code=QSU | class=2 | regulation=866.3956 | panel=Microbiology
+- CLASSIFICATION | Apparatus, Suction, Patient Care | product_code=DWM | class=2 | regulation=870.5050 | panel=Cardiovascular
+- CLASSIFICATION | Catheter Care Tray | product_code=OHR | class=2 | regulation=876.5130 | panel=Gastroenterology, Urology
+- CLASSIFICATION | Hospital Continuous Glucose Monitoring System | product_code=PYV | class=2 | regulation=862.1345 | panel=Clinical Chemistry
+- CLASSIFICATION | Bassinet, Hospital | product_code=NZG | class=2 | regulation=880.5145 | panel=General Hospital
+- CLASSIFICATION | Bed, Pediatric Open Hospital | product_code=FMS | class=2 | regulation=880.5140 | panel=General Hospital
+- 510(k) | VERIFY SELF-CONTAINED BIOLOGICAL INDICATOR FOR VH202 GASEOUS STERILIZATION PROCESSES | k_number=K073244 | decision=Substantially Equivalent | date=2008-05-28 | applicant=STERIS Corporation
+- 510(k) | VERIFY BIOLOGICAL INDICATOR CHALLENGE PACK FOR VAPORIZED VH202 STERILIZATION PROCESSES | k_number=K103331 | decision=Substantially Equivalent | date=2011-09-01 | applicant=STERIS Corporation
+- 510(k) | VERIFY V24 SELF-CONTAINED BIOLOGICAL INDICATOR FOR VAPORIZED VH202 STERILIZATION PROCESSES | k_number=K140499 | decision=Substantially Equivalent | date=2014-07-17 | applicant=STERIS Corporation
+
+### openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)
+- PMA | Guardian System | pma_number=P150009 | supplement=S011 | decision=APPR | date=2024-01-25 | product_code=QBI | applicant=Avertix Medical, Inc.
+- PMA | RESPONSE CV CARDIOVERSION ELECTROPHYSIOLOGY CATHETER | pma_number=P020052 | supplement=S004 | decision=OK30 | date=2007-09-21 | product_code=MTE | applicant=St Jude Medical
+- MAUDE | PICC CLEAR SEQUENCE KIT | event_type=Injury | date_received=20230606 | report_number=1030451-2023-00007
+- MAUDE | PICC CLEAR SEQUENCE KIT | event_type=Injury | date_received=20230606 | report_number=1030451-2023-00006
+- Recall | RET Distal Probe. Used in Fluorescence in situ hybridization (FISH), a laboratory technique for detecting and locating a | classification=Class II | status=Ongoing | reason=DNAs used during the manufacture of two affected models were accidentally inverted during manufacturing. | firm=Cytocell Ltd. | date=20230524 | recall_number=Z-2210-2023
+- Recall | Vit Kit-Freeze is intended for use in assisted reproductive procedures for vitrification and storage of human oocytes (M | classification=Class II | status=Ongoing | reason=Due to a component in kit being labeled with the incorrect Expiration Date | firm=Fujifilm Irvine Scientific, Inc. | date=20210908 | recall_number=Z-0249-2022
+
+### Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)
+- PMID 42315692 | DOI 10.1007/s10103-026-04928-y ✓Crossref | Clinical dosimetry and efficacy of LED photobiomodulation for chronic lower-limb wound healing: a systematic review of randomized trials. | Lasers Med Sci 2026 [Europe PMC]
+- PMID 30475656 | DOI 10.1152/physrev.00067.2017 ✓Crossref | Wound Healing: A Cellular Perspective | Physiological Reviews 2018 [OpenAlex]
+- PMID 41540806 | DOI 10.1002/cbf.70161 ✓Crossref | Qualitative Comparison of LED and LASER Effects on Cutaneous Wound Healing: A Systematic Review of Experimental Studies. | Cell Biochem Funct 2026 [Europe PMC]
+- PMID 27974711 | DOI 10.1159/000454919 ✓Crossref | Skin Wound Healing: An Update on the Current Knowledge and Concepts | European Surgical Research 2016 [OpenAlex]
+- PMID 39509389 | DOI 10.1371/journal.pone.0309232 ✓Crossref | Exploring prevalent injuries among tennis players and optimal rehabilitation approaches: A systematic review protocol. | PLoS One 2024 [Europe PMC]
+- PMID 11147674 | DOI 10.1046/j.1087-0024.2000.00014.x ✓Crossref | Angiogenesis in Wound Healing | Journal of Investigative Dermatology Symposium Proceedings 2000 [OpenAlex]
+- PMID 39767834 | DOI 10.3390/biomedicines12122927 ✓Crossref | Nanotherapeutic and Nano-Bio Interface for Regeneration and Healing. | Biomedicines 2024 [Europe PMC]
+- PMID 26339534 | DOI 10.1089/wound.2015.0635 ✓Crossref | Challenges in the Treatment of Chronic Wounds | Advances in Wound Care 2015 [OpenAlex]
+- PMID 41877236 | DOI 10.1186/s13049-026-01596-3 ✓Crossref | Sex and gender bias in major trauma care: a scoping review. | Scand J Trauma Resusc Emerg Med 2026 [Europe PMC]
+- PMID 27828635 | DOI 10.1590/abd1806-4841.20164741 ✓Crossref | Wound healing - A literature review | Anais Brasileiros de Dermatologia 2016 [OpenAlex]
+- PMID 40814054 | DOI 10.1186/s12912-025-03672-y ✓Crossref | Effect of an educational intervention on nursing students' knowledge about COVID-19 and compliance with standard and transmission-based precautions: a quasi-experimental study. | BMC Nurs 2025 [Europe PMC]
+- PMID 32764269 | DOI 10.3390/pharmaceutics12080735 ✓Crossref | Skin Wound Healing Process and New Emerging Technologies for Skin Wound Care and Regeneration | Pharmaceutics 2020 [OpenAlex]
+- PMID 42186287 | DOI 10.1042/cs20250585 ✓Crossref | Therapeutic implications of epigenetic alterations in burns: a new frontier in burn medicine. | Clin Sci (Lond) 2026 [Europe PMC]
+- PMID 14766366 | DOI 10.2741/1184 ✓Crossref | Wound healing: an overview of acute, fibrotic and delayed healing | Frontiers in bioscience 2004 [OpenAlex]
+- PMID 41559754 | DOI 10.1186/s12913-025-13982-1 ✓Crossref | Visualisation of a complex healthcare system: mapping vascular and trauma surgery services in Ghana. | BMC Health Serv Res 2026 [Europe PMC]
+
+### Coverage & Retrieval Gaps
+This spec was grounded ONLY in sources that expose a free, public API: ClinicalTrials.gov, openFDA (device classification, 510(k), PMA, MAUDE adverse events, recalls), the merged literature indexes Europe PMC / OpenAlex / Semantic Scholar (PubMed fallback), and Crossref (DOI verification). It deliberately does NOT include:
+- Licensed databases with no public API (institutional / manual retrieval required): Embase, PsycINFO, Cochrane Library (CENTRAL), Scopus, Web of Science, CINAHL.
+- FDA drug/biologic pathways (Drugs@FDA, SPL labeling, FAERS) and non-US regulators (EMA, MHRA, PMDA) — not queried by this pipeline.
+Absence of a record above is NOT evidence of absence. Treat the retrieved evidence as a floor for expert review, not a complete landscape.

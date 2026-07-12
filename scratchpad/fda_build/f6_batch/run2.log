@@ -1,0 +1,20 @@
+[tripwire] engine.py md5 OK (2e6d49cdaa3106b6c29ee66b5df37e58)
+/Users/victoriaxwang/Desktop/Claude/Clinical-AI-Eval-Designer/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+########### t2dm_incident_risk_ehr (oracle: Diabetes Mellitus, Type 2) ###########
+    FDA device names surfaced: ['BT-001', 'KRONUS IA-2 AUTOANTIBODY RIA ASSAY KIT', 'KRONUS IA-2 Autoantibody (IA-2Ab) ELISA Kit']
+--- t2dm_incident_risk_ehr: generating spec (effort=medium) ---
+    spec chars: 17494 refusal=False | FDA names in spec: []
+--- t2dm_incident_risk_ehr: convening critic panel ---
+    panel blockers: 5
+
+########### copd_exacerbation_survival (oracle: Pulmonary Disease, Chronic Obstructive) ###########
+    FDA device names surfaced: []
+--- copd_exacerbation_survival: generating spec (effort=medium) ---
+    spec chars: 15894 refusal=False | FDA names in spec: []
+--- copd_exacerbation_survival: convening critic panel ---
+    panel blockers: 5
+
+================ F6 batch DONE ================
+[tripwire] engine.py md5 still OK (2e6d49cdaa3106b6c29ee66b5df37e58)

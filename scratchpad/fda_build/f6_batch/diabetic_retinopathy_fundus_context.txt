@@ -1,0 +1,44 @@
+### Retrieval Metadata
+- Retrieved (UTC): 2026-07-12T00:12:18Z
+- Intervention type: device
+- Literature/trials query: '("Diabetic Retinopathy" OR "Diabetic Retinopathies" OR "Retinopathies, Diabetic" OR "Retinopathy, Diabetic") AND fundus AND efficientnet'
+- MeSH normalization: 'diabetic retinopathy' → "Diabetic Retinopathy" (D003930) + 3 synonyms
+- openFDA device terms: ['fundus', 'primary', 'care', 'community', 'efficientnet']
+
+### openFDA (device classification / 510(k) precedents)
+Disease-code axis (classification -> 510(k)):
+- CODE PIB | Diabetic Retinopathy Detection Device | panel=Ophthalmic | rank=4
+    predicate K223357 | EyeArt v2.2.0 | date=2023-06-16 | applicant=Eyenuk, Inc.
+    predicate K240058 | AEYE-DS | date=2024-04-23 | applicant=Aeye Health, Inc.
+    predicate K203629 | IDx-DR | date=2021-06-10 | applicant=Digital Diagnostics, Inc.
+- CODE OXW | Stimulator, Electrical, Transcutaneous, For Diabetic Retinopathy | panel=Unknown | rank=-3
+
+### openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)
+- PMA | Organ Care System (OCS) Heart System | pma_number=P180051 | supplement=S008 | decision=OK30 | date=2025-10-22 | product_code=QIK | applicant=TransMedics, Inc.
+- MAUDE | LENS, FUNDUS, HRUBY, DIAGNOSTIC | event_type=Injury | date_received=20211117 | report_number=MW5105451
+- MAUDE | FUNDUS GRASPER | event_type=Injury | date_received=20221109 | report_number=2955842-2022-15143
+- Recall | Fundus Grasper; used with the da Vinci Si Surgical System (IS3000); Model numbers: 428058-12, 428058-13. The Intuitive S | classification=Class II | status=Terminated | reason=In certain circumstances involving select da Vinci Si Single-Site instruments, the jaws of grip actuated instruments may become fixed in a closed position. | firm=Intuitive Surgical, Inc. | date=20150808 | recall_number=Z-2754-2015
+- Recall | NAVIS-EX , Image Filing Software for NIDEK AFC Fundus camera, Ver 1.1.0 to 1.3.5. NAVIS-EX is indicated for use as file  | classification=Class II | status=Terminated | reason=Under certain circumstances, the Left eye image may be saved as the Right eye image. | firm=Nidek Inc | date=20130801 | recall_number=Z-2046-2013
+
+### Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)
+- PMID 42386883 | DOI 10.1038/s41598-026-59475-x ✓Crossref | Attention augmented feature fusion in a hybrid CNN-transformer for fine-grained diabetic retinopathy severity grading. | Sci Rep 2026 [Europe PMC]
+- PMID 34073541 | DOI 10.3390/s21113704 ✓Crossref | Diabetic Retinopathy Fundus Image Classification and Lesions Localization System Using Deep Learning | Sensors 2021 [OpenAlex]
+- PMID 42151890 | DOI 10.1186/s12886-026-04897-4 ✓Crossref | A clinically interpretable deep learning pipeline for diabetic retinopathy classification using EfficientNet, advanced data augmentation and GradCAM. | BMC Ophthalmol 2026 [Europe PMC]
+- https://openalex.org/W3114803724 | DOI 10.1109/iemcon51383.2020.9284944 ✓Crossref | CNN Based Detection of the Severity of Diabetic Retinopathy from the Fundus Photography using EfficientNet-B5 |  2020 [OpenAlex]
+- PMID 42046731 | DOI 10.1155/joph/8857887 ✓Crossref | Diabetic Retinopathy Detection: AI Models and Approaches. | J Ophthalmol 2026 [Europe PMC]
+- https://openalex.org/W3033442124 | DOI 10.1145/3390557.3394303 ✓Crossref | Deep-Learning-Based Early Detection of Diabetic Retinopathy on Fundus Photography Using EfficientNet |  2020 [OpenAlex]
+- PMID 41494023 | DOI 10.1371/journal.pone.0338415 ✓Crossref | Automated retinal disease classification using deep learning and AlexNet with statistical models analysis. | PLoS One 2026 [Europe PMC]
+- https://openalex.org/W4226244379 | DOI 10.1109/access.2022.3157632 ✓Crossref | Deep Learning Techniques for Diabetic Retinopathy Classification: A Survey | IEEE Access 2022 [OpenAlex]
+- PMID 42297880 | DOI 10.1038/s41598-026-56569-4 ✓Crossref | Explainable AI for diabetic retinopathy detection using vision transformers. | Sci Rep 2026 [Europe PMC]
+- https://openalex.org/W3109350411 | DOI 10.1109/access.2020.3040275 ✓Crossref | Multi-Label Classification of Fundus Images With EfficientNet | IEEE Access 2020 [OpenAlex]
+- PMID 40171193 | DOI 10.3389/fendo.2025.1485311 ✓Crossref | Deep learning-based optical coherence tomography and retinal images for detection of diabetic retinopathy: a systematic and meta analysis. | Front Endocrinol (Lausanne) 2025 [Europe PMC]
+- https://openalex.org/W4285153837 | DOI 10.1051/itmconf/20224403027 ✓Crossref | Diabetic Retinopathy Detection From Fundus Images Using Multi-Tasking Model With EfficientNet B5 | ITM Web of Conferences 2022 [OpenAlex]
+- PMID 42078464 | DOI 10.3389/fmed.2026.1815982 ✓Crossref | How well do frozen foundation models transfer? A calibration-focused benchmark for diabetic retinopathy grading. | Front Med (Lausanne) 2026 [Europe PMC]
+- PMID 39695310 | DOI 10.1038/s41598-024-81132-4 ✓Crossref | Ensemble deep learning and EfficientNet for accurate diagnosis of diabetic retinopathy | Scientific Reports 2024 [OpenAlex]
+- PMID 42346900 | DOI 10.3390/jimaging12060236 | MultiRetNet: A Lightweight Explainable AI Approach to Diabetic Retinopathy Grading and DME Detection Using Fundus-OCT Fusion. | J Imaging 2026 [Europe PMC]
+
+### Coverage & Retrieval Gaps
+This spec was grounded ONLY in sources that expose a free, public API: ClinicalTrials.gov, openFDA (device classification, 510(k), PMA, MAUDE adverse events, recalls), the merged literature indexes Europe PMC / OpenAlex / Semantic Scholar (PubMed fallback), and Crossref (DOI verification). It deliberately does NOT include:
+- Licensed databases with no public API (institutional / manual retrieval required): Embase, PsycINFO, Cochrane Library (CENTRAL), Scopus, Web of Science, CINAHL.
+- FDA drug/biologic pathways (Drugs@FDA, SPL labeling, FAERS) and non-US regulators (EMA, MHRA, PMDA) — not queried by this pipeline.
+Absence of a record above is NOT evidence of absence. Treat the retrieved evidence as a floor for expert review, not a complete landscape.

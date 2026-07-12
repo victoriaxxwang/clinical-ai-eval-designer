@@ -1,0 +1,74 @@
+{
+  "panel": [
+    {
+      "persona": "regulator",
+      "strength": "The plan correctly refuses to treat the retrieved AKI in-vitro assay precedent (product_code PIG, reg 862.1220) as a valid software predicate and appropriately defers classification to formal determination and counsel.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The intended clinical claim is self-admittedly INFERRED because the team never specified it. Since the plan itself states claim wording determines the regulatory pathway, no adequate design review can be finalized until the sponsor commits to an intended-use statement.",
+          "evidence_basis": "The plan's Inputs field flags the claim as '(INFERRED \u2014 team did not specify)'; no clearance or intended-use precedent for AKI predictive software appears in the retrieved openFDA records."
+        },
+        {
+          "severity": "blocking",
+          "issue": "No predicate/precedent exists in the retrieved evidence to support a 510(k) route, and the plan only proposes that a predicate search 'must be performed.' Until that search is done, the choice between 510(k) and De Novo (and the CDS-exemption question) is unresolved, blocking a defensible pathway claim.",
+          "evidence_basis": "openFDA returned no AKI early-warning software predicate; retrieved device precedents (POL thrombectomy, Guardian PMA P150009, PFF/PFS sequence analyzers) are non-analogous, and the Coverage note confirms not all regulatory endpoints were queried."
+        },
+        {
+          "severity": "minor",
+          "issue": "The plan defers to a future interventional/cluster-randomized trial for any care/outcome claim but does not pre-specify a single primary endpoint for the validation study itself, leaving the co-primary triad (discrimination + calibration + utility) without a designated primary.",
+          "evidence_basis": "Section 3 lists AUROC, AUPRC, calibration, lead-time and alert burden together without ranking; no retrieved AKI-model benchmark specifies a primary endpoint."
+        }
+      ]
+    },
+    {
+      "persona": "biostatistician",
+      "strength": "The plan correctly prioritizes AUPRC and calibration alongside AUROC given low AKI base rate, and correctly insists sample size be driven by event count and smallest-subgroup precision rather than total admissions.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "No sample-size or event-count target is computed \u2014 the plan explicitly leaves the calculation undone. Without at least a pre-specified CI half-width and back-calculated events per site and per subgroup, powering for rare-event AUPRC and subgroup precision cannot be assessed.",
+          "evidence_basis": "Section 5 states 'No sample-size precedent for an AKI early-warning model was retrieved; this calculation must be performed'; retrieved enrollments (n=18\u2013680, e.g., NCT01545232 n=680, NCT05441787 n=89, NCT03058328 n=40) are off-target and give no usable basis."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The plan identifies informative missingness (sicker patients sampled more, exploited by the masking-and-decay embedding) as a mechanism that can leak outcome information and inflate performance, but proposes no quantitative analysis or sensitivity design to bound this leakage before trusting the AUROC/lead-time results.",
+          "evidence_basis": "Section 2(d) and Section 6(c) raise informative sampling as a first-principles threat; no retrieved record characterizes EHR missingness for AKI models, so an explicit quantification step is required rather than a narrative flag."
+        },
+        {
+          "severity": "minor",
+          "issue": "Multiplicity across the seven pre-specified subgroups and multiple co-primary metrics is not addressed; without an alpha-allocation or estimation-only framing, subgroup findings risk spurious significance.",
+          "evidence_basis": "Section 6 enumerates seven subgroup strata with no stated multiplicity control; no retrieved AKI-model subgroup benchmark constrains this."
+        }
+      ]
+    },
+    {
+      "persona": "clinical_scientist",
+      "strength": "The plan explicitly ties value to lead-time gain versus creatinine-based recognition and mandates alert-burden/PPV and number-needed-to-alert at the deployed threshold, directly addressing whether the output would change action without swamping clinicians.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The plan warns that apparent lead time may reflect delayed creatinine sampling rather than true anticipation, and lists this in DOES NOT CERTIFY, but never specifies how to separate genuine early warning from sampling artifact. Without that, the core clinical benefit (actionable lead time) is unverified.",
+          "evidence_basis": "Section 4 and the DOES NOT CERTIFY list both state lead time may be a sampling artifact; no retrieved trial operationalizes streaming KDIGO labeling to distinguish the two."
+        },
+        {
+          "severity": "minor",
+          "issue": "Alert-fatigue metrics are named (override rate, alert volume, time-to-response) but no acceptable override/alert-volume ceiling or workflow-fit criterion is pre-specified, so 'acceptable' burden remains undefined at submission.",
+          "evidence_basis": "Section 3(d) and Section 8(c) list alert-burden metrics without target thresholds; no retrieved evidence supplies an AKI-alerting fatigue benchmark."
+        },
+        {
+          "severity": "minor",
+          "issue": "The plan does not define what clinical action the risk score is intended to trigger (e.g., nephrology review, nephrotoxin hold), so actionability and downstream workflow fit cannot be evaluated even in silent mode.",
+          "evidence_basis": "The inferred claim states only 'to prompt clinical review'; no retrieved trial links an AKI prediction to a defined care pathway."
+        }
+      ]
+    }
+  ],
+  "fix_before_submission": [
+    "Have the sponsor commit to an explicit intended-use / claim statement before finalizing design, since the current claim is only inferred.",
+    "Perform the openFDA predicate/precedent search for AKI predictive/alarm software and resolve the 510(k)-vs-De Novo pathway and CDS-exemption question.",
+    "Compute event-count-based sample size with pre-registered CI half-widths for AUPRC/calibration and per-subgroup precision before finalizing.",
+    "Add a quantitative analysis and sensitivity design to bound informative-missingness leakage from the masking-and-decay embedding.",
+    "Specify an analytic method to distinguish true predictive lead time from creatinine-sampling-artifact lead time."
+  ]
+}

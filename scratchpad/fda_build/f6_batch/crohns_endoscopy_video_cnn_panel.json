@@ -1,0 +1,74 @@
+{
+  "panel": [
+    {
+      "persona": "regulator",
+      "strength": "The plan correctly avoids asserting a regulatory pathway from the retrieval alone and honestly flags that no prognostic/CADx IBD software predicate was found among the returned 510(k)s, pointing toward De Novo with counsel.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The intended claim is explicitly INFERRED and unconfirmed; without a team-locked intended-use statement, the primary endpoint, comparator, and device/non-device boundary (adjunctive prognostic vs CDS carve-out) cannot be fixed, and the whole design rests on an assumption.",
+          "evidence_basis": "The plan itself labels the claim 'INFERRED \u2014 team must confirm'; no retrieved 510(k)/De Novo/PMA record establishes an intended-use or predicate for IBD relapse-prediction software (only unrelated CURRY K001781, Cutera K080300/K092195, and physical GI devices OCS/FED/PTE)."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The dual-output design (relapse probability + endoscopic-severity index) risks splitting the device function across regulatory categories without deciding which is the primary regulated function and endpoint; the plan defers this to counsel but does not commit to a single predefined primary endpoint for submission.",
+          "evidence_basis": "No retrieved predicate covers either function; openFDA returns only physical GI devices (OCS, FED, PTE) and the coverage note confirms FDA AI/ML SaMD listings were not queried, so the pathway/endpoint split is unresolved from the evidence."
+        },
+        {
+          "severity": "minor",
+          "issue": "The post-market plan invokes MAUDE/recall precedents as analogues, but those records are for physical/electrosurgical hardware failures, not software prognostic drift, so they weakly support a SaMD surveillance framework.",
+          "evidence_basis": "Retrieved MAUDE (guidewire OCY 1037905-2020-00191/00201) and recalls (Olympus UES-40 Z-1277-2013, Auriga Z-1396-2019) concern hardware/firmware malfunctions, not AI prognostic performance decay."
+        }
+      ]
+    },
+    {
+      "persona": "biostatistician",
+      "strength": "The plan appropriately makes the design event-driven on 12-month relapse count and mandates calibration metrics (calibration curve, Brier, calibration-in-the-large) alongside AUROC rather than discrimination alone.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "No relapse incidence assumption, target event count, or numeric power basis is stated; the sample size is entirely deferred, so the study cannot be shown adequately powered for the primary endpoint or the many pre-specified subgroups.",
+          "evidence_basis": "Plan states 'No retrieved study provides a validated relapse incidence or a powering basis'; retrieved IBD cohorts (NCT07167186 n=240, NCT06698601 n=60) are unrelated in design and too small to anchor powering."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The large number of pre-specified subgroups (scope vendor, prep tier, phenotype/location, biologic exposure, assay platform, note-source site, demographics) with per-subgroup calibration will fragment a rare-event endpoint and invite multiplicity; no hierarchy, multiplicity control, or minimum events-per-subgroup is specified.",
+          "evidence_basis": "Field 6 lists 7+ subgroup axes but 'No retrieved record supplies subgroup performance targets'; with relapse a low-frequency event in a remission/mild cohort, no evidence supports adequate per-stratum event counts."
+        },
+        {
+          "severity": "minor",
+          "issue": "Overfitting risk from three fused branches is acknowledged qualitatively but not translated into an inflated effective sample requirement, external-validation split rule, or event-per-parameter constraint.",
+          "evidence_basis": "Plan notes 'Multimodal models with three input branches carry high overfitting risk' but cites no quantitative basis; PMID 42238140 flags generalization gaps in DL endoscopy without supplying a figure."
+        }
+      ]
+    },
+    {
+      "persona": "clinical_scientist",
+      "strength": "The plan recognizes the treatment-paradox (acting on a high-risk prediction changes the predicted outcome) and separates predictive-accuracy validation from an outcome-improvement impact study in the CERTIFIES/DOES NOT CERTIFY section.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The plan never establishes that a 12-month relapse probability at baseline endoscopy actually changes clinical action within an actionable lead-time; without a defined decision (e.g., surveillance interval or escalation trigger) tied to the output, the risk score may be clinically inert.",
+          "evidence_basis": "No retrieved trial validates a relapse-prediction model altering management; NCT07167186's outcome is 'change in patient skills or management' but is observational and not prediction-linked, and the plan concedes it 'does not certify that acting on predictions improves outcomes'."
+        },
+        {
+          "severity": "minor",
+          "issue": "Alert/output-frequency burden and false-positive escalation harm (unnecessary biologic escalation or endoscopy) are named only as monitoring items, not quantified thresholds for acceptable clinician workflow impact.",
+          "evidence_basis": "Field 8 lists 'unnecessary escalation after high-risk output' as a monitored harm but 'No retrieved record specifies monitoring thresholds'."
+        },
+        {
+          "severity": "minor",
+          "issue": "The composite relapse ground truth relies on physician-confirmed flare plus objective markers, but reliance on clinician judgment across sites introduces action-driven label variability that could conflate the model's target with local practice patterns.",
+          "evidence_basis": "Plan acknowledges relapse labels are 'noisy and inconsistent across sites'; NCT06698601 supports fecal calprotectin as an objective anchor but no retrieved record fixes a canonical relapse definition."
+        }
+      ]
+    }
+  ],
+  "fix_before_submission": [
+    "Lock a confirmed intended-use / clinical claim with the team before finalizing endpoint, comparator, and device boundary.",
+    "Decide and predefine a single primary regulated function/endpoint (relapse probability vs severity index) and resolve the device/CDS split with regulatory counsel.",
+    "State the 12-month relapse incidence assumption, target event count, and precision/power basis; back-calculate enrollment.",
+    "Add a subgroup hierarchy with multiplicity control and minimum events-per-stratum so subgroup analyses are not underpowered on a rare event.",
+    "Define the specific clinical decision and actionable lead-time the relapse output drives, so the score is not clinically inert."
+  ]
+}

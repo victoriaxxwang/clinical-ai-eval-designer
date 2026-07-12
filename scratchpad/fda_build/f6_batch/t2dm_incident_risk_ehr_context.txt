@@ -1,0 +1,48 @@
+### Retrieval Metadata
+- Retrieved (UTC): 2026-07-12T00:44:36Z
+- Intervention type: device
+- Literature/trials query: '("Diabetes Mellitus") AND gradient AND boosted'
+- MeSH normalization: 'diabetes mellitus' → "Diabetes Mellitus" (D003920) + 0 synonyms
+- openFDA device terms: ['gradient', 'primary', 'care', 'practices', 'boosted']
+
+### openFDA (device classification / 510(k) precedents)
+Disease-code axis (classification -> 510(k)):
+- CODE OYC | Pump, Infusion, Insulin, To Be Used With Invasive Glucose Sensor | panel=Unknown | rank=0
+- CODE QXC | Diabetes Digital Therapeutic Device | panel=General Hospital | rank=0
+    predicate DEN220058 | BT-001 | date=2023-07-07 | applicant=Better Therapeutics
+- CODE OIF | Tyrosine Phosphatase (Ia-2) Autoantibody Assay | panel=Immunology | rank=0
+    predicate K171731 | KRONUS IA-2 Autoantibody (IA-2Ab) ELISA Kit | date=2018-01-19 | applicant=Kronus, Inc.
+    predicate K073590 | KRONUS IA-2 AUTOANTIBODY RIA ASSAY KIT | date=2008-04-10 | applicant=Kronus Market Development Associates, Inc.
+    predicate K220085 | KRONUS IA-2 Autoantibody (IA-2Ab) ELISA Kit | date=2023-08-24 | applicant=Kronus, Inc.
+Device-name axis (AI/CAD/triage devices naming the disease/anatomy):
+- K213131 | Accu-Chek Guide Solo diabetes manager blood glucose monitoring system | code=NBW | date=2023-08-10 | applicant=Roche Diabetes Care GmbH
+
+### openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)
+- PMA | Organ Care System (OCS) Heart System | pma_number=P180051 | supplement=S008 | decision=OK30 | date=2025-10-22 | product_code=QIK | applicant=TransMedics, Inc.
+- MAUDE | DENSITY GRADIENT RED BLOOD CELL/SERUM | event_type=Malfunction | date_received=19940318 | report_number=MW1002029
+- MAUDE | CERVICAL PLATE AND SCREW SYSTEM -GRADIENT PLUS SYSTEM | event_type=Injury | date_received=20120611 | report_number=MW5025786
+- Recall | MediPress pneumatic compression system, Half Leg-Segmental Gradient, Model #6102-S | classification=Class II | status=Terminated | reason=Product design change did not receive proper premarket clearance and lacks a 510 (k) | firm=Compass Health Brands (Corporate Office) | date=20190408 | recall_number=Z-1343-2019
+- Recall | ETEST Doripenem DOR32 FOAM packaging, Product Name: Etest Doripenem DOR 0.002-32. ETEST is a quantitative technique for  | classification=Class II | status=Terminated | reason=Product Stability issues: The current shelf-life claims of the ETEST products are not supported by internal testing. | firm=BioMerieux SA | date=20161215 | recall_number=Z-1526-2017
+
+### Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)
+- PMID 42384762 | DOI 10.1080/15389588.2026.2685782 ✓Crossref | Naturalistic driving data can identify elevated driving risk in adults with Type 1 diabetes. | Traffic Inj Prev 2026 [Europe PMC]
+- PMID 34574055 | DOI 10.3390/diagnostics11091714 ✓Crossref | Diagnosis of Diabetes Mellitus Using Gradient Boosting Machine (LightGBM) | Diagnostics 2021 [OpenAlex]
+- PPR:PPR1185161 | DOI 10.21203/rs.3.rs-9359456/v1 ✓Crossref | An Interpretable Machine Learning Framework for Predicting Metabolic Syndrome Using NHANES Biomarkers | PPR 2026 [Europe PMC]
+- PMID 18048764 | DOI 10.1210/er.2007-0015 ✓Crossref | The Role for Endoplasmic Reticulum Stress in Diabetes Mellitus | Endocrine Reviews 2007 [OpenAlex]
+- PMID 42119112 | DOI 10.3233/shti260076 ✓Crossref | Physical Activity Prediction for Patients in a Diabetes Telehealth System: Comparison of Different Data Driven Approaches. | Stud Health Technol Inform 2026 [Europe PMC]
+- PMID 31615566 | DOI 10.1186/s12902-019-0436-6 ✓Crossref | Predictive models for diabetes mellitus using machine learning techniques | BMC Endocrine Disorders 2019 [OpenAlex]
+- PMID 41856423 | DOI 10.1016/j.jbi.2026.105020 ✓Crossref | Linear and non-linear feature selection for survival modelling of ischemic heart disease in patients with diabetes: Insights from electronic health records. | J Biomed Inform 2026 [Europe PMC]
+- PMID 28138367 | DOI 10.1016/j.csbj.2016.12.005 ✓Crossref | Machine Learning and Data Mining Methods in Diabetes Research | Computational and Structural Biotechnology Journal 2017 [OpenAlex]
+- PMID 42311172 | DOI 10.1111/apt.70797 | Development and Validation of a Machine Learning Model to Prognosticate Hepatocellular Carcinoma. | Aliment Pharmacol Ther 2026 [Europe PMC]
+- https://openalex.org/W4388982729 | DOI 10.4236/jdaip.2023.114025 | A Hybrid Ensemble Learning Approach Utilizing Light Gradient Boosting Machine and Category Boosting Model for Lifestyle-Based Prediction of Type-II Diabetes Mellitus | Journal of Data Analysis and Information Processing 2023 [OpenAlex]
+- PPR:PPR1093984 | DOI 10.21203/rs.3.rs-7687597/v1 ✓Crossref | An Evaluation of Machine Learning Categories for Diabetes Prediction and Detection in Libya: A Comparative Study | PPR 2025 [Europe PMC]
+- https://openalex.org/W3038710713 | DOI 10.1007/s12652-020-02242-1 ✓Crossref | Modelling the map reduce based optimal gradient boosted tree classification algorithm for diabetes mellitus diagnosis system | Journal of Ambient Intelligence and Humanized Computing 2020 [OpenAlex]
+- PPR:PPR1251567 | DOI 10.64898/2026.06.10.26355420 ✓Crossref | Disentangling Confounders from Pathology in Long-COVID Trajectory Prediction for Women: An Interpretable Large-Language-Model Approach | PPR 2026 [Europe PMC]
+- PMID 20042708 | DOI 10.1161/atvbaha.109.200154 ✓Crossref | Diabetes Mellitus Induces Bone Marrow Microangiopathy | Arteriosclerosis Thrombosis and Vascular Biology 2009 [OpenAlex]
+- PMID 41908500 | DOI 10.1016/j.xops.2026.101124 ✓Crossref | Novel Systemic Associations of Idiopathic Epiretinal Membrane Identified via Machine Learning. | Ophthalmol Sci 2026 [Europe PMC]
+
+### Coverage & Retrieval Gaps
+This spec was grounded ONLY in sources that expose a free, public API: ClinicalTrials.gov, openFDA (device classification, 510(k), PMA, MAUDE adverse events, recalls), the merged literature indexes Europe PMC / OpenAlex / Semantic Scholar (PubMed fallback), and Crossref (DOI verification). It deliberately does NOT include:
+- Licensed databases with no public API (institutional / manual retrieval required): Embase, PsycINFO, Cochrane Library (CENTRAL), Scopus, Web of Science, CINAHL.
+- FDA drug/biologic pathways (Drugs@FDA, SPL labeling, FAERS) and non-US regulators (EMA, MHRA, PMDA) — not queried by this pipeline.
+Absence of a record above is NOT evidence of absence. Treat the retrieved evidence as a floor for expert review, not a complete landscape.

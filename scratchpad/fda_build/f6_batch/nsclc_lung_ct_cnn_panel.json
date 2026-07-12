@@ -1,0 +1,74 @@
+{
+  "panel": [
+    {
+      "persona": "regulator",
+      "strength": "Correctly scopes the device to a 510(k) CADx/nodule-characterization lane using a real on-point precedent (product code OEB, K193216 syngo.CT Lung CAD) while treating predicate adequacy as unconfirmed rather than assumed.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The intended-use / clinical claim is explicitly INFERRED by the drafter ('concurrent-read decision support') rather than stated by the sponsor. A validation plan cannot lock a primary endpoint or pathway on an assumed intended use; the certification statement inherits that assumption.",
+          "evidence_basis": "The plan itself flags the claim as 'INFERRED \u2014 stated as assumption'; no retrieved 510(k) summary or clinical-utility record establishes the claim scope, so it rests entirely on drafter judgment."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The doubling-time / growth-rate regression output is emitted by the device but has no validation pathway; leaving it in the model while excluding it from the claim creates an unaddressed regulated output. Any 'biopsy-vs-surveillance' language also raises the risk tier and is not yet reconciled with counsel.",
+          "evidence_basis": "Plan states doubling-time and biopsy/defer language 'materially raise the claim's risk tier'; no retrieved device record (OEB K193216, LLZ K183593) covers a growth-rate or triage-mandate output as a cleared function."
+        },
+        {
+          "severity": "minor",
+          "issue": "No systematic predicate search was performed and De Novo is only raised as a contingency; the single retrieved precedent may not substantively equate to a calibrated-risk-plus-triage claim.",
+          "evidence_basis": "Only two lung-imaging device records retrieved (K193216 OEB, K183593 LLZ), the latter explicitly a non-suitable bronchoscopic-navigation device; coverage note states no systematic predicate search."
+        }
+      ]
+    },
+    {
+      "persona": "biostatistician",
+      "strength": "Appropriately specifies calibration metrics (slope/intercept, Brier) alongside discrimination and sizes the study event-driven on the minority malignant-nodule count rather than total scans.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "No sample size is computed \u2014 the plan defers entirely to a future statistician. Without a target effect size, expected malignancy prevalence, and reader-variance assumptions, the MRMC design and subgroup estimation targets cannot be judged adequate.",
+          "evidence_basis": "Plan states 'no applicable sample size was retrieved'; the only retrieved enrollments (n=107, 180, 432, 1264) are therapeutic NSCLC drug trials (NCT03786692, NCT07154706, NCT00290953, NCT04738487), not valid diagnostic MRMC references."
+        },
+        {
+          "severity": "blocking",
+          "issue": "ROC-AUC is named as the primary discrimination metric, but a screening cohort dominated by benign nodules is a low-prevalence setting where AUROC can overstate clinical usefulness; AUPRC / PPV at operating threshold should be pre-specified as co-primary or the primary rationale justified.",
+          "evidence_basis": "Plan's own ground-truth section states 'screening cohorts are dominated by benign nodules'; no retrieved benchmark specifies AUROC as the consensus metric for this population."
+        },
+        {
+          "severity": "minor",
+          "issue": "Subgroups are listed as 'pre-specify and independently power (or at minimum pre-register as estimation targets)' \u2014 the fallback to estimation-only leaves subgroup validity claims unpowered, and multiplicity control across the many strata is not specified.",
+          "evidence_basis": "Field 6 enumerates ~six subgroup axes with an explicit power-or-estimate hedge; no retrieved record quantifies subgroup effect sizes to anchor powering."
+        }
+      ]
+    },
+    {
+      "persona": "clinical_scientist",
+      "strength": "Frames the endpoint around decision impact (biopsy-vs-surveillance reclassification, net benefit / decision-curve) rather than discrimination alone, matching the triage use case.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "No performance threshold or operating point is pre-specified, so it is impossible to state at what risk score the tool would change clinical action or how it maps to Lung-RADS/Brock decisions. Without an actionable threshold the utility claim cannot be evaluated.",
+          "evidence_basis": "Plan states 'no numeric performance benchmark was retrieved' and that Lung-RADS/Brock comparators 'were NOT in the grounded retrieval and must be sourced and version-locked'; no retrieved literature record supplies a threshold."
+        },
+        {
+          "severity": "minor",
+          "issue": "Alert-fatigue and reader-trust effects of concurrent-read scoring are not addressed; a per-nodule score on every screening scan risks over-referral or automation bias that could offset net benefit.",
+          "evidence_basis": "Retrieved literature (PMID 42125996, 41933519, 42235590, 41557569) is algorithm-development work with no reader-workflow or alert-burden data; absence means workflow burden is untested."
+        },
+        {
+          "severity": "minor",
+          "issue": "The doubling-time output, if visible to readers even without a formal claim, could still influence surveillance intervals; lead-time actionability and the harm of an unvalidated growth estimate reaching clinicians are not managed.",
+          "evidence_basis": "Plan concedes doubling-time 'requires separate serial-scan volumetric validation'; no retrieved record validates growth-rate actionability for this pipeline."
+        }
+      ]
+    }
+  ],
+  "fix_before_submission": [
+    "Obtain the sponsor's explicit intended-use statement and lock the primary claim before finalizing endpoint and pathway; do not proceed on an inferred claim.",
+    "Decide the fate of the doubling-time/growth-rate output \u2014 either disable it, or add a separate serial-scan volumetric validation arm \u2014 and scrub any biopsy-vs-surveillance language with regulatory counsel.",
+    "Compute the event-driven sample size (target effect size, screening malignancy prevalence, reader variance, subgroup multiplicity) via a study statistician.",
+    "Pre-specify discrimination metric appropriate to low-prevalence screening (add AUPRC / PPV at operating threshold or justify AUROC) alongside calibration.",
+    "Source, version-lock, and pre-specify the clinical comparator baseline (Lung-RADS and/or Brock/PanCan) and the operating risk-score threshold that changes clinical action."
+  ]
+}

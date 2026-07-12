@@ -1,0 +1,49 @@
+### Retrieval Metadata
+- Retrieved (UTC): 2026-07-12T00:47:47Z
+- Intervention type: device
+- Literature/trials query: '("Lung Diseases" OR "Disease, Lung" OR "Diseases, Lung" OR "Lung Disease" OR "Disease, Pulmonary") AND spirometry AND hybrid'
+- MeSH normalization: 'pulmonary disease' → "Lung Diseases" (D008171) + 4 synonyms
+- openFDA device terms: ['spirometry', 'outpatient', 'pulmonology', 'clinics', 'hybrid']
+
+### ClinicalTrials.gov (study designs, endpoints, enrollment)
+- NCT06883448 | Implementation of Home Monitoring in Patients With Pulmonary Fibrosis | status=RECRUITING | type=INTERVENTIONAL phases=NA | n=220 | allocation=RANDOMIZED masking=NONE | primary_outcomes=Patient self-management
+- NCT05339048 | The Cartagena Cohort Study | status=ENROLLING_BY_INVITATION | type=OBSERVATIONAL phases= | n=619 | allocation= masking= | primary_outcomes=Atherosclerosis; Acute cardiovascular event; Chronic airflow obstruction; Metabolic syndrome
+- NCT07195838 | Mindful-Breath for People With COPD | status=RECRUITING | type=INTERVENTIONAL phases=NA | n=60 | allocation=RANDOMIZED masking=DOUBLE | primary_outcomes=Feasibility in terms of rates of recruitment, retention and adherence; Acceptability in terms of instances of adverse events; Acceptability in terms of satisfaction with intervention
+- NCT05225194 | Long-term Impact of COVID-19 Among COVID-19 Patients With Acute Respiratory Distress Syndrome in Brazil | status=UNKNOWN | type=OBSERVATIONAL phases= | n=318 | allocation= masking= | primary_outcomes=Diffusion capacity for carbon monoxide
+- NCT03942302 | Characterization of Variable MARrcha's Diary Variables as a Useful Measure | status=UNKNOWN | type=OBSERVATIONAL phases= | n=10 | allocation= masking= | primary_outcomes=Minutes of daily walking
+- NCT07556159 | A Study Evaluating Disease Characteristics and Outcomes in Participants With Asthma in Routine Clinical Practice | status=RECRUITING | type=OBSERVATIONAL phases= | n=2500 | allocation= masking= | primary_outcomes=Part 1: Descriptive Characterization of Participants With Asthma Across the Spectrum of Severities; Part 1: ACQ-5 Scores to Evaluate Characteristics of Participants With Asthma; Part 1: Mini-Asthma Quality of Life Questionnaire (Mini-AQLQ) Scores to Evaluate Characteristics of Participants With Asth
+
+### openFDA (device classification / 510(k) precedents)
+Device-name axis (AI/CAD/triage devices naming the disease/anatomy):
+- K193216 | syngo.CT Lung CAD | code=OEB | date=2020-03-09 | applicant=Siemens Medi Cal Solutions, Inc.
+- K183593 | Lung Vision System | code=LLZ | date=2019-04-18 | applicant=Bodyvision Medical , Ltd.
+
+### openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)
+- PMA | Thoraflex Hybrid | pma_number=P210006 | supplement=S006 | decision=OK30 | date=2023-09-21 | product_code=QSK | applicant=Vascutek, Ltd.
+- MAUDE | PEAK FLOW METER (SPIROMETRY) | event_type=Malfunction | date_received=20140325 | report_number=1044475-2014-00076
+- MAUDE | PEAK FLOW METER (SPIROMETRY | event_type=Malfunction | date_received=20140325 | report_number=1044475-2014-00075
+- Recall | Welch Allyn CP150 Electrocardiograph with Spirometry Option, Product Code: CP150A-1ENB. The Electrocardiograph is one of | classification=Class II | status=Ongoing | reason=During manufacturing, the step to install an Electromagnetic Interference (EMI) Absorber was omitted. The purpose of the EMI absorber is to prevent EMI leakage  | firm=Baxter Healthcare Corporation | date=20240603 | recall_number=Z-2323-2024
+- Recall | GE Healthcare CARESCAPE Monitor B450 Product Usage: Intended uses of CARESCAPE B450 in 510(k) countries [UR_CRSCP-885]:  | classification=Class II | status=Ongoing | reason=When multiple CARESCAPEMonitor B450 or B850 units are connected to the same network and a network overload occurs for a prolonged time, the monitors may simulta | firm=GE Healthcare Finland Oy | date=20180904 | recall_number=Z-0095-2019
+
+### Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)
+- PMID 41857194 | DOI 10.1038/s41598-026-44441-4 ✓Crossref | Entropy-regularized dual-stream attention fusion for multi-disease lung classification. | Sci Rep 2026 [Europe PMC]
+- PMID 36206780 | DOI 10.1016/s2213-2600(22)00228-4 ✓Crossref | Home monitoring in interstitial lung diseases | The Lancet Respiratory Medicine 2022 [OpenAlex]
+- PMID 41736730 | DOI 10.1183/23120541.00709-2025 ✓Crossref | Healthcare professionals' perspectives on implementation of home monitoring in individuals with pulmonary fibrosis. | ERJ Open Res 2026 [Europe PMC]
+- PMID 29524630 | DOI 10.1016/j.matbio.2018.03.005 ✓Crossref | Extracellular matrix in lung development, homeostasis and disease | Matrix Biology 2018 [OpenAlex]
+- PMID 42310732 | DOI 10.1186/s12931-026-03716-0 ✓Crossref | Design of a randomized controlled trial comparing hybrid care with standard care for people with pulmonary fibrosis. | Respir Res 2026 [Europe PMC]
+- PMID 7789503 | DOI 10.1183/09031936.95.08030492 ✓Crossref | Reference values for residual volume, functional residual capacity and total lung capacity. ATS Workshop on Lung Volume Measurements. Official Statement of The European Respiratory Society | European Respiratory Journal 1995 [OpenAlex]
+- PMID 41105107 | DOI 10.4081/monaldi.2025.3342 ✓Crossref | Role of hybrid virtual pulmonary rehabilitation in improving performance status of patients eligible for lung transplantation. | Monaldi Arch Chest Dis 2026 [Europe PMC]
+- PMID 28081802 | DOI 10.1016/j.ejvs.2016.06.005 ✓Crossref | Editor's Choice – Management of Descending Thoracic Aorta Diseases | European Journal of Vascular and Endovascular Surgery 2017 [OpenAlex]
+- PMID 41377819 | DOI 10.3389/fmed.2025.1620462 ✓Crossref | Time series prediction for lung disease diagnosis and treatment optimization. | Front Med (Lausanne) 2025 [Europe PMC]
+- PMID 31637580 | DOI 10.1007/s11154-019-09516-w ✓Crossref | Diabetic lung disease: fact or fiction? | Reviews in Endocrine and Metabolic Disorders 2019 [OpenAlex]
+- PMID 41488043 | DOI 10.1016/j.rmcr.2025.102345 ✓Crossref | Multidisciplinary respiratory rehabilitation after spontaneous pneumothorax in cystic lung disease: a case report with literature review. | Respir Med Case Rep 2026 [Europe PMC]
+- PMID 33456721 | DOI 10.1007/s12274-020-3180-3 ✓Crossref | Recent applications and strategies in nanotechnology for lung diseases | Nano Research 2021 [OpenAlex]
+- PMID 42121695 | DOI 10.3390/healthcare14091250 | Hybrid Tele-Rehabilitation in the Management of Pediatric Chronic Suppurative Lung Diseases: Study Protocol for a Randomized Controlled Trial. | Healthcare (Basel) 2026 [Europe PMC]
+- PMID 18581381 | DOI 10.1002/jmri.21408 ✓Crossref | Assessment of the lung microstructure in patients with asthma using hyperpolarized <sup>3</sup>He diffusion MRI at two time scales: Comparison with healthy subjects and patients with COPD | Journal of Magnetic Resonance Imaging 2008 [OpenAlex]
+- PMID 41465753 | DOI 10.3390/life15121814 ✓Crossref | First Description of Bilateral Lung Transplantation in Patient with Birt-Hogg-Dubé Syndrome: A Case Report and Surgical Feasibility Insight. | Life (Basel) 2025 [Europe PMC]
+
+### Coverage & Retrieval Gaps
+This spec was grounded ONLY in sources that expose a free, public API: ClinicalTrials.gov, openFDA (device classification, 510(k), PMA, MAUDE adverse events, recalls), the merged literature indexes Europe PMC / OpenAlex / Semantic Scholar (PubMed fallback), and Crossref (DOI verification). It deliberately does NOT include:
+- Licensed databases with no public API (institutional / manual retrieval required): Embase, PsycINFO, Cochrane Library (CENTRAL), Scopus, Web of Science, CINAHL.
+- FDA drug/biologic pathways (Drugs@FDA, SPL labeling, FAERS) and non-US regulators (EMA, MHRA, PMDA) — not queried by this pipeline.
+Absence of a record above is NOT evidence of absence. Treat the retrieved evidence as a floor for expert review, not a complete landscape.

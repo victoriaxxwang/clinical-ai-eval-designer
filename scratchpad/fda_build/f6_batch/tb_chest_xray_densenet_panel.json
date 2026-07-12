@@ -1,0 +1,74 @@
+{
+  "panel": [
+    {
+      "persona": "regulator",
+      "strength": "The plan correctly frames the claim as computer-aided triage rather than diagnosis, and explicitly separates what the validation certifies from what it does not \u2014 aligning with a CADt-style regulatory concept.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The intended-use claim is self-described as 'inferred \u2014 team to confirm,' so the primary regulatory anchor (triage vs. diagnosis) is not yet fixed. A validation plan cannot be finalized against an unconfirmed intended use.",
+          "evidence_basis": "The plan's own Intended Clinical Claim field labels the framing 'inferred' and asks the team to confirm; no cleared intended-use statement exists in the retrieved evidence."
+        },
+        {
+          "severity": "blocking",
+          "issue": "No US predicate or cleared pathway is identified; the plan speculates De Novo vs. 510(k) without a confirmed product code, and the WHO prequalification route is web-derived and unverified.",
+          "evidence_basis": "openFDA pull returned only molecular assays (PEU/MWA, DEN130032, K143302) and unrelated hardware PMA/recalls; no TB-CAD triage software 510(k)/De Novo was retrieved, and WHO TPP/prequalification records are explicitly noted as not in the retrieved records."
+        },
+        {
+          "severity": "minor",
+          "issue": "The plan cites MAUDE-style reporting for post-market monitoring but the only retrieved MAUDE/recall records are imaging hardware, not software mis-triage, so the software adverse-event framework rests on analogy rather than precedent.",
+          "evidence_basis": "Retrieved MAUDE entries (report 2443168-1994-00001, community bed) and recalls (Z-1063-2017/Z-1064-2017) are hardware faults; no software-triage adverse-event precedent appears in the retrieved evidence."
+        }
+      ]
+    },
+    {
+      "persona": "biostatistician",
+      "strength": "The plan correctly demands operating-point sensitivity/specificity with 95% CIs at the pre-specified deployment threshold and prevalence-driven PPV/NPV, rather than treating AUROC as a pass/fail bar.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "No sample size is specified \u2014 including no minimum confirmed-positive yield to estimate sensitivity precisely \u2014 leaving the study unpowered by design until a statistician sets N per subgroup and per prevalence.",
+          "evidence_basis": "Field 5 states 'No established sample size was retrieved'; no retrieved study supports a target N for this ensemble/portable-DR configuration."
+        },
+        {
+          "severity": "blocking",
+          "issue": "Verification/partial-verification bias is flagged but not resolved: culturing only CXR-positives plus a 'sample' of negatives biases sensitivity/specificity unless the sampling and correction method are pre-specified.",
+          "evidence_basis": "Field 4 acknowledges 'verification bias must be addressed if not all negatives are cultured' but the plan provides no correction method; the systematic review (PMID 40058367) documents wide accuracy heterogeneity that unaddressed bias would worsen."
+        },
+        {
+          "severity": "minor",
+          "issue": "The plan reports AUROC and sens/spec but does not require calibration assessment despite noting prevalence/case-mix shift across campaigns, which directly affects the probability-score threshold.",
+          "evidence_basis": "Field 8 notes prevalence and case-mix shift across campaigns and calibration monitoring, but no calibration metric is required in the validation itself; no retrieved record establishes a calibration standard for this model."
+        }
+      ]
+    },
+    {
+      "persona": "clinical_scientist",
+      "strength": "The plan ties the output to a concrete downstream clinical action \u2014 prioritizing which patients proceed to confirmatory bacteriological testing \u2014 and pre-specifies clinically meaningful subgroups (HIV, prior-TB scarring, bacillary burden).",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "HIV-associated and paucibacillary/subclinical TB frequently present with normal or atypical CXR, so a CXR-only triage tool may systematically miss the highest-risk cases; the plan lists this as a limitation but does not require the study to quantify missed-case rate in these subgroups as a gating criterion.",
+          "evidence_basis": "Field 6 and the 'does not certify' section acknowledge HIV/atypical CXR degradation and paucibacillary label-ceiling limits, but set no per-subgroup missed-case acceptance bound; population-based CAD screening evidence (PMID 40260691) is cited generally without subgroup miss-rate thresholds."
+        },
+        {
+          "severity": "minor",
+          "issue": "The segmentation QA gate that rejects out-of-distribution FOV images could create workflow friction and unreviewed-image backlogs in field campaigns; the plan does not address downstream handling or alert/rejection burden.",
+          "evidence_basis": "Field 2 requires an automatic QA gate that rejects/flags segmentation failures but no retrieved evidence quantifies rejection rate or workflow impact for portable DR."
+        },
+        {
+          "severity": "minor",
+          "issue": "The plan does not address lead-time/actionability \u2014 whether a same-visit triage score in a portable-DR campaign meaningfully accelerates time to confirmatory Xpert, which determines clinical value.",
+          "evidence_basis": "The use case describes triage ahead of Xpert MTB/RIF (DEN130032/K143302) but no retrieved evidence characterizes turnaround or lead-time benefit for this deployment."
+        }
+      ]
+    }
+  ],
+  "fix_before_submission": [
+    "Confirm and lock the intended-use claim (triage vs. diagnosis) before finalizing the validation design.",
+    "Obtain regulatory counsel confirmation of the exact US product code/pathway (De Novo vs. 510(k)) and verify the WHO prequalification route; do not assert an unconfirmed pathway.",
+    "Have a statistician set a pre-specified sample size, including minimum confirmed-positive yield and per-subgroup/lowest-prevalence powering.",
+    "Pre-specify the negative-sampling scheme and a verification-bias correction method for the bacteriological reference standard.",
+    "Set explicit per-subgroup missed-case acceptance bounds for HIV-associated and paucibacillary/atypical-CXR TB as gating criteria, not just reported limitations."
+  ]
+}

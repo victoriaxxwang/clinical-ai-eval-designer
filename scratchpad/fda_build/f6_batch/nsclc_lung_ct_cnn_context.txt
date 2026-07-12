@@ -1,0 +1,50 @@
+### Retrieval Metadata
+- Retrieved (UTC): 2026-07-12T00:18:49Z
+- Intervention type: device
+- Literature/trials query: '("Lung Neoplasms" OR "Neoplasms, Pulmonary" OR "Neoplasm, Pulmonary" OR "Pulmonary Neoplasm" OR "Pulmonary Neoplasms") AND dual AND branch'
+- MeSH normalization: 'lung cancer' → "Lung Neoplasms" (D008175) + 4 synonyms
+- openFDA device terms: ['dual', 'outpatient', 'lung', 'cancer', 'branch']
+
+### ClinicalTrials.gov (study designs, endpoints, enrollment)
+- NCT03786692 | Phase II Randomized Trial of Carboplatin+Pemetrexed+Bevacizumab+/- Atezolizumab in Stage IV NSCLC | status=ACTIVE_NOT_RECRUITING | type=INTERVENTIONAL phases=PHASE2 | n=107 | allocation=RANDOMIZED masking=NONE | primary_outcomes=Progression free survival
+- NCT07154706 | Phase 3 Study of Taletrectinib vs Placebo as an Adjuvant Therapy in ROS1 Positive NSCLC (TRUST-IV) | status=RECRUITING | type=INTERVENTIONAL phases=PHASE3 | n=180 | allocation=RANDOMIZED masking=TRIPLE | primary_outcomes=Primary Outcome Measure: To compare the efficacy of taletrectinib with that of placebo, as measured by disease-free survival (DFS) by investigator assessment.
+- NCT00290953 | Evaluation of the Overall Survival of Meclinertant Versus Placebo After a First Line Chemotherapy With Cisplatin + Etoposide | status=COMPLETED | type=INTERVENTIONAL phases=PHASE2, PHASE3 | n=432 | allocation=RANDOMIZED masking=DOUBLE | primary_outcomes=- Overall survival (OS)
+- NCT04738487 | Coformulation of Pembrolizumab/Vibostolimab (MK-7684A) Versus Pembrolizumab (MK-3475) Monotherapy for Programmed Cell Death 1 Ligand 1 (PD-L1) Positive Metastatic Non-Small Cell Lung Cancer (MK-7684A-003, KEYVIBE-003) | status=COMPLETED | type=INTERVENTIONAL phases=PHASE3 | n=1264 | allocation=RANDOMIZED masking=QUADRUPLE | primary_outcomes=Overall Survival (OS) in Participants With PD-L1 TPS ≥50%
+- NCT00602030 | Study to Evaluate Erlotinib With or Without SNDX-275 (Entinostat) in the Treatment of Patients With Advanced NSCLC | status=COMPLETED | type=INTERVENTIONAL phases=PHASE1, PHASE2 | n=141 | allocation=RANDOMIZED masking=TRIPLE | primary_outcomes=Identification of Safe-dose for the Phase 2 Double-blind Phase in the Lead-in Phase; 4-Month Progression-free Survival (PFS) Rate in the Double-blind Phase
+- NCT01783236 | Analgesic Efficacy of Intravenous Acetaminophen After Video-assisted Thoracic Surgery | status=COMPLETED | type=INTERVENTIONAL phases=PHASE4 | n=16 | allocation=RANDOMIZED masking=TRIPLE | primary_outcomes=Total Morphine Consumption (mg)
+
+### openFDA (device classification / 510(k) precedents)
+Device-name axis (AI/CAD/triage devices naming the disease/anatomy):
+- K193216 | syngo.CT Lung CAD | code=OEB | date=2020-03-09 | applicant=Siemens Medi Cal Solutions, Inc.
+- K183593 | Lung Vision System | code=LLZ | date=2019-04-18 | applicant=Bodyvision Medical , Ltd.
+
+### openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)
+- PMA | OVATIO VR/DR | pma_number=P980049 | supplement=S047 | decision=OK30 | date=2009-05-01 | product_code=MRM | applicant=MicroPort CRM USA, Inc.
+- PMA | Tupos LV/ATX & Kronos LV-T CRT-D & Corox OWT Steroid LV Pacing Lead | pma_number=P050023 | supplement=S149 | decision=APPR | date=2020-09-17 | product_code=MRM | applicant=Biotronik, Inc.
+- MAUDE | PULSE-GENERATOR, DUAL CHAMBER, IMPLANTABLE | event_type=Injury | date_received=20200427 | report_number=3004209178-2020-07719
+- MAUDE | PULSE-GENERATOR, DUAL CHAMBER, IMPLANTABLE | event_type=Injury | date_received=20200427 | report_number=2649622-2020-08347
+- Recall | Atrium Medical 400 Series Express Drains as follows: 4000-100N Express single collection drain with in-line connector 40 | classification=Class II | status=Terminated | reason=Outer Packaging is not sterile | firm=Atrium Medical Corporation | date=20161129 | recall_number=Z-1087-2017
+- Recall | OMNIlife science, Inc. ApeX acetabular liner hip prosthesis component Serf Dual Mobility Cup Insert Liner 51-28; Product | classification=Class II | status=Terminated | reason=Acetabular liners failed the oxidation testing performed prior to release. They may experience a higher wear rate, leading to revision surgery. | firm=OMNIlife science Inc. | date=20190723 | recall_number=Z-2480-2019
+
+### Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)
+- PMID 42125996 | DOI 10.1002/rcs.70183 ✓Crossref | A Dual-Branch Cross-Attention Fusion Network for Multi-Subtype Lung Cancer Classification. | Int J Med Robot 2026 [Europe PMC]
+- PMID 16962464 | DOI 10.1016/j.healun.2006.06.008 ✓Crossref | Listing Criteria for Heart Transplantation: International Society for Heart and Lung Transplantation Guidelines for the Care of Cardiac Transplant Candidates—2006 | The Journal of Heart and Lung Transplantation 2006 [OpenAlex]
+- PMID 42235590 | DOI 10.1088/1361-6560/ae7796 ✓Crossref | DecX-Net: a dual-path feature decoupling network with layer-wise feature alignment for subsolid pulmonary nodule segmentation. | Phys Med Biol 2026 [Europe PMC]
+- PMID 11904343 | DOI 10.1038/modpathol.3880524 ✓Crossref | Schneiderian Papillomas and Nonsalivary Glandular Neoplasms of the Head and Neck | Modern Pathology 2002 [OpenAlex]
+- PMID 41933519 | DOI 10.1016/j.cmpb.2026.109337 ✓Crossref | Dual-branch attention-enhanced network integrating CT images and clinicoradiographic features for preoperative ternary classification of IASLC grading in lung adenocarcinoma: A multicenter study. | Comput Methods Programs Biomed 2026 [Europe PMC]
+- PMID 20548776 | DOI 10.1371/journal.pone.0011022 ✓Crossref | Evidence That SOX2 Overexpression Is Oncogenic in the Lung | PLoS ONE 2010 [OpenAlex]
+- PMID 41365825 | DOI 10.1093/bjr/tqaf303 ✓Crossref | Can full-volume dual-energy CT quantitative parameter nomogram predict the new IASLC grade of pure solid invasive pulmonary adenocarcinoma. | Br J Radiol 2026 [Europe PMC]
+- PMID 26462967 | DOI 10.1089/thy.2015.0020 ✓Crossref | 2015 American Thyroid Association Management Guidelines for Adult Patients with Thyroid Nodules and Differentiated Thyroid Cancer: The American Thyroid Association Guidelines Task Force on Thyroid Nodules and Differentiated Thyroid Cancer | Thyroid 2015 [OpenAlex]
+- PMID 41557569 | DOI 10.1109/tmi.2026.3656184 ✓Crossref | NGP-Net: A Lightweight Growth Prediction Network for Pulmonary Nodules. | IEEE Trans Med Imaging 2026 [Europe PMC]
+- PMID 24722523 | DOI 10.18632/oncotarget.1891 ✓Crossref | Molecular pathways and therapeutic targets in lung cancer | Oncotarget 2014 [OpenAlex]
+- PMID 41538897 | DOI 10.1016/j.neunet.2026.108541 ✓Crossref | MT-IDS: A multi-task information decoupling strategy for identifying lymph node metastasis in the mediastinal region. | Neural Netw 2026 [Europe PMC]
+- PMID 20679594 | DOI 10.1093/jnci/djq279 ✓Crossref | Lung Cancer Cell Lines as Tools for Biomedical Discovery and Research | JNCI Journal of the National Cancer Institute 2010 [OpenAlex]
+- PMID 41576433 | DOI 10.1016/j.bios.2026.118426 ✓Crossref | The intelligent nanoreactor ignites mitochondrial homeostasis disruption via calcium overload and ROS storm for the treatment and visual diagnosis of lung adenocarcinoma. | Biosens Bioelectron 2026 [Europe PMC]
+- PMID 29535911 | DOI 10.21037/tlcr.2018.02.02 ✓Crossref | Small cell lung cancer tumors and preclinical models display heterogeneity of neuroendocrine phenotypes | Translational Lung Cancer Research 2018 [OpenAlex]
+- PMID 42050780 | DOI 10.1002/mp.70450 ✓Crossref | Cross-attention multimodal fusion for EGFR mutation prediction: A predictive model using CT and whole-slide images. | Med Phys 2026 [Europe PMC]
+
+### Coverage & Retrieval Gaps
+This spec was grounded ONLY in sources that expose a free, public API: ClinicalTrials.gov, openFDA (device classification, 510(k), PMA, MAUDE adverse events, recalls), the merged literature indexes Europe PMC / OpenAlex / Semantic Scholar (PubMed fallback), and Crossref (DOI verification). It deliberately does NOT include:
+- Licensed databases with no public API (institutional / manual retrieval required): Embase, PsycINFO, Cochrane Library (CENTRAL), Scopus, Web of Science, CINAHL.
+- FDA drug/biologic pathways (Drugs@FDA, SPL labeling, FAERS) and non-US regulators (EMA, MHRA, PMDA) — not queried by this pipeline.
+Absence of a record above is NOT evidence of absence. Treat the retrieved evidence as a floor for expert review, not a complete landscape.

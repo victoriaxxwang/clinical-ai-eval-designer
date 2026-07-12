@@ -1,0 +1,72 @@
+{
+  "panel": [
+    {
+      "persona": "regulator",
+      "strength": "The plan correctly anchors to product code PIB and names three genuine cleared predicates (K203629 IDx-DR, K223357 EyeArt v2.2.0, K240058 AEYE-DS), and mirrors their prospective intended-use pivotal template.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The entire specification rests on an inferred/assumed intended-use claim, and it leaves the autonomous-detection vs. assistive-to-overread decision unresolved even though it states the indication, camera list, and pivotal design all flow from that choice. A submission cannot proceed with the primary claim still labeled an assumption.",
+          "evidence_basis": "The plan's own 'Intended clinical claim (inferred \u2014 stated as assumption)' line and Section 7's unresolved autonomous-vs-assistive framing; retrieved predicates exist but the retrieved evidence carries no indication text confirming which cleared claim type applies to this model."
+        },
+        {
+          "severity": "minor",
+          "issue": "The device claim is tied to a named validated camera list, but the plan never resolves how predicate camera scope maps to this model's deployment cameras; a mismatch could force a De Novo rather than a 510(k) equivalence argument.",
+          "evidence_basis": "openFDA records list the PIB predicates by applicant/date only (K203629, K223357, K240058); no labeled camera-system detail was retrieved, so equivalence to a predicate's camera scope cannot be verified from the evidence."
+        },
+        {
+          "severity": "minor",
+          "issue": "Post-market disclaimer correctly scopes out ex-US regulators, but the plan should confirm the De Novo/510(k) lineage before assuming 510(k) is available for a claim that may exceed predicate scope.",
+          "evidence_basis": "Coverage & Retrieval Gaps section states non-US regulators were not queried; openFDA block shows PIB classification but does not expose the De Novo origin details needed to confirm the lineage."
+        }
+      ]
+    },
+    {
+      "persona": "biostatistician",
+      "strength": "Co-primary sensitivity and specificity each bounded by a two-sided 95% CI lower limit, with calibration and quadratic-weighted kappa as secondary endpoints, is the statistically appropriate framing for an ordinal-regression screening classifier.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The plan mandates enrichment for referable/severe cases to bound sensitivity, but does not address that case enrichment distorts the case mix and therefore biases specificity, prevalence, and any PPV/NPV interpretation relative to the true screening population. An enrichment strategy without a pre-specified correction for spectrum/case-mix bias is not defensible.",
+          "evidence_basis": "Section 5 recommends enrichment because referable DR is a minority event, but no retrieved predicate or NCT enrollment scheme is available to show how enrichment was reconciled with representative specificity estimation; the gap is unaddressed in the plan itself."
+        },
+        {
+          "severity": "minor",
+          "issue": "The plan flags per-subject clustering (two eyes) for N inflation but does not specify the analysis unit (per-eye vs per-patient) for the primary endpoint, which changes both the effective sample size and the referral-decision definition.",
+          "evidence_basis": "Section 5 mentions clustering inflation only; no retrieved evidence provides an analysis-unit convention, and the NIDEK laterality recall (Z-2046-2013) makes per-eye vs per-patient handling a live correctness issue."
+        },
+        {
+          "severity": "minor",
+          "issue": "Subgroups (camera/vendor, pigmentation, media opacity) are to be 'pre-specified or at minimum reported' but powering is left optional; underpowered subgroups will not detect the domain-shift failures the plan itself calls the dominant threat.",
+          "evidence_basis": "Section 6 leaves subgroup powering conditional; the calibration benchmark (PMID 42078464) warns transfer/frozen models can be miscalibrated, implying subgroup-level performance variation that unpowered strata cannot rule out."
+        }
+      ]
+    },
+    {
+      "persona": "clinical_scientist",
+      "strength": "Treating the ungradable output as a defined study outcome rather than an exclusion, plus a false-negative surveillance loop linking flagged-not-referred patients to downstream ophthalmology outcomes, correctly targets the high-consequence failure for a screening triage tool.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The stated setting includes 'tele-ophthalmology overread,' yet the inferred claim is autonomous detection \u2014 these imply different clinical actions (device decides vs human confirms). Until resolved, alert fatigue, referral-rate expectations, and who acts on the flag cannot be validated, and the workflow the study operates may not match the deployed one.",
+          "evidence_basis": "The plan's own Clinical use case and Healthcare setting describe overread while the inferred claim in the header and Section 7 describes autonomous detection; retrieved predicates do not disambiguate which workflow this model targets."
+        },
+        {
+          "severity": "minor",
+          "issue": "The plan explicitly does not certify lead-time actionability or downstream vision outcomes; while defensible as scope, clinicians will need at least a defined referral-to-specialist pathway and expected time-to-care to judge whether a flag changes action.",
+          "evidence_basis": "The 'DOES NOT CERTIFY' section disclaims patient-outcome improvement; no retrieved trial provides outcome or lead-time data for this class, so actionability remains unquantified."
+        },
+        {
+          "severity": "minor",
+          "issue": "Laterality/labeling error is correctly flagged as a monitoring item but is not embedded as a study-phase acceptance criterion, despite being a documented real-world harm mode that directly corrupts per-eye clinical decisions.",
+          "evidence_basis": "Recall Z-2046-2013 (NIDEK: left-eye image saved as right-eye) is cited only in monitoring (Section 8); the plan does not require prospective laterality-handling verification as a pass/fail gate in Section 2."
+        }
+      ]
+    }
+  ],
+  "fix_before_submission": [
+    "Resolve and state the primary intended-use claim as a decision (autonomous detection vs. assistive-to-overread) before finalizing the plan; remove its 'assumption' status.",
+    "Reconcile the stated tele-ophthalmology-overread setting with the autonomous claim so the validated workflow matches the deployed clinical action.",
+    "Pre-specify a spectrum/case-mix bias correction so that enrichment for referable cases does not bias specificity, prevalence, and predictive-value estimates for the true screening population."
+  ]
+}

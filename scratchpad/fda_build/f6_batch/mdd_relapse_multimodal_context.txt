@@ -1,0 +1,49 @@
+### Retrieval Metadata
+- Retrieved (UTC): 2026-07-12T01:09:11Z
+- Intervention type: device
+- Literature/trials query: 'text transformer natural language'
+- MeSH normalization: none (condition not an exact MeSH heading, or lookup unavailable) — raw keywords used
+- openFDA device terms: ['transformer', 'outpatient', 'behavioral', 'health', 'text']
+
+### openFDA (device classification / 510(k) precedents)
+- CLASSIFICATION | Transformer, Endoscope | product_code=GCW | class=2 | regulation=876.1500 | panel=Gastroenterology, Urology
+- 510(k) | MERITS TRANSFORMER POWER SCOOTER, S941 | k_number=K142162 | decision=Substantially Equivalent | date=2015-05-01 | applicant=Merits Health Products Co., Ltd.
+- 510(k) | TRANSFORMER | k_number=K822267 | decision=Substantially Equivalent | date=1982-10-13 | applicant=Kelleher Corp.
+- CLASSIFICATION | Outpatient Cardiac Telemetry | product_code=QYX | class=2 | regulation=870.1025 | panel=Cardiovascular
+- 510(k) | THE CORE (CARDIAC OUTPATIENT REALTIME ECG) MONITOR | k_number=K103706 | decision=Substantially Equivalent | date=2011-08-24 | applicant=Applied Cardiac Systems, Inc.
+- 510(k) | WELLAHO PERSONALIZED OUTPATIENT MANAGEMENT SYSTEM | k_number=K123671 | decision=Substantially Equivalent | date=2013-01-16 | applicant=Sanitas, Inc.
+- CLASSIFICATION | Tempo Pilot Bh: Behavioral Health | product_code=SIE | class=N | regulation= | panel=Unknown
+- CLASSIFICATION | Computerized Behavioral Therapy Device For Substance Use Disorders | product_code=PWE | class=2 | regulation=882.5801 | panel=Neurology
+- CLASSIFICATION | Computerized Behavioral Therapy Device For Treating Symptoms | product_code=QMY | class=2 | regulation=876.5960 | panel=Gastroenterology, Urology
+- CLASSIFICATION | N95 Respirator With Antimicrobial/Antiviral Agent For Use By The General Public In Public Health Medical Emergencies | product_code=ORW | class=2 | regulation=880.6260 | panel=General Hospital
+- CLASSIFICATION | Genetic Variant Detection And Health Risk Assessment System | product_code=PTA | class=2 | regulation=866.5950 | panel=Immunology
+- 510(k) | PC 2909A-HEALTH PULSE CONTROL STIMULATOR | k_number=K830747 | decision=Substantially Equivalent | date=1983-05-30 | applicant=J.A. Preston Corp.
+
+### openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)
+- MAUDE | TRANSFORMER, LOW IMPEDANCE | event_type=Malfunction | date_received=20080617 | report_number=1062083
+- MAUDE | ISOLATION TRANSFORMER - 110V ERGOJUST CART | event_type=Malfunction | date_received=20201222 | report_number=9612330-2020-00013
+- Recall | GS777 Wall Transformer Model: 77710 Intended Use: The GS777 Wall Transformer is intended for use in ambulatory and acute | classification=Class II | status=Terminated | reason=Potential Risk of fluid ingress to the power supplies, resulting in risk of an internal electrical short and possible electrical shock | firm=Welch Allyn Inc | date=20210422 | recall_number=Z-1672-2021
+- Recall | GE HC OEC 9900 Elite and GE OEC 9800 Fluoroscopes Snubber Boards are a PCB with a 70 amp fuse to provide fused protectio | classification=Class II | status=Terminated | reason=GE OEC recalled certain 9800 Fluoroscope & 9900 Elite Models because the Snubber Board did not conform to the IEC 60601-1 standard for clearance and creepage of | firm=GE OEC Medical Systems, Inc | date=20100426 | recall_number=Z-2241-2012
+
+### Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)
+- PMID 42384713 | DOI 10.1371/journal.pone.0350516 ✓Crossref | Developing a natural language processing system using transformer-based models for adverse drug event detection in electronic health records. | PLoS One 2026 [Europe PMC]
+- https://openalex.org/W4288089799 | DOI 10.48550/arxiv.1910.10683 ✓Crossref | Exploring the Limits of Transfer Learning with a Unified Text-to-Text\n Transformer | arXiv (Cornell University) 2019 [OpenAlex]
+- PMID 42317820 | ScreeningPaL: LLM-NLP Enabled Early Autism Detection Method from Caregiver's Free-Text Input. | AMIA Jt Summits Transl Sci Proc 2026 [Europe PMC]
+- PMID 31501885 | DOI 10.1093/bioinformatics/btz682 ✓Crossref | BioBERT: a pre-trained biomedical language representation model for biomedical text mining | Bioinformatics 2019 [OpenAlex]
+- PMID 42214285 | DOI 10.1016/j.ijmedinf.2026.106505 ✓Crossref | Clinical text embeddings: A systematic review of methods, applications, and future directions. | Int J Med Inform 2026 [Europe PMC]
+- https://openalex.org/W4309674289 | DOI 10.1145/3571730 ✓Crossref | Survey of Hallucination in Natural Language Generation | ACM Computing Surveys 2022 [OpenAlex]
+- PMID 42081872 | DOI 10.1016/j.neunet.2026.109035 ✓Crossref | TWT: Textual white-box transformer for natural language understanding. | Neural Netw 2026 [Europe PMC]
+- PMID 42222841 | DOI 10.3389/frai.2026.1819994 ✓Crossref | Transformer-based NLP approaches for credit risk prediction: a systematic review. | Front Artif Intell 2026 [Europe PMC]
+- https://openalex.org/W2112796928 | DOI 10.1109/5.726791 ✓Crossref | Gradient-based learning applied to document recognition | Proceedings of the IEEE 1998 [OpenAlex]
+- PMID 42119114 | DOI 10.3233/shti260078 ✓Crossref | Semantic Text Vectorization in Healthcare: Transformer-Based Foundations and Benefit Potentials. | Stud Health Technol Inform 2026 [Europe PMC]
+- https://openalex.org/W2970771982 | DOI 10.18653/v1/d19-1371 ✓Crossref | SciBERT: A Pretrained Language Model for Scientific Text |  2019 [OpenAlex]
+- PMID 41990239 | DOI 10.1093/jamia/ocag045 ✓Crossref | Applying natural language processing and large language models to clinical notes for phenotyping and diagnosing rare diseases: a systematic review. | J Am Med Inform Assoc 2026 [Europe PMC]
+- https://openalex.org/W2952230511 | Natural Language Processing (almost) from Scratch | Infoscience (Ecole Polytechnique Fédérale de Lausanne) 2011 [OpenAlex]
+- PMID 42265769 | DOI 10.1186/s13049-026-01644-y ✓Crossref | AquaAI: development and internal validation of a Danish transformer-based model to identify drowning and aquatic incidents in prehospital medical records. | Scand J Trauma Resusc Emerg Med 2026 [Europe PMC]
+- https://openalex.org/W3169483174 | DOI 10.18653/v1/2021.naacl-main.41 ✓Crossref | mT5: A Massively Multilingual Pre-trained Text-to-Text Transformer |  2021 [OpenAlex]
+
+### Coverage & Retrieval Gaps
+This spec was grounded ONLY in sources that expose a free, public API: ClinicalTrials.gov, openFDA (device classification, 510(k), PMA, MAUDE adverse events, recalls), the merged literature indexes Europe PMC / OpenAlex / Semantic Scholar (PubMed fallback), and Crossref (DOI verification). It deliberately does NOT include:
+- Licensed databases with no public API (institutional / manual retrieval required): Embase, PsycINFO, Cochrane Library (CENTRAL), Scopus, Web of Science, CINAHL.
+- FDA drug/biologic pathways (Drugs@FDA, SPL labeling, FAERS) and non-US regulators (EMA, MHRA, PMDA) — not queried by this pipeline.
+Absence of a record above is NOT evidence of absence. Treat the retrieved evidence as a floor for expert review, not a complete landscape.

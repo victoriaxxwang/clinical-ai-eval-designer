@@ -1,0 +1,41 @@
+[tripwire] engine.py md5 OK (2e6d49cdaa3106b6c29ee66b5df37e58)
+/Users/victoriaxwang/Desktop/Claude/Clinical-AI-Eval-Designer/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+########### tb_chest_xray_densenet (oracle: Tuberculosis, Pulmonary) ###########
+    FDA device names surfaced: ['XPERT MTB/RIF ASSAY', 'Xpert MTB/RIF Assay, GeneXpert Dx, GeneXpert Infinity-48, GeneXpert Infinity-48s, GeneXpert Infinity-80']
+--- tb_chest_xray_densenet: generating spec (effort=medium) ---
+    spec chars: 14960 refusal=False | FDA names in spec: []
+--- tb_chest_xray_densenet: convening critic panel ---
+    panel blockers: 5
+
+########### melanoma_dermoscopy_transformer (oracle: Melanoma) ###########
+    FDA device names surfaced: ['ClearLLab 10C Panels (B, T, M1, M2), Navios Flow Cytometer, Navios EX Flow Cytometer', 'ClearLLab T1, ClearLLab T2, ClearLLab B1, ClearLLab B2, ClearLLab M', 'VENTANA Kappa and Lambda Dual ISH mRNA Probe Cocktail (08507023001)']
+--- melanoma_dermoscopy_transformer: generating spec (effort=medium) ---
+    spec chars: 15919 refusal=False | FDA names in spec: []
+--- melanoma_dermoscopy_transformer: convening critic panel ---
+    panel blockers: 5
+
+########### aki_rnn_inpatient (oracle: Acute Kidney Injury) ###########
+    FDA device names surfaced: []
+--- aki_rnn_inpatient: generating spec (effort=medium) ---
+    spec chars: 16973 refusal=False | FDA names in spec: []
+--- aki_rnn_inpatient: convening critic panel ---
+    panel blockers: 5
+
+########### crohns_endoscopy_video_cnn (oracle: Crohn Disease) ###########
+    FDA device names surfaced: []
+--- crohns_endoscopy_video_cnn: generating spec (effort=medium) ---
+    spec chars: 17968 refusal=False | FDA names in spec: []
+--- crohns_endoscopy_video_cnn: convening critic panel ---
+    panel blockers: 5
+
+########### mdd_relapse_multimodal (oracle: Depressive Disorder, Major) ###########
+    FDA device names surfaced: []
+--- mdd_relapse_multimodal: generating spec (effort=medium) ---
+    spec chars: 19045 refusal=False | FDA names in spec: []
+--- mdd_relapse_multimodal: convening critic panel ---
+    panel blockers: 7
+
+================ F6 batch DONE ================
+[tripwire] engine.py md5 still OK (2e6d49cdaa3106b6c29ee66b5df37e58)

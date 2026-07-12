@@ -69,26 +69,34 @@ the shipped pipeline as a baseline and change exactly one dial at a time, across
   fix that surfaces the disease name and makes broad conditions resolve — and then
   measured that it only helps when the disease is *named early*: on realistic
   *mechanism-first* write-ups (disease buried in ML jargon) it surfaces the condition
-  in just 3 of 20 independent cases. That's a first-principle bound of the shipped
-  approach. The wide-net fix that recovers it (2→17) I then built and measured in an
-  isolated prototype: it surfaces the buried disease, and a ranking + clarifying-question
-  tiebreaker resolves the multi-disease fork it opens — 10/10 on the test slate (every
-  previously-working case unchanged; buried-disease cases either resolve correctly or
-  raise the clarifying question, never a silent wrong pick). It stays out of the shipped
-  default and is scoped as Phase 2 (see OPTION1_WIDENET.md), but it's now a measured
-  capability, not a promise. (2) A side-effect of that same fix costs sepsis its one golden
+  in just 3 of 20 independent cases. That's a first-principle bound of the keyword-only
+  approach. The wide-net fix that recovers it (2→17) I built and measured: it surfaces the
+  buried disease, and a ranking + clarifying-question tiebreaker resolves the multi-disease
+  fork it opens — 10/10 on the test slate (every previously-working case unchanged;
+  buried-disease cases either resolve correctly or raise the clarifying question, never a
+  silent wrong pick). It is now **wired into the shipped app and on by default**, with the
+  frozen keyword engine one toggle away for a live side-by-side (see OPTION1_WIDENET.md) —
+  a measured, default capability, not a promise. Its one documented cost is next: (2) a
+  side-effect of that same fix costs sepsis its one golden
   paper (literature 2→0, because making its MeSH resolve rebuilds the query); the
   compensating patch was net-negative across the slate (−1 golden) so I reverted it and
   document the tradeoff. (3) The MeSH `+hierarchy` vocabulary-expansion axis is still
   score-inert — now for a measured reason (a 5-term query cap fills with synonyms
   before any child term is reached), not the unlaunched fix of the earlier draft. I'm
   reporting all three openly rather than claiming a clean win.
-- **The headline finding:** the dials we can turn barely move recall. What actually
-  determines whether the right FDA records and trials surface is **how the question
-  is aimed** — records named by *function* ("Prioritization Software") or by a
-  *specific device name* don't rank on a *disease* query, in 6 of 10 cases. The fix
-  isn't a knob; it's a curated known-record seed layer, scoped as Phase 2. Diagnosing
-  that cleanly — with a repeatable harness, not a hunch — is itself part of the
+- **The headline finding — and the fix I then built.** The dials we can turn barely
+  move recall. What actually determines whether the right FDA records surface is **how
+  the question is aimed** — records named by *function* ("Prioritization Software") or by
+  a *specific device name* don't rank on a *disease* query, in 6 of 10 cases. So the fix
+  isn't a knob: it aims the FDA search at the recovered disease on **two axes** — the
+  device *classification codes* that name the disease, and the 510(k) *device names*
+  themselves (kept only when they sit under a real AI / CAD / triage code or a recent
+  diagnostic clearance). I built it as a standalone module (`fda_bridge.py`, frozen engine
+  untouched) and validated it live on all 10 cases: **3 now cite their real cleared AI
+  devices** (retinopathy, stroke, NSCLC), TB grounds to its correct bacteriological
+  reference, and the other 6 **degrade safely** — off-target records are *named and
+  rejected, never cited* — for **zero fabricated predicates across the slate**. Diagnosing
+  the problem with a repeatable harness *and* shipping the validated fix is the
   deliverable.
 
 This is the trust story in miniature: the tool is measurably honest about what it

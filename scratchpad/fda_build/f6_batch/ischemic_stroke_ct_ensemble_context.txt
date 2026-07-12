@@ -1,0 +1,54 @@
+### Retrieval Metadata
+- Retrieved (UTC): 2026-07-12T00:15:23Z
+- Intervention type: device
+- Literature/trials query: '("Ischemic Stroke" OR "Ischemic Strokes" OR "Stroke, Ischemic" OR "Ischaemic Stroke" OR "Ischaemic Strokes") AND encoder–decoder AND segmentation'
+- MeSH normalization: 'ischemic stroke' → "Ischemic Stroke" (D000083242) + 4 synonyms
+- openFDA device terms: ['encoder–decoder', 'emergency', 'department', 'neuro', 'segmentation']
+
+### openFDA (device classification / 510(k) precedents)
+Disease-code axis (classification -> 510(k)):
+- CODE POL | Neurovascular Mechanical Thrombectomy Device For Acute Ischemic Stroke Treatment | panel=Neurology | rank=0
+    predicate K192207 | Trevo NXT ProVue Retriever | date=2019-11-22 | applicant=Stryker
+    predicate K242676 | pRESET Delta Thrombectomy Device and pRESET Delta LITE Thrombectomy Device | date=2025-02-28 | applicant=Phenox Limited
+    predicate K181186 | Solitare Platinum Revascularization Device | date=2018-10-25 | applicant=Micro Therapeutics, Inc. d/b/a ev3 Neurovascular
+- CODE OVC | Headframe | panel=Unknown | rank=0
+- CODE NRY | Catheter, Thrombus Retriever | panel=Cardiovascular | rank=-3
+    predicate K232971 | APRO 55 Catheter and Alembic Aspiration Tubing | date=2024-02-29 | applicant=Alembic, LLC
+    predicate K183464 | AXS Catalyst 7 Distal Access Catheter (068 x 115cm, 068 x 125cm, 068 x 132cm) | date=2019-03-13 | applicant=Stryker
+    predicate K153071 | Solitaire Platinum Revascularization Device | date=2015-12-23 | applicant=Micro Therapeutics, Inc. d/b/a ev3 Neurovascular
+Device-name axis (AI/CAD/triage devices naming the disease/anatomy):
+- K251983 | Brainomix 360 Triage Stroke | code=QAS | date=2025-08-26 | applicant=Brainomix Limited
+- K251590 | Methinks CTA Stroke | code=QAS | date=2025-08-20 | applicant=Methinks Software, S.L
+- K250685 | Methinks NCCT Stroke | code=QAS | date=2025-06-16 | applicant=Methinks Software, S.L
+- K232496 | Brainomix 360 Triage Stroke | code=QAS | date=2023-11-21 | applicant=Brainomix Limited
+- K222884 | Rapid NCCT Stroke | code=QAS | date=2023-03-02 | applicant=Ischemaview, Inc.
+- K191050 | MAGNETOM Aera and MAGNETOM Skyra with Software syngo MR E11E with Ischemic Heart Disease (IHD) Workflow | code=LNH | date=2019-07-12 | applicant=Siemens Medical Solutions USA, Inc.
+
+### openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)
+- MAUDE | VENTILATOR, EMERGENCY, POWERED (RESUSCITATOR) | event_type=Malfunction | date_received=20200427 | report_number=3012307300-2020-03395
+- MAUDE | VENTILATOR, EMERGENCY, POWERED (RESUSCITATOR) | event_type=Malfunction | date_received=20200428 | report_number=3012307300-2020-03421
+- Recall | Cook Celect Platinum Vena Cava Filter Set for Femoral and Jugular Vein Approach, Catalog Number IGTCFS-65-1-UNl-C ELECT- | classification=Class III | status=Terminated | reason=Updates to the Instructions for Use. | firm=Cook Medical Incorporated | date=20190225 | recall_number=Z-1026-2019
+- Recall | DigitalDiagnost 4 Chest/Emergency, used to acquire, process, store, display and export digital radiographic images. | classification=Class II | status=Ongoing | reason=Potential for units suspended on the ceiling to fail and fall. | firm=Philips North America Llc | date=20230921 | recall_number=Z-0272-2024
+
+### Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)
+- PMID 42187401 | DOI 10.3390/biomimetics11050334 ✓Crossref | Deep Learning-Based Automatic Segmentation of Ischemic Stroke Lesions in CT Perfusion Imaging. | Biomimetics (Basel) 2026 [Europe PMC]
+- https://openalex.org/W3096947210 | DOI 10.1109/access.2021.3086020 ✓Crossref | U-Net and Its Variants for Medical Image Segmentation: A Review of Theory and Applications | IEEE Access 2021 [OpenAlex]
+- PMID 41286107 | DOI 10.1038/s41598-025-25539-7 ✓Crossref | Integrating convolutional and transformer networks for precise diagnosis of watershed and hemorrhagic stroke. | Sci Rep 2025 [Europe PMC]
+- PMID 34892009 | DOI 10.1109/embc46164.2021.9630336 ✓Crossref | UCATR: Based on CNN and Transformer Encoding and Cross-Attention Decoding for Lesion Segmentation of Acute Ischemic Stroke in Non-contrast Computed Tomography Images | 2021 43rd Annual International Conference of the IEEE Engineering in Medicine &amp; Biology Society (EMBC) 2021 [OpenAlex]
+- PMID 41920480 | DOI 10.1007/s13246-026-01730-6 ✓Crossref | Multimodal attention-enhanced network of segmenting acute ischemic stroke from perfusion images. | Phys Eng Sci Med 2026 [Europe PMC]
+- PMID 28778026 | DOI 10.1016/j.media.2017.07.005 ✓Crossref | A survey on deep learning in medical image analysis | Medical Image Analysis 2017 [OpenAlex]
+- PMID 41975201 | DOI 10.1038/s41746-025-02255-0 ✓Crossref | Unified multimodal learning for stroke triage: joint detection, scoring, and segmentation of acute ischemic stroke. | NPJ Digit Med 2026 [Europe PMC]
+- PMID 28577131 | DOI 10.1007/s10278-017-9983-4 ✓Crossref | Deep Learning for Brain MRI Segmentation: State of the Art and Future Directions | Journal of Digital Imaging 2017 [OpenAlex]
+- PMC:PMC12937852 | StrDiSeg: Adapter-Enhanced DINOv3 for Automated Ischemic Stroke Lesion Segmentation | Bioengineering (Basel) 2026 [Europe PMC]
+- PMID 32195270 | DOI 10.3389/fcvm.2020.00025 ✓Crossref | Deep Learning for Cardiac Image Segmentation: A Review | Frontiers in Cardiovascular Medicine 2020 [OpenAlex]
+- PMID 42280845 | DOI 10.3390/s26113322 ✓Crossref | Cloud-to-Edge Deployment of Optimized nnU-Net for Ischemic Stroke Lesion Segmentation on Resource-Constrained Embedded Devices. | Sensors (Basel) 2026 [Europe PMC]
+- https://openalex.org/W2900298334 | DOI 10.17863/cam.38755 ✓Crossref | Identifying the Best Machine Learning Algorithms for Brain Tumor Segmentation, Progression Assessment, and Overall Survival Prediction in the BRATS Challenge | arXiv (Cornell University) 2018 [OpenAlex]
+- PMID 41540225 | DOI 10.1038/s41746-025-02222-9 ✓Crossref | Modeling Ischemic Stroke Pathological Dynamics via Continuous Fields and Vector Flow. | NPJ Digit Med 2026 [Europe PMC]
+- https://openalex.org/W4206693420 | DOI 10.1049/ipr2.12419 ✓Crossref | Medical image segmentation using deep learning: A survey | IET Image Processing 2022 [OpenAlex]
+- PMID 41737402 | DOI 10.3389/fmed.2026.1759114 ✓Crossref | LBMNet: a hybrid multi-scale CNN-Mamba framework for enhanced 3D stroke lesion segmentation in MRI. | Front Med (Lausanne) 2026 [Europe PMC]
+
+### Coverage & Retrieval Gaps
+This spec was grounded ONLY in sources that expose a free, public API: ClinicalTrials.gov, openFDA (device classification, 510(k), PMA, MAUDE adverse events, recalls), the merged literature indexes Europe PMC / OpenAlex / Semantic Scholar (PubMed fallback), and Crossref (DOI verification). It deliberately does NOT include:
+- Licensed databases with no public API (institutional / manual retrieval required): Embase, PsycINFO, Cochrane Library (CENTRAL), Scopus, Web of Science, CINAHL.
+- FDA drug/biologic pathways (Drugs@FDA, SPL labeling, FAERS) and non-US regulators (EMA, MHRA, PMDA) — not queried by this pipeline.
+Absence of a record above is NOT evidence of absence. Treat the retrieved evidence as a floor for expert review, not a complete landscape.

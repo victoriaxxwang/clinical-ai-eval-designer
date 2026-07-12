@@ -1,0 +1,73 @@
+{
+  "panel": [
+    {
+      "persona": "regulator",
+      "strength": "Correctly anchors the pathway to 510(k) product code QAS and cites real, recent, same-anatomy triage predicates (Brainomix 360 K251983/K232496, Methinks CTA K251590, Methinks NCCT K250685, Rapid NCCT K222884) rather than conflating with the therapeutic thrombectomy hardware codes (POL/NRY).",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The entire specification is built on an INFERRED intended-use claim that the team never confirmed; a predefined intended use is the foundation of any FDA submission, and every downstream endpoint collapses if the team actually intends an autonomous-eligibility or outcome-prediction claim.",
+          "evidence_basis": "The plan itself flags the claim as 'INFERRED \u2014 team did not specify' and warns that fields 3, 5, and 7 must be re-scoped if the assumption is wrong."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The retrieved QAS predicates are NCCT/CTA notification-and-triage devices; none of the retrieved clearances is a CTP-based quantitative core/penumbra/mismatch device. Claiming substantial equivalence for a quantitative-output device against these predicates may not hold and no directly matching predicate appears.",
+          "evidence_basis": "All retrieved QAS records (K251983, K232496, K251590, K250685, K222884) are named NCCT/CTA stroke triage; the plan concedes the quantitative-mismatch output 'may be scoped as CADx/quantification and could trigger different or additional predicate requirements.'"
+        },
+        {
+          "severity": "minor",
+          "issue": "The specific standalone-agreement and time-to-notification metric values on which the QAS predicates were actually cleared are not in hand, so equivalence targets cannot yet be framed against them.",
+          "evidence_basis": "The plan notes 'no FDA-binding numeric benchmark was retrieved' and that predicate 510(k) summary values are not in the retrieved records."
+        }
+      ]
+    },
+    {
+      "persona": "biostatistician",
+      "strength": "Disciplined refusal to invent a sample size, correctly designating N as statistician-set and explicitly requiring subgroup-level (not just pooled) powering plus separate MRMC reader\u00d7case powering.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The plan lists multiple tiered endpoints and many pre-specified subgroups but does not fix a single primary endpoint with a multiplicity-control/alpha-allocation scheme; powering each subgroup and multiple metrics without a hierarchy risks an unanalyzable, under-powered study.",
+          "evidence_basis": "Field 3 enumerates four endpoint tiers and field 6 lists six subgroup axes, while field 5 states no N is fixed \u2014 the plan defers hierarchy and multiplicity entirely to a later statistician with no framework specified."
+        },
+        {
+          "severity": "minor",
+          "issue": "Metric selection leans on Dice and sensitivity/specificity but does not address calibration of the voxelwise probability outputs or class imbalance (small core volumes) where AUPRC is more informative than AUROC; the regression-derived mismatch ratio also needs an agreement/calibration analysis beyond Bland\u2013Altman bias.",
+          "evidence_basis": "The model outputs voxelwise infarct-core/penumbra probabilities and a regression-derived mismatch ratio (Inputs section); the plan specifies Dice/volumetric/binary metrics but no probability calibration or imbalance-aware metric."
+        },
+        {
+          "severity": "minor",
+          "issue": "The reference-standard noise is acknowledged as an accuracy ceiling but the powering plan does not describe how that imperfect-reference bias will be quantitatively incorporated (e.g., inter-rater agreement propagation).",
+          "evidence_basis": "Field 4 states penumbra has no gold standard and core reference depends on reperfusion, and field 5 says subgroup powering dominates N, but no method links reference noise to the required N or CI width."
+        }
+      ]
+    },
+    {
+      "persona": "clinical_scientist",
+      "strength": "Strong workflow realism: a prospective silent-mode arm precedes any triage claim, and the MRMC reader study is designed to measure whether clinician triage accuracy/time actually changes with the device, with explicit automation-bias surveillance.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The assist device outputs penumbra volumes with no biological gold standard yet is intended to inform thrombectomy triage; without demonstrating that the mismatch output changes clinical action safely (not just agrees with an imperfect reference), the plan risks certifying a number that drives mis-triage.",
+          "evidence_basis": "Field 4 states penumbra 'has no clean gold standard' and the 'What This Certifies' section explicitly does not certify true tissue fate \u2014 yet the intended use is thrombectomy-candidate identification."
+        },
+        {
+          "severity": "minor",
+          "issue": "The clinical value of mismatch-guided triage rests on extended-window thrombectomy evidence that is not in the retrieved set; the clinical rationale anchor is therefore unverified in this evidence base.",
+          "evidence_basis": "The plan states the DEFUSE-3/DAWN-type trials underpinning mismatch triage were 'not retrieved here' and asks the team to confirm them."
+        },
+        {
+          "severity": "minor",
+          "issue": "Lead-time/actionability and alert-fatigue endpoints are gestured at (reader time, discordance tracking) but no concrete actionable time-saving or notification endpoint is set as primary, despite predicates being cleared on time-to-notification.",
+          "evidence_basis": "Field 7 notes QAS predicates are cleared on time-to-notification, but fields 1 and 3 leave the reader-time/notification effect as an unquantified secondary measure."
+        }
+      ]
+    }
+  ],
+  "fix_before_submission": [
+    "Obtain the team's explicit intended-use/claim statement and re-scope the specification against it before building endpoints.",
+    "Confirm with FDA/counsel whether a quantitative CTP core/penumbra/mismatch output stays within QAS or needs a distinct code/De Novo, since no retrieved predicate is a CTP quantitative-mismatch device.",
+    "Define a single predefined primary endpoint with an explicit multiplicity-control and alpha-allocation plan across the tiered metrics and subgroups before powering.",
+    "Demonstrate and pre-specify that the mismatch output safely changes clinical triage action (not just agrees with an imperfect reference), given penumbra has no biological gold standard."
+  ]
+}

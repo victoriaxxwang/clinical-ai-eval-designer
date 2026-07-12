@@ -1,0 +1,74 @@
+{
+  "panel": [
+    {
+      "persona": "regulator",
+      "strength": "The plan correctly refuses to assert a cleared pathway, distinguishes analogous CT CAD precedents (K193216 OEB, K183593 LLZ) from an on-point predicate, and explicitly rejects the irrelevant 'hybrid' keyword match (Thoraflex P210006 QSK).",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The intended clinical claim is flagged as INFERRED and left unconfirmed by the team, yet the entire device-vs-non-device-CDS determination and study design hinge on it. A validation plan cannot be finalized against an assumed claim.",
+          "evidence_basis": "The plan itself states the claim is 'Stated as an assumption because the team left the claim unspecified'; no retrieved clearance defines intended use for this class of fused exacerbation predictor."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The quantitative-CT branch outputs regulated measurements (LAA%, airway wall thickness), which the plan admits 'pushes toward device territory,' but the non-device-CDS vs SaMD question is deferred to counsel rather than resolved before design lock. Predicate/pathway ambiguity is unresolved.",
+          "evidence_basis": "Retrieved precedents (K193216 OEB, K183593 LLZ) are CT image-analysis CAD, not exacerbation risk prediction; the evidence confirms no on-point predicate was retrieved, leaving classification undetermined."
+        },
+        {
+          "severity": "minor",
+          "issue": "The plan notes EMA/MHRA/PMDA pathways were not queried but does not require an explicit market-scope decision, which could leave non-US claims unsupported.",
+          "evidence_basis": "Coverage gaps section states non-US regulators were not queried by the pipeline."
+        }
+      ]
+    },
+    {
+      "persona": "biostatistician",
+      "strength": "Correctly prioritizes calibration alongside discrimination for a prognostic model, specifies event-driven sizing via recognized prognostic-model methods, and refuses to transfer unrelated enrollment numbers as a target.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "No sample size or event count is computed; the plan defers N entirely. Without a computed events-per-predictor and calibration-precision target, power for the primary discrimination/calibration endpoints and for pre-specified subgroups cannot be judged adequate.",
+          "evidence_basis": "The plan states 'no retrieved record provides a valid N for this model'; retrieved enrollments (n=10 NCT03942302 to n=2500 NCT07556159) are explicitly unrelated designs and non-transferable."
+        },
+        {
+          "severity": "blocking",
+          "issue": "The extensive subgroup list (CT vendor/kernel, spirometry tier, GOLD stage, sex, age, race/ethnicity, smoking) demands calibration in each subgroup, but with no event budget defined there is high risk of underpowered, unstable per-subgroup calibration estimates and multiplicity without a control strategy.",
+          "evidence_basis": "Section 6 requires calibration in every pre-specified subgroup while Section 5 concedes no valid N is available; no retrieved record supplies subgroup benchmarks or event counts."
+        },
+        {
+          "severity": "minor",
+          "issue": "High-dimensional CT embeddings concatenated with tabular features inflate effective degrees of freedom, but the plan does not specify how embedding dimensionality is counted toward events-per-variable, risking optimistic sizing.",
+          "evidence_basis": "The plan acknowledges 'many effective degrees of freedom' from imaging embeddings but provides no method to enumerate them for the EPV calculation."
+        }
+      ]
+    },
+    {
+      "persona": "clinical_scientist",
+      "strength": "Explicitly scopes the certification to risk-stratification only and states plainly that improved patient outcomes require a separate randomized/pragmatic implementation trial, avoiding overclaiming clinical benefit.",
+      "critiques": [
+        {
+          "severity": "blocking",
+          "issue": "The plan does not define the risk thresholds that would trigger care-management escalation, nor demonstrate that acting on the score changes clinical action; decision-curve analysis is named but no actionable operating point or workflow-fit evidence is established.",
+          "evidence_basis": "Section 3 states 'No numeric target may be set from retrieved evidence' and no retrieved study reports a validated operating point for COPD exacerbation risk in this population (PMID 41857194, PMID 41377819 are methods papers, not on-point)."
+        },
+        {
+          "severity": "minor",
+          "issue": "Lead-time actionability is unaddressed: a 12-month horizon may not map to a window where preventive intensification is feasible or beneficial, and alert fatigue from flagged spirometry/CT-quality exclusions is not considered.",
+          "evidence_basis": "No retrieved record establishes an actionable lead-time or intervention window for exacerbation prediction; retrieved evidence is dominated by feasibility/rehab/home-monitoring designs (NCT06883448, PMID 36206780, NCT07195838)."
+        },
+        {
+          "severity": "minor",
+          "issue": "The blinded-baseline design means clinicians never see the score during validation, so workflow integration and clinician trust/interpretation cannot be assessed until a later implementation study, leaving a workflow-fit gap.",
+          "evidence_basis": "Section 1 locks the score blinded to treating clinicians and defers the pragmatic implementation study; no retrieved trial provides workflow-integration data for this model."
+        }
+      ]
+    }
+  ],
+  "fix_before_submission": [
+    "Have the team confirm and lock the intended clinical claim before finalizing design, since it is currently only inferred.",
+    "Resolve the non-device-CDS vs SaMD classification with regulatory counsel prior to design lock, given the CT measurement outputs push toward device territory.",
+    "Formally compute sample size and required event counts using prognostic-model methods before proceeding.",
+    "Define an event budget and multiplicity/precision strategy so each pre-specified subgroup calibration estimate is adequately powered and stable.",
+    "Pre-specify the risk thresholds that trigger care-management escalation and the decision-curve operating point that establishes clinical actionability."
+  ]
+}

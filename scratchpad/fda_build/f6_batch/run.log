@@ -1,0 +1,27 @@
+[tripwire] engine.py md5 OK (2e6d49cdaa3106b6c29ee66b5df37e58)
+/Users/victoriaxwang/Desktop/Claude/Clinical-AI-Eval-Designer/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+########### diabetic_retinopathy_fundus (oracle: Diabetic Retinopathy) ###########
+    FDA device names surfaced: ['AEYE-DS', 'EyeArt v2.2.0', 'IDx-DR']
+--- diabetic_retinopathy_fundus: generating spec (effort=medium) ---
+    spec chars: 16555 refusal=False | FDA names in spec: ['AEYE-DS', 'EyeArt v2.2.0', 'IDx-DR']
+--- diabetic_retinopathy_fundus: convening critic panel ---
+    panel blockers: 3
+
+########### ischemic_stroke_ct_ensemble (oracle: Ischemic Stroke) ###########
+    FDA device names surfaced: ['APRO 55 Catheter and Alembic Aspiration Tubing', 'AXS Catalyst 7 Distal Access Catheter (068 x 115cm, 068 x 125cm, 068 x 132cm)', 'Solitaire Platinum Revascularization Device', 'Solitare Platinum Revascularization Device', 'Trevo NXT ProVue Retriever', 'pRESET Delta Thrombectomy Device and pRESET Delta LITE Thrombectomy Device']
+--- ischemic_stroke_ct_ensemble: generating spec (effort=medium) ---
+    spec chars: 17451 refusal=False | FDA names in spec: []
+--- ischemic_stroke_ct_ensemble: convening critic panel ---
+    panel blockers: 4
+
+########### nsclc_lung_ct_cnn (oracle: Carcinoma, Non-Small-Cell Lung) ###########
+    FDA device names surfaced: []
+--- nsclc_lung_ct_cnn: generating spec (effort=medium) ---
+    spec chars: 16480 refusal=False | FDA names in spec: []
+--- nsclc_lung_ct_cnn: convening critic panel ---
+    panel blockers: 5
+
+================ F6 batch DONE ================
+[tripwire] engine.py md5 still OK (2e6d49cdaa3106b6c29ee66b5df37e58)

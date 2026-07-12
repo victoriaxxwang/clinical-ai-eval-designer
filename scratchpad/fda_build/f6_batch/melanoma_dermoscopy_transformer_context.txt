@@ -1,0 +1,52 @@
+### Retrieval Metadata
+- Retrieved (UTC): 2026-07-12T00:58:10Z
+- Intervention type: device
+- Literature/trials query: '("Neoplasms" OR "Tumors" OR "Neoplasia" OR "Neoplasias" OR "Neoplasm") AND convolutional AND network'
+- MeSH normalization: 'malignancy' → "Neoplasms" (D009369) + 4 synonyms
+- openFDA device terms: ['convolutional', 'dermatology', 'outpatient', 'clinics', 'dermoscopic']
+
+### ClinicalTrials.gov (study designs, endpoints, enrollment)
+- NCT04864587 | Artificial Intelligence in Image Recognition of Pouchoscopies in Patients With Restorative Proctocolectomy | status=COMPLETED | type=OBSERVATIONAL phases= | n=500 | allocation= masking= | primary_outcomes=AI versus endoscopist; AI versus pathologist
+- NCT06540846 | Deep Learning for Histopathological Classification and Prognostication of Gynaecologic Smooth Muscle Tumours | status=RECRUITING | type=OBSERVATIONAL phases= | n=392 | allocation= masking= | primary_outcomes=Develop deep learning models that can accurately subclassify gynaecologic smooth muscle tumours
+- NCT07660718 | The Use of Artificial Intelligence for Ultrasound Screening of Ovarian Cancer in Postmenopausal Women | status=ACTIVE_NOT_RECRUITING | type=OBSERVATIONAL phases= | n=100 | allocation= masking= | primary_outcomes=The predictive performance of the integrated model in accurately discriminating between the different risk categories of ovarian lesions.
+- NCT05193656 | Bladder Cancer Detection Using Convolutional Neural Networks | status=UNKNOWN | type=OBSERVATIONAL phases= | n=5000 | allocation= masking= | primary_outcomes=Comparing standard technique to Machine Learning
+- NCT03857373 | Renal Cancer Detection Using Convolutional Neural Networks | status=RECRUITING | type=OBSERVATIONAL phases= | n=5000 | allocation= masking= | primary_outcomes=Predicting recurrences
+- NCT06703112 | Establishment and Clinical Application of AI-based Multimodal Diagnosis System for Ovarian Tumors | status=NOT_YET_RECRUITING | type=INTERVENTIONAL phases=NA | n=584 | allocation=NA masking=NONE | primary_outcomes=Pathological diagnosis; AUC （Area Under the ROC Curve）
+
+### openFDA (device classification / 510(k) precedents)
+Disease-code axis (classification -> 510(k)):
+- CODE SDP | Kappa And Lambda Immunoglobulin Light Chain In Situ Hybridization Mrna Probe Detection Kit | panel=Hematology | rank=4
+    predicate DEN240025 | VENTANA Kappa and Lambda Dual ISH mRNA Probe Cocktail (08507023001) | date=2024-12-05 | applicant=Ventana Medical Systems, Inc.
+- CODE PWD | Flow Cytometric Test System For Hematopoietic Neoplasms | panel=Hematology | rank=0
+    predicate K183592 | ClearLLab 10C Panels (B, T, M1, M2), Navios Flow Cytometer, Navios EX Flow Cytometer | date=2019-03-21 | applicant=Beckman Coulter
+    predicate DEN160047 | ClearLLab T1, ClearLLab T2, ClearLLab B1, ClearLLab B2, ClearLLab M | date=2017-06-29 | applicant=Beckman Coulter
+- CODE QFK | Tumor Gene Profiling Test | panel=Unknown | rank=0
+
+### openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)
+- MAUDE | LASER, SURGICAL, FOR USE IN DERMATOLOGY | event_type=Injury | date_received=20080401 | report_number=2914019-2008-00005
+- MAUDE | LASER, SURGICAL, FOR USE IN DERMATOLOGY | event_type=Malfunction | date_received=20080401 | report_number=2914019-2008-00010
+- Recall | AURIGA 30 BRAZIL ZERO COST SYSTEM UPN: M0068S30BZ0 Product Usage: The Auriga XL 4007 Laser System and the Auriga 30 Lase | classification=Class II | status=Terminated | reason=Certain Auriga consoles may exhibit faster than normal power degradation due to a potential issue in the mechanical cooling system that could lead to a low powe | firm=Boston Scientific Corporation | date=20190408 | recall_number=Z-1396-2019
+- Recall | Dornier Diode Laser Fibers:Used with Dornier Medilas D Family Lasers Part Number/Description: K1001291 600 micron single | classification=Class II | status=Terminated | reason=Pin hole package failures compromising sterility of product | firm=Dornier Medtech America, Inc. | date=20190401 | recall_number=Z-1381-2019
+
+### Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)
+- PMID 42369008 | DOI 10.3389/frai.2026.1805416 ✓Crossref | Deep learning prediction of chemo-immunotherapy response using tumor perfusion ultrasound images. | Front Artif Intell 2026 [Europe PMC]
+- https://openalex.org/W2962946486 | DOI 10.1609/aaai.v33i01.33017370 ✓Crossref | Graph Convolutional Networks for Text Classification | Proceedings of the AAAI Conference on Artificial Intelligence 2019 [OpenAlex]
+- PMID 41518381 | DOI 10.1007/s00417-025-07034-x ✓Crossref | Utilizing artificial intelligence for the diagnosis of ocular surface squamous neoplasia with ultrasound biomicroscopy images. | Graefes Arch Clin Exp Ophthalmol 2026 [Europe PMC]
+- PMID 31443108 | DOI 10.1055/a-0981-6133 ✓Crossref | Automated classification of gastric neoplasms in endoscopic images using a convolutional neural network | Endoscopy 2019 [OpenAlex]
+- PMID 42279283 | DOI 10.3390/cancers18111698 ✓Crossref | A Scoping Review of Artificial Intelligence in Ocular Oncology. | Cancers (Basel) 2026 [Europe PMC]
+- PMID 33465354 | DOI 10.1016/j.gie.2020.12.054 ✓Crossref | High performance in risk stratification of intraductal papillary mucinous neoplasms by confocal laser endomicroscopy image analysis with convolutional neural networks (with video) | Gastrointestinal Endoscopy 2021 [OpenAlex]
+- PMID 41024848 | DOI 10.5306/wjco.v16.i9.107993 ✓Crossref | Role of artificial intelligence in screening and medical imaging of precancerous gastric diseases. | World J Clin Oncol 2025 [Europe PMC]
+- PMID 31525737 | DOI 10.1159/000503291 ✓Crossref | Preoperative Prediction of Pancreatic Neuroendocrine Neoplasms Grading Based on Enhanced Computed Tomography Imaging: Validation of Deep Learning with a Convolutional Neural Network | Neuroendocrinology 2019 [OpenAlex]
+- PMID 42074175 | DOI 10.3390/ijms27083533 ✓Crossref | MV-HAGCN: Prediction of miRNA-Disease Association Based on Multi-View Hybrid Attention Graph Convolutional Network. | Int J Mol Sci 2026 [Europe PMC]
+- PMID 24325359 | DOI 10.1056/nejmoa1312542 ✓Crossref | Somatic <i>CALR</i> Mutations in Myeloproliferative Neoplasms with Nonmutated <i>JAK2</i> | New England Journal of Medicine 2013 [OpenAlex]
+- PMID 41828460 | DOI 10.3390/ijms27052237 ✓Crossref | Use of Artificial Intelligence Model Associated with Masson's Trichrome Staining as a Predictor of Muscle Invasion in Bladder Cancer. | Int J Mol Sci 2026 [Europe PMC]
+- PMID 29335825 | DOI 10.1007/s10120-018-0793-2 ✓Crossref | Application of artificial intelligence using a convolutional neural network for detecting gastric cancer in endoscopic images | Gastric Cancer 2018 [OpenAlex]
+- PMID 42223560 | DOI 10.1007/s12105-026-01920-4 ✓Crossref | Predicting Metastatic Potential from Histopathological Whole Slide Images of Primary Tumors in Head and Neck Squamous Cell Carcinoma Using Attention-Based Deep Learning and Signaling Pathway Alterations. | Head Neck Pathol 2026 [Europe PMC]
+- PMID 33137800 | DOI 10.1088/1361-6560/abc6f2 ✓Crossref | Segmentation and classification of thyroid follicular neoplasm using cascaded convolutional neural network | Physics in Medicine and Biology 2020 [OpenAlex]
+- PMID 42026537 | DOI 10.1186/s12885-026-16076-1 ✓Crossref | Image analysis for cervical cancer classification using deep learning techniques. | BMC Cancer 2026 [Europe PMC]
+
+### Coverage & Retrieval Gaps
+This spec was grounded ONLY in sources that expose a free, public API: ClinicalTrials.gov, openFDA (device classification, 510(k), PMA, MAUDE adverse events, recalls), the merged literature indexes Europe PMC / OpenAlex / Semantic Scholar (PubMed fallback), and Crossref (DOI verification). It deliberately does NOT include:
+- Licensed databases with no public API (institutional / manual retrieval required): Embase, PsycINFO, Cochrane Library (CENTRAL), Scopus, Web of Science, CINAHL.
+- FDA drug/biologic pathways (Drugs@FDA, SPL labeling, FAERS) and non-US regulators (EMA, MHRA, PMDA) — not queried by this pipeline.
+Absence of a record above is NOT evidence of absence. Treat the retrieved evidence as a floor for expert review, not a complete landscape.

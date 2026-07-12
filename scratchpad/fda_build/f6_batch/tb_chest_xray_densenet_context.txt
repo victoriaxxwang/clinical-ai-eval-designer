@@ -1,0 +1,43 @@
+### Retrieval Metadata
+- Retrieved (UTC): 2026-07-12T00:55:16Z
+- Intervention type: device
+- Literature/trials query: '("Tuberculosis, Pulmonary" OR "Pulmonary Consumption" OR "Consumption, Pulmonary" OR "Consumptions, Pulmonary" OR "Pulmonary Consumptions") AND radiograph AND convolutional'
+- MeSH normalization: 'pulmonary tuberculosis' → "Tuberculosis, Pulmonary" (D014397) + 4 synonyms
+- openFDA device terms: ['radiograph', 'community', 'screening', 'campaigns', 'chest']
+
+### openFDA (device classification / 510(k) precedents)
+Disease-code axis (classification -> 510(k)):
+- CODE PEU | System, Nucleic Acid-Based, Mycobacterium Tuberculosis Complex, Resistance Marker, Direct Specimen | panel=Microbiology | rank=0
+    predicate DEN130032 | XPERT MTB/RIF ASSAY | date=2013-07-25 | applicant=Cepheid
+    predicate K143302 | Xpert MTB/RIF Assay, GeneXpert Dx, GeneXpert Infinity-48, GeneXpert Infinity-48s, GeneXpert Infinity-80 | date=2015-02-12 | applicant=Cepheid
+- CODE MWA | System, Nucleic Acid Amplification, Mycobacterium Tuberculosis Complex | panel=Microbiology | rank=0
+
+### openFDA post-market & Class III (PMA / MAUDE adverse events / recalls)
+- PMA | ResQCPR System | pma_number=P110024 | supplement=S004 | decision=OK30 | date=2023-08-23 | product_code=PIZ | applicant=ZOLL Medical Corporation
+- MAUDE | RADIOGRAPH DUPLICATOR | event_type= | date_received=19940923 | report_number=2443168-1994-00001
+- MAUDE | COMMUNITY BED | event_type=Other | date_received=20110627 | report_number=3003984900-2011-00017
+- Recall | Apollo: Models: 9784000131, 9784000231, 9784020131, 9784020231, 9784100231, 9784120131, 9784120231, 9784130131 Multi-fun | classification=Class II | status=Ongoing | reason=The analysis showed that the incident was caused by a chain of four faults: 1.) The injured person overcame a physical barrier (the tabletop support arm. height | firm=Villa Radiology Systems LLC | date=20160219 | recall_number=Z-1064-2017
+- Recall | Juno DRF; Model: 709020 Multi-function x-ray systems capable of routine radiograph and general fluoroscopy procedures. | classification=Class II | status=Ongoing | reason=The analysis showed that the incident was caused by a chain of four faults: 1.) The injured person overcame a physical barrier (the tabletop support arm. height | firm=Villa Radiology Systems LLC | date=20160219 | recall_number=Z-1063-2017
+
+### Literature (Europe PMC + OpenAlex + Semantic Scholar / PubMed — PMID + DOI, merged & de-duplicated)
+- PMID 41957286 | DOI 10.1007/s10916-026-02368-3 ✓Crossref | Multimodal Learning with Privileged Report Supervision for Generalizable Tuberculosis Detection on Chest Radiographs. | J Med Syst 2026 [Europe PMC]
+- PMID 29934920 | DOI 10.1007/s13244-018-0639-9 ✓Crossref | Convolutional neural networks: an overview and application in radiology | Insights into Imaging 2018 [OpenAlex]
+- PMID 41513737 | DOI 10.1038/s41598-025-30792-x ✓Crossref | Ensemble deep learning architectures for detecting pulmonary tuberculosis in chest X-rays. | Sci Rep 2026 [Europe PMC]
+- PMID 30457988 | DOI 10.1371/journal.pmed.1002686 ✓Crossref | Deep learning for chest radiograph diagnosis: A retrospective comparison of the CheXNeXt algorithm to practicing radiologists | PLoS Medicine 2018 [OpenAlex]
+- PMID 41963429 | DOI 10.1038/s41598-026-43282-5 ✓Crossref | Benchmarking MedViT and hybrid CNN-ViT architectures for multi-label thoracic disease classification. | Sci Rep 2026 [Europe PMC]
+- PMID 28778026 | DOI 10.1016/j.media.2017.07.005 ✓Crossref | A survey on deep learning in medical image analysis | Medical Image Analysis 2017 [OpenAlex]
+- PMID 42072763 | DOI 10.3390/diagnostics16081137 ✓Crossref | International Multicenter Validation of an Expanded AI Diagnostic System for 18 Pathologies in Thoracic and Musculoskeletal Radiography. | Diagnostics (Basel) 2026 [Europe PMC]
+- PMID 30418527 | DOI 10.1093/cid/ciy967 ✓Crossref | Development and Validation of a Deep Learning–based Automatic Detection Algorithm for Active Pulmonary Tuberculosis on Chest Radiographs | Clinical Infectious Diseases 2018 [OpenAlex]
+- PMID 41309684 | DOI 10.1038/s41598-025-19179-0 ✓Crossref | An efficient deep learning-based morphology aware hierarchical mixture of features for tuberculosis screening using segmentation of chest X-ray images. | Sci Rep 2025 [Europe PMC]
+- PMID 32908660 | DOI 10.1155/2020/9205082 ✓Crossref | Computer-Aided System for the Detection of Multicategory Pulmonary Tuberculosis in Radiographs | Journal of Healthcare Engineering 2020 [OpenAlex]
+- PMID 40058367 | DOI 10.1111/nhs.70077 ✓Crossref | A Systematic Review of the Accuracy of Machine Learning Models for Diagnosing Pulmonary Tuberculosis: Implications for Nursing Practice and Implementation. | Nurs Health Sci 2025 [Europe PMC]
+- PMID 35462630 | DOI 10.1007/s00521-022-07258-6 ✓Crossref | Tuberculosis detection in chest radiograph using convolutional neural network architecture and explainable artificial intelligence | Neural Computing and Applications 2022 [OpenAlex]
+- PMID 41949143 | DOI 10.25259/ijmr_1854_2025 ✓Crossref | Artificial intelligence (AI)-driven ensemble model for comprehensive chest X-ray abnormality detection and deployment. | Indian J Med Res 2026 [Europe PMC]
+- PMID 32435698 | DOI 10.1038/s41746-020-0273-z ✓Crossref | Automated abnormality classification of chest radiographs using deep convolutional neural networks | npj Digital Medicine 2020 [OpenAlex]
+- PMID 40260691 | DOI 10.1080/22221751.2025.2470998 ✓Crossref | The performance of computer-aided detection for chest radiography in tuberculosis screening: a population-based retrospective cohort study. | Emerg Microbes Infect 2025 [Europe PMC]
+
+### Coverage & Retrieval Gaps
+This spec was grounded ONLY in sources that expose a free, public API: ClinicalTrials.gov, openFDA (device classification, 510(k), PMA, MAUDE adverse events, recalls), the merged literature indexes Europe PMC / OpenAlex / Semantic Scholar (PubMed fallback), and Crossref (DOI verification). It deliberately does NOT include:
+- Licensed databases with no public API (institutional / manual retrieval required): Embase, PsycINFO, Cochrane Library (CENTRAL), Scopus, Web of Science, CINAHL.
+- FDA drug/biologic pathways (Drugs@FDA, SPL labeling, FAERS) and non-US regulators (EMA, MHRA, PMDA) — not queried by this pipeline.
+Absence of a record above is NOT evidence of absence. Treat the retrieved evidence as a floor for expert review, not a complete landscape.
