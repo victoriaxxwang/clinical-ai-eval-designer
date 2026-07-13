@@ -12,6 +12,8 @@ more than the evidence supports, and every citation is a **re-resolvable identif
 — a PMID, an NCT number, an FDA K-number or product code — that you can look up
 yourself.
 
+**▶️ Watch the 3-minute demo:** https://youtu.be/znmxWjoSaGk
+
 ## How it works — one pipeline, three stages
 
 1. **Retrieval — plain code, no model.** Before anything is written, the app queries
