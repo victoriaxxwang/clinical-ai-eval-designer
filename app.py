@@ -64,7 +64,7 @@ CONFIDENCE + REVIEW FLAGS
 =========================
 Every one of the 8 fields must end with two flags:
 
-- Confidence: HIGH | MEDIUM | LOW
+- Confidence: HIGH | MEDIUM | LOW. In the Confidence row's Detail cell, prefix the level with a colored circle and a space — "🟢 HIGH", "🟡 MEDIUM", or "🔴 LOW".
   HIGH   = directly supported by a retrieved citation or established regulatory precedent.
   MEDIUM = reasoned from adjacent evidence; defensible but the team should confirm.
   LOW    = little direct evidence retrieved; largely a judgment call needing expert input.
@@ -79,46 +79,40 @@ REQUIRED OUTPUT FORMAT (Markdown)
 =========================
 Produce EXACTLY these sections, in this order.
 
-# Clinical Validation Specification
+### Clinical Validation Specification
 
 **Generated:** {today}
-**Source:** Live retrieval — ClinicalTrials.gov, openFDA, PubMed (+ web search where noted)
+**Source:** Live retrieval — ClinicalTrials.gov, openFDA, PubMed{web_search_note}
 
-## Inputs
-- **AI model:** ...
-- **Clinical use case:** ...
-- **Patient population:** ...
-- **Healthcare setting:** ...
-- **Intended clinical claim:** ...
+#### Input at a Glance
+A markdown table with three columns — | # | Input | Value | — one row per input, numbered 1 through 5 in this exact order: AI model, Clinical use case, Patient population, Healthcare setting, Intended clinical claim. Put the user-provided text in the Value column; if a field was inferred, put the inferred value and note "(inferred — stated as assumption)".
 
-## Output at a Glance
-A markdown table with two columns — | Field | Output summary | — one row per field below.
+#### Output at a Glance
+A markdown table with three columns — | # | Output | Output summary | — one row per field below, numbered 1 through 8 to match the field numbers.
 
-## 1. Study Design
-**Recommendation:** ...
-**Rationale:** ... (with inline citations to retrieved records)
-**Confidence:** ...
-**Expert review:** ...
+#### 1. Study Design
+A markdown table with three columns — | # | Element | Detail | — with EXACTLY these four rows, numbered 1 through 4 in this order: Recommendation, Rationale, Confidence, Expert review. Put the label in the Element column and the content in the Detail column. The Rationale row carries inline citations to retrieved records.
 
-## 2. Sensor / Input Validation (Pre-Condition)
-(same five-line structure; if the model has no sensor input, state that and explain what input-validity threat replaces it)
+#### 2. Sensor / Input Validation (Pre-Condition)
+(same four-row | # | Element | Detail | table; if the model has no sensor input, say so in the Recommendation row and explain what input-validity threat replaces it)
 
-## 3. Performance Benchmarks
-## 4. Ground Truth Strategy
-## 5. Sample Size
-## 6. Subgroup Requirements
-## 7. Regulatory Pathway
-## 8. Post-Deployment Monitoring
+#### 3. Performance Benchmarks
+#### 4. Ground Truth Strategy
+#### 5. Sample Size
+#### 6. Subgroup Requirements
+#### 7. Regulatory Pathway
+#### 8. Post-Deployment Monitoring
 
-(Every one of fields 2–8 uses the same Recommendation / Rationale / Confidence / Expert review structure as field 1.)
+(Every one of fields 2–8 uses the SAME four-row | # | Element | Detail | table as field 1 — numbered 1 Recommendation, 2 Rationale, 3 Confidence, 4 Expert review.)
 
-## What This Validation Certifies — and What It Does Not
+#### What This Validation Certifies — and What It Does Not
 **CERTIFIES:** one precise sentence describing exactly what a passing study would establish (claim, conditions, devices, population, subgroups).
-**DOES NOT CERTIFY:** a bulleted list of what a passing study would NOT establish (e.g. physiological ground truth, clinical-grade equivalence, regulatory clearance, generalization beyond the study population).
+
+**DOES NOT CERTIFY:** a markdown table with two columns — | # | Not certified | — one numbered row per item a passing study would NOT establish (e.g. physiological ground truth, clinical-grade equivalence, regulatory clearance, generalization beyond the study population).
 
 ## Footer
 Italicize this exact note, adapted to the sources you actually used:
-*Output generated from live retrieval (ClinicalTrials.gov, openFDA device classification / 510(k)/De Novo / PMA / MAUDE / recalls, openFDA drug/biologic pathways where applicable — Drugs@FDA / SPL labeling / FAERS, and the Europe PMC / OpenAlex / Semantic Scholar / PubMed literature layer) and, where noted, web search. Cited identifiers should be verified before use. Benchmark numbers are literature-derived, not regulatory standards. Every field requires expert review before clinical or commercial application.*
+*Output generated from live retrieval (ClinicalTrials.gov, openFDA device classification / 510(k)/De Novo / PMA / MAUDE / recalls, openFDA drug/biologic pathways where applicable — Drugs@FDA / SPL labeling / FAERS, and the Europe PMC / OpenAlex / Semantic Scholar / PubMed literature layer){web_search_footer}. Cited identifiers should be verified before use. Benchmark numbers are literature-derived, not regulatory standards. Every field requires expert review before clinical or commercial application.*
 
 Write densely and specifically for THIS input. No filler. If the input is under-specified, state the assumption you are making rather than inventing facts."""
 
@@ -172,11 +166,24 @@ def generate_spec(client, user_message, effort, use_web_search):
     if use_web_search:
         tools = [{"type": "web_search_20260209", "name": "web_search", "max_uses": 6}]
 
+    # Only advertise web search in the spec's Source line + footer when it is actually on.
+    web_search_note = " (+ web search where noted)" if use_web_search else ""
+    web_search_footer = " and, where noted, web search" if use_web_search else ""
+    system_text = (
+        SYSTEM_PROMPT
+        .replace("{today}", str(datetime.date.today()))
+        .replace("{web_search_note}", web_search_note)
+        .replace("{web_search_footer}", web_search_footer)
+    )
+
     messages = [{"role": "user", "content": user_message}]
     placeholder = st.empty()
     accumulated = ""
     final = None
 
+    # NOTE: Claude Fable 5 requires 30-day data retention enabled on the Anthropic
+    # org. If every request 400s, check that setting — a 400 is NOT a refusal, so the
+    # server-side fallback below won't catch it.
     for _ in range(6):  # continue past server-tool pause_turn boundaries
         with client.beta.messages.stream(
             model="claude-fable-5",
@@ -187,7 +194,7 @@ def generate_spec(client, user_message, effort, use_web_search):
             tools=tools,
             system=[{
                 "type": "text",
-                "text": SYSTEM_PROMPT.replace("{today}", str(datetime.date.today())),
+                "text": system_text,
                 "cache_control": {"type": "ephemeral"},
             }],
             messages=messages,
@@ -203,31 +210,28 @@ def generate_spec(client, user_message, effort, use_web_search):
         break
 
     placeholder.markdown(accumulated)
-    return accumulated, final
+    return accumulated, final, placeholder
 
 
 # ---------------------------------------------------------------------------
 # UI
 # ---------------------------------------------------------------------------
-st.set_page_config(page_title="Clinical AI Eval Designer", page_icon="🧪", layout="wide")
+st.set_page_config(page_title="Clinical AI Eval Designer", page_icon="🔍", layout="wide")
 
-st.title("🧪 Clinical AI Eval Designer")
+st.title("Clinical AI Eval Designer")
 st.markdown(
-    "Turn what your clinical AI model does into a **structured, citable validation "
-    "specification** — grounded in live searches of ClinicalTrials.gov, openFDA, and "
-    "PubMed. Every field is flagged by confidence and by the expert review it needs.\n\n"
-    "Constrained by design: **no invented thresholds**, citations come from real "
-    "retrieved records, and every field is honest about what still needs a human."
+    "**Verify, don't blindly trust · Grounded in authoritative registries & databases · "
+    "Structured for a real clinical decision**\n\n"
+    "Turns what your clinical AI does into a structured, citable **validation "
+    "specification** — every field flagged by confidence and by the expert review "
+    "it still needs."
 )
 
 with st.sidebar:
     st.header("Settings")
-    effort = st.select_slider(
-        "Reasoning effort",
-        options=["low", "medium", "high", "xhigh", "max"],
-        value="high",
-        help="Higher effort = more thorough synthesis, but slower and more expensive.",
-    )
+    # Reasoning effort is fixed at "high" — thorough synthesis without exposing a
+    # knob a viewer would have to reason about. (Was a low→max slider.)
+    effort = "high"
     use_widenet = st.toggle(
         "Disease-aware grounding (wide-net)",
         value=True,
@@ -244,38 +248,40 @@ with st.sidebar:
         "and the review panel will flag them as ungrounded.",
     )
     st.divider()
-    st.caption(
-        "Model: **Claude Fable 5**, with an automatic Opus 4.8 fallback. Fable's "
-        "safety classifier often declines clinical/life-sciences requests; when it "
-        "does, Opus 4.8 transparently serves the response (same constraint layer). "
-        "Fable requires 30-day data retention on your Anthropic org — if every "
-        "request errors with a 400, check that setting."
-    )
+    st.markdown("**Model: Claude Fable 5**, with automatic **Opus 4.8** fallback")
+    with st.expander(":gray[Why two models?]"):
+        st.caption(
+            "Every request goes to Claude Fable 5 first. If Fable's safety classifier "
+            "declines a clinical request — common for life-sciences work — Opus 4.8 "
+            "serves it automatically in the same call. The constraint layer is identical "
+            "either way, so there's no visible failure."
+        )
 
 st.subheader("Describe your model and its clinical context")
+st.caption(
+    "Fill in what your model does and where it runs. Fields left blank are treated "
+    "as under-specified — the spec will state its assumption rather than invent facts."
+)
 
 with st.form("spec_form"):
-    c1, c2 = st.columns(2)
-    with c1:
-        model_desc = st.text_area(
-            "AI model",
-            placeholder="e.g. Detects and quantifies Coronary Artery Calcium (CAC) and Aortic Valve "
-                        "Calcium (AVC) from routine, non-gated chest CT scans.",
-            height=120,
-        )
-        use_case = st.text_input(
-            "Clinical use case",
-            placeholder="e.g. Opportunistic cardiovascular screening",
-        )
-    with c2:
-        population = st.text_input(
-            "Patient population",
-            placeholder="e.g. Adults undergoing routine chest CT for unrelated reasons",
-        )
-        setting = st.text_input(
-            "Healthcare setting",
-            placeholder="e.g. Radiology / opportunistic screening in a general hospital",
-        )
+    model_desc = st.text_area(
+        "AI model",
+        placeholder="e.g. Detects and quantifies Coronary Artery Calcium (CAC) and Aortic Valve "
+                    "Calcium (AVC) from routine, non-gated chest CT scans.",
+        height=120,
+    )
+    use_case = st.text_input(
+        "Clinical use case",
+        placeholder="e.g. Opportunistic cardiovascular screening",
+    )
+    population = st.text_input(
+        "Patient population",
+        placeholder="e.g. Adults undergoing routine chest CT for unrelated reasons",
+    )
+    setting = st.text_input(
+        "Healthcare setting",
+        placeholder="e.g. Radiology / opportunistic screening in a general hospital",
+    )
     intervention_choice = st.radio(
         "What does the AI evaluate or act on? (routes the FDA search)",
         options=["Device / software", "Drug / biologic", "Both"],
@@ -306,6 +312,12 @@ if submitted:
     elif not (model_desc.strip() and use_case.strip() and population.strip() and setting.strip()):
         st.warning("Please fill in the AI model, clinical use case, patient population, and healthcare setting.")
     else:
+        # A new generation is starting: drop any previous spec + panel from memory
+        # immediately so the old (now-stale) results don't linger, faded, behind the
+        # ~90s stream. They're re-populated below once this generation succeeds.
+        for _k in ("spec_markdown", "spec_bundle", "spec_filename", "panel_result"):
+            st.session_state.pop(_k, None)
+
         # 1. Retrieve real records from the registries (the Core Deterministic Engine).
         intervention_type = {
             "Device / software": "device",
@@ -321,7 +333,7 @@ if submitted:
             grounded_context, statuses, retrieval_timestamp = _eng.build_grounded_context(
                 model_desc, use_case, population, optional_url, setting, intervention_type
             )
-        with st.expander("🔎 Live data retrieved (grounding context)", expanded=True):
+        with st.expander("🗂️ Live data retrieved (grounding context)", expanded=False):
             st.caption(
                 ("🎯 Grounding mode: **wide-net (disease-aware)**" if use_widenet
                  else "🔑 Grounding mode: **baseline (keyword)**")
@@ -342,7 +354,9 @@ if submitted:
         with st.spinner("Synthesizing the specification from retrieved evidence… "
                         "this can take a few minutes at higher effort."):
             try:
-                markdown_text, final = generate_spec(client, user_message, effort, use_web_search)
+                markdown_text, final, spec_placeholder = generate_spec(
+                    client, user_message, effort, use_web_search
+                )
             except anthropic.APIStatusError as e:
                 st.error(f"API error {e.status_code}: {e.message}")
                 st.stop()
@@ -359,13 +373,7 @@ if submitted:
             st.warning("No content was returned. Try again, or lower the effort setting.")
         else:
             st.success("Specification generated. Review every field with a domain expert before use.")
-            # Remember this spec + its evidence so the review panel (rendered below,
-            # outside this submit branch) survives Streamlit's rerun on button click.
-            # Clear any panel result from a previous spec so it can't show stale.
-            st.session_state["spec_markdown"] = markdown_text
-            st.session_state["grounded_context"] = grounded_context
-            st.session_state.pop("panel_result", None)
-            # 3. Emit the Phase-1 bundle: the spec + the source records it was grounded on.
+            # Build the Phase-1 bundle: the spec + the source records it was grounded on.
             bundle = markdown_text
             bundle += (
                 f"\n\n---\n\n*📸 Retrieval snapshot (UTC): {retrieval_timestamp} — frozen once "
@@ -381,12 +389,49 @@ if submitted:
                     "travel together (and so a reviewer can verify each citation).*\n\n"
                     + grounded_context
                 )
-            st.download_button(
-                "⬇ Download spec + sources (bundle)",
-                data=bundle,
-                file_name=f"validation_spec_{datetime.date.today()}.md",
-                mime="text/markdown",
-            )
+            # Remember the spec + its bundle + evidence so both the spec render and the
+            # review panel (drawn below, OUTSIDE this submit branch) survive Streamlit's
+            # rerun on any later button click instead of vanishing.
+            st.session_state["spec_markdown"] = markdown_text
+            st.session_state["spec_bundle"] = bundle
+            st.session_state["spec_filename"] = f"validation_spec_{datetime.date.today()}.md"
+            st.session_state["grounded_context"] = grounded_context
+            # Clear the streamed-in copy; the persistent block below is now the single
+            # place the spec is drawn, so it can't show twice on this run.
+            spec_placeholder.empty()
+
+
+# ---------------------------------------------------------------------------
+# Persistent spec render — draws the spec + its download button from session
+# memory on EVERY run (not just the generation run), so clicking "Convene review
+# panel" below (which reruns the whole page) can't make the spec disappear.
+# ---------------------------------------------------------------------------
+def _cap_heading_sizes(md):
+    """Render-time safety net so no spec heading renders larger than the app's
+    own section headers: downgrade any h1/h2 the model emitted (# -> ###, ## ->
+    ####) so the spec title lands level with the app headers and the 1-8
+    sub-sections sit one notch below. Idempotent — a spec already at ###/####
+    (from the current prompt) is left untouched, so old cached specs and new
+    generations render at the same sizes."""
+    out = []
+    for line in md.split("\n"):
+        if line.startswith("# ") or line.startswith("## "):
+            out.append("##" + line)
+        else:
+            out.append(line)
+    return "\n".join(out)
+
+
+if st.session_state.get("spec_markdown"):
+    st.markdown(_cap_heading_sizes(st.session_state["spec_markdown"]))
+    if st.session_state.get("spec_bundle"):
+        st.download_button(
+            "⬇ Download spec + sources (bundle)",
+            data=st.session_state["spec_bundle"],
+            file_name=st.session_state.get("spec_filename", "validation_spec.md"),
+            mime="text/markdown",
+            type="primary",
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -395,7 +440,7 @@ if submitted:
 # so clicking the button (which reruns the page) doesn't wipe the spec.
 # ---------------------------------------------------------------------------
 _PERSONA_LABEL = {
-    "regulator": "⚖️ Regulator (FDA-reviewer mindset)",
+    "regulator": "🏛️ Regulator (FDA-reviewer mindset)",
     "biostatistician": "📊 Biostatistician",
     "clinical_scientist": "🔬 Clinical Scientist",
 }
@@ -448,15 +493,16 @@ def render_panel(result, grounded_context):
                     st.caption(f"Basis: {crit['evidence_basis']}")
     fixes = result.get("fix_before_submission", [])
     if fixes:
-        st.markdown("### 🔴 Fix before submission")
-        for f in fixes:
-            st.markdown(f"- {f}")
+        with st.container(border=True):
+            st.markdown("### 🔴 Fix before submission")
+            for i, f in enumerate(fixes, 1):
+                st.markdown(f"{i}. {f}")
     render_grounding_audit(result, grounded_context)
 
 
 if st.session_state.get("spec_markdown"):
     st.divider()
-    st.subheader("⚖️ Simulated advisory review panel")
+    st.subheader("📋 Simulated advisory review panel")
     st.caption(
         "Convene three Claude-played experts — a Regulator, a Biostatistician, and a "
         "Clinical Scientist — to stress-test the spec above before a real reviewer sees "

@@ -188,4 +188,4 @@ disease-aware FDA precedents with zero fabrication on the grounding side.
 
 **Source of record:** the measurement scripts and results are in `scratchpad/`
 (`f2_run.py`, `f3_probe.py`, `f3_build_run.py`, and their `.json`/`.log` outputs); the
-code is in `experimental/engine_widenet.py`; the blow-by-blow log is in `INDEX.md`.
+code is in `experimental/engine_widenet.py`; the blow-by-blow log is in `PROGRESS_LOG.md`.

@@ -1,0 +1,20 @@
+[theme]
+# Clinical AI Eval Designer — slate-navy clinical theme.
+# Replaces Streamlit's default coral-red accent (#FF4B4B) everywhere it appears:
+# primary buttons, toggle "on" state, focus rings, and links.
+base = "light"
+
+primaryColor = "#24557A"              # slate navy — buttons, toggles, focus, links
+backgroundColor = "#FFFFFF"           # main canvas
+secondaryBackgroundColor = "#F3F5F7"  # sidebar + input-field fill (cool slate gray)
+textColor = "#16202B"                 # near-black slate (softer than pure black)
+linkColor = "#24557A"
+
+# One consistent, slightly larger type scale + one shared border language so the
+# inputs, the output table, and the expanders all read as the same surface.
+font = "sans-serif"
+headingFont = "sans-serif"
+baseFontSize = 17
+baseRadius = "medium"
+borderColor = "#D8DEE6"
+showWidgetBorder = true
